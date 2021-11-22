@@ -1,0 +1,7 @@
+package sk.fei.beskydky.cryollet.home
+
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel() {
+    // TODO: Implement the ViewModel
+}
