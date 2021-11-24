@@ -3,4 +3,14 @@
     <string name="contacts_menu_item">Kontakty</string>
     <string name="home_menu_item">Domov</string>
     <string name="transactions_menu_item">Transakcie</string>
+
+    <!--Login Section -->
+    <string name="what_is_your_key">Your key:</string>
+    <string name="password">Password:</string>
+    <string name="registration">Register</string>
+    <string name="sign_up">Sign in</string>
+    <string name="key">KEY</string>
+    <string name="dont_have_acc">Dont have account?</string>
+    <string name="register_now">Register now.</string>
+    <string name="cryolletlogo">cryolletLogo</string>
 </resources>

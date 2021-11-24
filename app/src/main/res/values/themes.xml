@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- EditText Style -->
+    <style name="editTextStyle" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/input_background</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:paddingTop">@dimen/padding_edit_text</item>
+        <item name="android:paddingBottom">@dimen/padding_edit_text</item>
+    </style>
 </resources>

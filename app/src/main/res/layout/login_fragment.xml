@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="354dp"
+        android:layout_height="311dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/cryollet_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        android:contentDescription="@string/cryolletlogo" />
+
+    <TextView
+        android:id="@+id/account_key_text"
+        style="@style/main_app_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_wide"
+        android:text="@string/key"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:text="KEY" />
+
+    <EditText
+        android:id="@+id/account_key"
+        style="@style/editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_wide"
+        android:layout_marginEnd="@dimen/margin_wide"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:autofillHints="Your Key:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_key_text"
+        tools:ignore="LabelFor,MissingConstraints"
+        />
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_wide"
+        android:layout_marginEnd="@dimen/margin_wide"
+        android:layout_marginStart="@dimen/margin_wide"
+        android:fontFamily="@font/ramabhadra"
+        android:text="@string/sign_up"
+        android:textColor="@color/button_text"
+        android:textSize="@dimen/login_button_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_key"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button">
+
+        <TextView
+            android:id="@+id/dont_have_accout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ramabhadra"
+            android:text="@string/dont_have_acc"
+            android:textSize="@dimen/default_text_size"
+            android:layout_marginEnd="@dimen/margin_wide"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="570dp" />
+
+        <TextView
+            android:id="@+id/register_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ramabhadra"
+            android:text="@string/register_now"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="326dp"
+            tools:layout_editor_absoluteY="570dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
