@@ -6,25 +6,25 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/cryollet_logo"
         android:layout_width="354dp"
         android:layout_height="311dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="112dp"
+        android:contentDescription="@string/cryolletlogo"
         android:src="@drawable/cryollet_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        android:contentDescription="@string/cryolletlogo" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/account_key_text"
         style="@style/main_app_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_wide"
+        android:layout_marginTop="108dp"
         android:text="@string/key"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/cryollet_logo"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp"
         tools:text="KEY" />
@@ -68,17 +68,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
+        app:layout_constraintVertical_bias="0.274"
+        tools:layout_editor_absoluteX="0dp">
+
 
         <TextView
             android:id="@+id/dont_have_accout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_wide"
             android:fontFamily="@font/ramabhadra"
             android:text="@string/dont_have_acc"
             android:textSize="@dimen/default_text_size"
-            android:layout_marginEnd="@dimen/margin_wide"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="570dp" />
 
