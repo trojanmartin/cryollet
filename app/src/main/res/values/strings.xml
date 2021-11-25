@@ -13,4 +13,11 @@
     <string name="dont_have_acc">Dont have account?</string>
     <string name="register_now">Register now.</string>
     <string name="cryolletlogo">cryolletLogo</string>
+    <string name="transaction_dashboard">Dashboard</string>
+    <string name="income"><b>INCOME</b></string>
+    <string name="expanse"><b>EXPANSE</b></string>
+    <string name="request_pay">Request payment</string>
+    <string name="send_payment">Send payment</string>
+    <string name="account_balance">Account balance</string>
+
 </resources>
