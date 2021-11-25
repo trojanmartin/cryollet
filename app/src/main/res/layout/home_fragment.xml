@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/account_balance"
-        android:textSize="@dimen/text_size"
         android:textColor="@color/button_background"
+        android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,11 +23,13 @@
         android:id="@+id/account_balance_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="$5,000"
-        android:textSize="@dimen/big_text_size"
         android:textColor="@color/button_background"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/plus_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_balance_text"
         tools:ignore="MissingConstraints"
@@ -83,7 +85,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/income"
             android:textAlignment="center"
-            android:textColor="@color/button_background"/>
+            android:textColor="@color/button_background" />
 
         <TextView
             android:id="@+id/sum_income"
@@ -91,9 +93,9 @@
             android:layout_height="wrap_content"
             android:text="24"
             android:textAlignment="center"
+            android:textColor="@color/button_background"
             android:textSize="@dimen/big_text_size"
-            tools:text="24"
-            android:textColor="@color/button_background"/>
+            tools:text="24" />
 
     </LinearLayout>
 
@@ -119,15 +121,15 @@
             android:layout_marginTop="10dp"
             android:text="@string/expanse"
             android:textAlignment="center"
-            android:textColor="@color/button_background"/>
+            android:textColor="@color/button_background" />
 
         <TextView
             android:id="@+id/sum_expanse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="13"
-            android:textColor="@color/button_background"
             android:textAlignment="center"
+            android:textColor="@color/button_background"
             android:textSize="@dimen/big_text_size"
             tools:text="13" />
     </LinearLayout>
@@ -167,5 +169,19 @@
         app:strokeWidth="2dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="729dp" />
+
+    <ImageButton
+        android:id="@+id/plus_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/plus_button"
+        
+        app:layout_constraintBottom_toBottomOf="@+id/account_balance_amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/account_balance_amount"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
