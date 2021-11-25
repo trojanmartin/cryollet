@@ -13,6 +13,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        return inflater.inflate(R.layout.login_fragment, container, false)
     }
 }

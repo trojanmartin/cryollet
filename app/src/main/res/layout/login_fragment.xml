@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/cryollet_logo"
-        android:layout_width="354dp"
-        android:layout_height="311dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="@dimen/margin_wide"
         android:contentDescription="@string/cryolletlogo"
         android:src="@drawable/cryollet_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         style="@style/main_app_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="28dp"
         android:text="@string/key"
         app:layout_constraintTop_toBottomOf="@+id/cryollet_logo"
         tools:ignore="MissingConstraints"
@@ -36,16 +36,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_wide"
         android:layout_marginEnd="@dimen/margin_wide"
+        android:autofillHints="Your Key:"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:inputType="textPersonName"
-        android:autofillHints="Your Key:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/account_key_text"
         app:layout_constraintTop_toBottomOf="@+id/account_key_text"
-        tools:ignore="LabelFor,MissingConstraints"
-        />
+        tools:ignore="LabelFor,MissingConstraints" />
 
     <Button
         android:id="@+id/sign_in_button"
@@ -72,7 +71,7 @@
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-        app:layout_constraintVertical_bias="0.274"
+        app:layout_constraintVertical_bias="0.891"
         tools:layout_editor_absoluteX="0dp">
 
 
