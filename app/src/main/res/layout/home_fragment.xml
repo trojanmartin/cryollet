@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/account_balance_text"
@@ -176,7 +175,7 @@
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/plus_button"
-        
+        android:background="?android:selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/account_balance_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/account_balance_amount"

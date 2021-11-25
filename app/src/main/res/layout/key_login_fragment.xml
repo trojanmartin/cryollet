@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_wide"
                 android:fontFamily="@font/ramabhadra"
-                android:text="@string/dont_have_acc"
+                android:text="@string/dont_have_wallet"
                 android:textSize="@dimen/default_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="570dp" />
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ramabhadra"
-                android:text="@string/register_now"
+                android:text="@string/create_now"
                 android:textSize="@dimen/default_text_size"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="326dp"
