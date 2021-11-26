@@ -6,6 +6,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import sk.fei.beskydky.cryollet.contacts.ContactsFragment
 import sk.fei.beskydky.cryollet.home.HomeFragment
+import sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment
 import sk.fei.beskydky.cryollet.transactions.TransactionsFragment
 
 class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -16,7 +17,7 @@ class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         when(position){
             0 -> return TransactionsFragment()
-            1 -> return HomeFragment()
+            1 -> return SendPaymentFragment()
             2 -> return ContactsFragment()
         }
         return HomeFragment()

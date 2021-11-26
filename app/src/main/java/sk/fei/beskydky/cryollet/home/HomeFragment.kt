@@ -1,6 +1,5 @@
 package sk.fei.beskydky.cryollet.home
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
