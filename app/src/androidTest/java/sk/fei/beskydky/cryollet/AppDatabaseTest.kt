@@ -11,9 +11,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sk.fei.beskydky.cryollet.database.AppDatabase
 import sk.fei.beskydky.cryollet.models.User
-import sk.fei.beskydky.cryollet.models.UserDao
 import java.io.IOException
 import android.util.Log
+import sk.fei.beskydky.cryollet.database.AppDatabaseDao
 
 
 /**
@@ -25,7 +25,7 @@ import android.util.Log
 @RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
 
-    private lateinit var userDao: UserDao
+    private lateinit var appDatabaseDao: AppDatabaseDao
     private lateinit var db: AppDatabase
 
     @Before
@@ -37,7 +37,7 @@ class AppDatabaseTest {
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
-        userDao = db.userDao
+        appDatabaseDao = db.appDatabaseDao
     }
 
     @After
@@ -49,19 +49,12 @@ class AppDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetUser() {
-        val user = User(
-                        username = "martinek333",
-                        password = "suchahora123",
-                        pin = "666",
-                        balance = 0.0,
-                        walletId = "extradlhysilnyhash",
-                        firstName = "Martyn",
-                        sureName = "TrojanN")
+        val user = User(publicKey = "SUCHAHORAIDE", secretKey = "AUTAFUDBALZENY", pin = "666")
 
-        userDao.insert(user)
-        val actUser = userDao.getFirstUser()
-        actUser?.pin?.let { Log.d("TAG", it) }
-        assertEquals(actUser?.pin, "666")
+        appDatabaseDao.insertUser(user)
+        val actUser = appDatabaseDao.getFirstUser()
+
+        assertEquals(actUser?.secretKey, "AUTAFUDBALZENY")
     }
 }
 

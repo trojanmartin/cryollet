@@ -1,10 +1,14 @@
 package sk.fei.beskydky.cryollet
 
+import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import sk.fei.beskydky.cryollet.database.stellar.StellarHandler
+import sk.fei.beskydky.cryollet.models.User
+import org.stellar.sdk.KeyPair
 
 class MenuViewModel : ViewModel() {
 
@@ -31,4 +35,8 @@ class MenuViewModel : ViewModel() {
     fun onTransactionsClicked(){
         _eventTransactionsClicked.value = true
     }
+
+
+
+
 }

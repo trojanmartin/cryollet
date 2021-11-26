@@ -5,11 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sk.fei.beskydky.cryollet.models.User
-import sk.fei.beskydky.cryollet.models.UserDao
 
 @Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract val userDao: UserDao
+    abstract val appDatabaseDao: AppDatabaseDao
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
