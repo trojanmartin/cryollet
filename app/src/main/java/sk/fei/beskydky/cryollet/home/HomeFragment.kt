@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import org.stellar.sdk.KeyPair
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.database.stellar.StellarHandler
-import sk.fei.beskydky.cryollet.models.User
+import sk.fei.beskydky.cryollet.data.model.User
 
 
 class HomeFragment : Fragment() {
@@ -19,17 +19,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val policy = ThreadPolicy.Builder()
-            .permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-        initializeUser()
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
 
-    private fun initializeUser() {
-        var keyPair : KeyPair = StellarHandler.createWallet()
-        var newUser: User = User(secretKey = keyPair.accountId, publicKey = keyPair.publicKey.toString(), pin = "6696")
-        Log.e("TAG",keyPair.accountId)
-    }
 }

@@ -1,4 +1,4 @@
-package sk.fei.beskydky.cryollet.models
+package sk.fei.beskydky.cryollet.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -16,5 +16,5 @@ data class User (
     var secretKey: String,
 
     @ColumnInfo(name = "pin")
-    var pin: String,
+    var pin: String
 )

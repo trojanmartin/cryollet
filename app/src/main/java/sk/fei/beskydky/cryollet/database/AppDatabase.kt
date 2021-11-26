@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import sk.fei.beskydky.cryollet.models.User
+import sk.fei.beskydky.cryollet.data.model.User
+import sk.fei.beskydky.cryollet.data.model.Wallet
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Wallet::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract val appDatabaseDao: AppDatabaseDao
     companion object {

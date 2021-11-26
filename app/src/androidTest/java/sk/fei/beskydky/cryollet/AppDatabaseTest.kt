@@ -10,9 +10,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sk.fei.beskydky.cryollet.database.AppDatabase
-import sk.fei.beskydky.cryollet.models.User
+import sk.fei.beskydky.cryollet.data.model.User
 import java.io.IOException
-import android.util.Log
 import sk.fei.beskydky.cryollet.database.AppDatabaseDao
 
 
