@@ -30,5 +30,26 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="currency">CURRENCY</string>
+    <string name="wallet_key">WALLET KEY</string>
+    <string name="name">NAME</string>
+    <string name="amount">AMOUNT</string>
+
+
+    <!-- Currency drop down -->
+    <string-array name="currency">
+        <item>CZK - Czech Koruna</item>
+        <item>DKK - Danish Krone</item>
+        <item>DOP - Dominican Peso</item>
+        <item>EUR - Euro</item>
+        <item>ALL - Albanian Lek</item>
+        <item>AMD - Armenian Dram</item>
+        <item>AOA - Angolan Kwanza</item>
+        <item>ARS - Argentine Peso</item>
+        <item>PLN - Polish Zloty</item>
+        <item>PYG - Paraguayan Guarani</item>
+        <item>QAR - Qatari Riyal</item>
+        <item>RON - Romanian Leu</item>
+    </string-array>
 
 </resources>

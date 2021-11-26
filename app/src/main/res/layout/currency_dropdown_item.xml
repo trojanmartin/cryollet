@@ -1,0 +1,11 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/currency_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:textColor="@color/button_background"
+    android:textSize="@dimen/smaller_text_size"
+    android:text="TextView"
+    android:background="@color/white"
+    android:fontFamily="@font/ramabhadra" />

@@ -2,6 +2,7 @@
 <resources>
     <dimen name="margin_wide">16dp</dimen>
     <dimen name="text_size">20sp</dimen>
+    <dimen name="smaller_text_size">15sp</dimen>
     <dimen name="big_text_size">40sp</dimen>
     <dimen name="login_button_size">20sp</dimen>
     <dimen name="default_text_size">17sp</dimen>

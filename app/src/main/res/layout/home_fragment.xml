@@ -63,7 +63,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
-        android:id="@+id/transaction_income_LL"
+        android:id="@+id/amount_LL"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/margin_wide"
@@ -71,7 +71,7 @@
         android:layout_marginEnd="@dimen/margin_wide"
         android:background="@color/input_background"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/transaction_expanse_LL"
+        app:layout_constraintEnd_toStartOf="@+id/currency_LL"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transaction_graph"
         tools:ignore="MissingConstraints">
@@ -99,17 +99,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/transaction_expanse_LL"
+        android:id="@+id/currency_LL"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/margin_wide"
         android:layout_marginEnd="@dimen/margin_wide"
         android:background="@color/input_background"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/transaction_income_LL"
+        app:layout_constraintBottom_toBottomOf="@+id/amount_LL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/transaction_income_LL"
-        app:layout_constraintTop_toTopOf="@+id/transaction_income_LL"
+        app:layout_constraintStart_toEndOf="@+id/amount_LL"
+        app:layout_constraintTop_toTopOf="@+id/amount_LL"
         tools:ignore="MissingConstraints">
 
 
@@ -147,7 +147,7 @@
         app:layout_constraintEnd_toStartOf="@+id/send_payment_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_income_LL"
+        app:layout_constraintTop_toBottomOf="@+id/amount_LL"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
