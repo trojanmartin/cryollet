@@ -26,13 +26,13 @@ class MainActivity : AppCompatActivity() {
         menu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.transactions_menu_item -> {
-                    viewPager.setCurrentItem(0, false)
+                    viewPager.setCurrentItem(0, true)
                 }
                 R.id.home_menu_item -> {
-                    viewPager.setCurrentItem(1, false)
+                    viewPager.setCurrentItem(1, true)
                 }
                 R.id.contacts_menu_item -> {
-                    viewPager.setCurrentItem(2, false)
+                    viewPager.setCurrentItem(2, true)
                 }
             }
             return@setOnItemSelectedListener true

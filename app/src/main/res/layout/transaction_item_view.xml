@@ -12,31 +12,52 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_edit_text">
 
         <TextView
-            android:id="@+id/account"
+            android:id="@+id/identifier"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="8dp"
+            android:textColor="@color/default_text"
             app:accountString="@{transaction}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Starbucks" />
+            tools:text="Jakub Trstensky" />
 
         <TextView
-            android:id="@+id/quality_string"
+            android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
+            android:text="25.2.2022"
+            android:textColor="@color/secondary_text"
+            app:layout_constraintStart_toStartOf="@+id/identifier"
+            app:layout_constraintTop_toBottomOf="@+id/identifier" />
+
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28.07"
+            android:textColor="@color/default_text"
             app:amountFormatted="@{transaction}"
-            app:layout_constraintEnd_toEndOf="@+id/account"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/account"
-            app:layout_constraintTop_toBottomOf="@+id/account"
-            tools:text="Coffe" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toEndOf="@+id/identifier"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dolar tokens"
+            app:currencyString="@{transaction}"
+            android:textColor="@color/secondary_text"
+            app:layout_constraintEnd_toEndOf="@+id/amount"
+            app:layout_constraintTop_toBottomOf="@+id/amount" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

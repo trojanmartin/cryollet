@@ -14,6 +14,7 @@ import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
 import android.widget.AutoCompleteTextView
 import androidx.core.widget.addTextChangedListener
+import sk.fei.beskydky.cryollet.hideKeyboard
 
 
 class SendPaymentFragment : Fragment() {
@@ -58,6 +59,10 @@ class SendPaymentFragment : Fragment() {
         viewModel.contactName.observe(viewLifecycleOwner, {
             viewModel.searchContacts(it)
         })
+
+        view?.setOnClickListener {
+            hideKeyboard()
+        }
 
         binding.viewModel = viewModel
         return binding.root
