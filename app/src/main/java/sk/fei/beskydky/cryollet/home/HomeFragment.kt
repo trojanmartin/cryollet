@@ -14,6 +14,7 @@ import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
 import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
 
+
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
@@ -45,4 +46,6 @@ class HomeFragment : Fragment() {
         myContext = context as FragmentActivity
 
     }
+
+
 }
