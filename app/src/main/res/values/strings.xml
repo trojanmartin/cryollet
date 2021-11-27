@@ -10,14 +10,14 @@
     <string name="registration">Register</string>
     <string name="sign_up">Sign in</string>
     <string name="key">KEY</string>
-    <string name="dont_have_acc">Dont have account?</string>
-    <string name="register_now">Register now.</string>
+    <string name="dont_have_wallet">Don\'t have wallet?</string>
+    <string name="create_now">Create now.</string>
     <string name="cryolletlogo">cryolletLogo</string>
     <string name="transaction_dashboard">Dashboard</string>
     <string name="income"><b>INCOME</b></string>
     <string name="expanse"><b>EXPANSE</b></string>
     <string name="request_pay">Request payment</string>
-    <string name="send_payment">Send payment</string>
+    <string name="send_payment">SEND PAYMENT</string>
     <string name="account_balance">Account balance</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -30,5 +30,35 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="currency">CURRENCY</string>
+    <string name="wallet_key">WALLET KEY</string>
+    <string name="name">NAME</string>
+    <string name="amount">AMOUNT</string>
+    <string name="contacts">CONTACTS</string>
+
+
+    <!-- Currency drop down -->
+    <string-array name="currency">
+        <item>CZK - Czech Koruna</item>
+        <item>DKK - Danish Krone</item>
+        <item>DOP - Dominican Peso</item>
+        <item>EUR - Euro</item>
+        <item>ALL - Albanian Lek</item>
+        <item>AMD - Armenian Dram</item>
+        <item>AOA - Angolan Kwanza</item>
+        <item>ARS - Argentine Peso</item>
+        <item>PLN - Polish Zloty</item>
+        <item>PYG - Paraguayan Guarani</item>
+        <item>QAR - Qatari Riyal</item>
+        <item>RON - Romanian Leu</item>
+    </string-array>
+
+    <!-- Contacts drop down menu -->
+    <string-array name="contancts_names">
+        <item>Fero Pajta</item>
+        <item>Lukas Hajducak</item>
+        <item>Tanicka Smolarova</item>
+        <item>Bukvica</item>
+    </string-array>
 
 </resources>

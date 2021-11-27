@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/account_balance_text"
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/account_balance"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="$5,000"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="@dimen/big_text_size"
         app:layout_constraintEnd_toStartOf="@+id/plus_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +63,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
-        android:id="@+id/transaction_income_LL"
+        android:id="@+id/amount_LL"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/margin_wide"
@@ -72,7 +71,7 @@
         android:layout_marginEnd="@dimen/margin_wide"
         android:background="@color/input_background"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/transaction_expanse_LL"
+        app:layout_constraintEnd_toStartOf="@+id/currency_LL"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transaction_graph"
         tools:ignore="MissingConstraints">
@@ -85,7 +84,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/income"
             android:textAlignment="center"
-            android:textColor="@color/button_background" />
+            android:textColor="@color/filled_button_background" />
 
         <TextView
             android:id="@+id/sum_income"
@@ -93,24 +92,24 @@
             android:layout_height="wrap_content"
             android:text="24"
             android:textAlignment="center"
-            android:textColor="@color/button_background"
+            android:textColor="@color/filled_button_background"
             android:textSize="@dimen/big_text_size"
             tools:text="24" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/transaction_expanse_LL"
+        android:id="@+id/currency_LL"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/margin_wide"
         android:layout_marginEnd="@dimen/margin_wide"
         android:background="@color/input_background"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/transaction_income_LL"
+        app:layout_constraintBottom_toBottomOf="@+id/amount_LL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/transaction_income_LL"
-        app:layout_constraintTop_toTopOf="@+id/transaction_income_LL"
+        app:layout_constraintStart_toEndOf="@+id/amount_LL"
+        app:layout_constraintTop_toTopOf="@+id/amount_LL"
         tools:ignore="MissingConstraints">
 
 
@@ -121,7 +120,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/expanse"
             android:textAlignment="center"
-            android:textColor="@color/button_background" />
+            android:textColor="@color/filled_button_background" />
 
         <TextView
             android:id="@+id/sum_expanse"
@@ -129,7 +128,7 @@
             android:layout_height="wrap_content"
             android:text="13"
             android:textAlignment="center"
-            android:textColor="@color/button_background"
+            android:textColor="@color/filled_button_background"
             android:textSize="@dimen/big_text_size"
             tools:text="13" />
     </LinearLayout>
@@ -148,7 +147,7 @@
         app:layout_constraintEnd_toStartOf="@+id/send_payment_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_income_LL"
+        app:layout_constraintTop_toBottomOf="@+id/amount_LL"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
@@ -159,13 +158,13 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
         android:text="@string/send_payment"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="15sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/request_payment_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/request_payment_button"
-        app:strokeColor="@color/button_background"
+        app:strokeColor="@color/filled_button_background"
         app:strokeWidth="2dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="729dp" />
@@ -176,7 +175,7 @@
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/plus_button"
-        
+        android:background="?android:selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/account_balance_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/account_balance_amount"
