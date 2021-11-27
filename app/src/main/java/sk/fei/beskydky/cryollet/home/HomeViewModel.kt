@@ -9,11 +9,23 @@ class HomeViewModel : ViewModel() {
     val eventRequestPaymentClicked: LiveData<Boolean>
         get() = _eventRequestPaymentClicked
 
+    private val _eventSendPaymentClicked = MutableLiveData<Boolean>()
+    val eventSendPaymentClicked: LiveData<Boolean>
+        get() = _eventSendPaymentClicked
+
     fun onRequestPayment() {
         _eventRequestPaymentClicked.value = true
     }
 
     fun onRequestPaymentFinished() {
         _eventRequestPaymentClicked.value = false
+    }
+
+    fun onSendPayment() {
+        _eventSendPaymentClicked.value = true
+    }
+
+    fun onSendPaymentFinished() {
+        _eventSendPaymentClicked.value = false
     }
 }

@@ -37,6 +37,13 @@ class HomeFragment : Fragment() {
                 viewModel.onRequestPaymentFinished()
             }
         })
+
+        viewModel.eventSendPaymentClicked.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                //TODO:  dokoncit navigaciu na send payment fragment
+                viewModel.onSendPaymentFinished()
+            }
+        })
         binding.viewModel = viewModel
         return binding.root
     }
@@ -44,7 +51,6 @@ class HomeFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         myContext = context as FragmentActivity
-
     }
 
 

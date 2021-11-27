@@ -36,7 +36,7 @@ class SendPaymentFragment : Fragment() {
         binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, currency))
         binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
 
-        binding.sendPaymentAmount.doAfterTextChanged { it ->
+        binding.sendPaymentAmount.doAfterTextChanged {
             if(it?.length == 2 && "00" == it.toString()) {
                 binding.sendPaymentAmount.text.clear()
             }
