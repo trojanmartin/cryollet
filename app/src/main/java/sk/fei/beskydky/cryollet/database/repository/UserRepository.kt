@@ -11,13 +11,46 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(user: User) {
-        appDatabaseDao.insert(user)
+        appDatabaseDao.insertUser(user)
     }
 
-//    @Suppress("RedundantSuspendModifier")
-//    @WorkerThread
-//    suspend fun get():LiveData<User> {
-//        return  appDatabaseDao.getFirstUser()
-//    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun update(user:User) {
+        appDatabaseDao.updateUser(user)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun haveActiveAccount():Boolean {
+        val u = get()
+        return u != null && u.pin != "-1"
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun isPinCorrect(pin:String):Boolean {
+        val u = get()
+        return u.pin == pin
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun get():User {
+       return appDatabaseDao.getFirstUser()
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun create() :User {
+       //STELAR
+        return User(pin = (100..999).random().toString())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteAll() {
+        appDatabaseDao.clearAllUsers()
+    }
 
 }
