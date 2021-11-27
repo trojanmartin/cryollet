@@ -2,6 +2,10 @@ package sk.fei.beskydky.cryollet.home.sendpayment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 data class User(val name: String)
 
@@ -26,5 +30,15 @@ class SendPaymentViewModel : ViewModel() {
         list.add("QAR - Qatari Riyal")
         list.add("RON - Romanian Leu")
         userList.value = list
+    }
+
+    //test
+    @DelicateCoroutinesApi
+    fun onClick() {
+        val stellarHandler = StellarHandler()
+        GlobalScope.launch {
+            stellarHandler.createAccount()
+//        sk.fei.beskydky.cryollet.database.stellar.StellarHandler.createWallet()
+        }
     }
 }
