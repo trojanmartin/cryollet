@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 
 
 class SendPaymentFragment : Fragment() {
@@ -38,18 +40,11 @@ class SendPaymentFragment : Fragment() {
         binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, currency))
         binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
 
-        binding.sendPaymentAmount.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        binding.sendPaymentAmount.doAfterTextChanged { it ->
+            if(it?.length == 2 && "00" == it.toString()) {
+                binding.sendPaymentAmount.text.clear()
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                TODO("Not yet implemented")
-            }
-        })
+        }
 
         viewModel.user.observe(viewLifecycleOwner, {
             viewModel.searchCurrency(it)
