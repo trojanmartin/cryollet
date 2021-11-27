@@ -10,8 +10,14 @@ data class Wallet (
     @PrimaryKey(autoGenerate = true)
     var walletId: Long = 0L,
 
+    @ColumnInfo(name = "user_id")
+    var user_id: Long,
+
     @ColumnInfo(name = "account_id")
     var account_id: String,
+
+    @ColumnInfo(name = "secret_key")
+    var secretKey: String,
 
     @ColumnInfo(name = "balance")
     var balance: Double

@@ -9,12 +9,6 @@ data class User (
     @PrimaryKey(autoGenerate = true)
     var userId: Long = 0L,
 
-    @ColumnInfo(name = "publicKey")
-    var publicKey: String,
-
-    @ColumnInfo(name = "secretKey")
-    var secretKey: String,
-
     @ColumnInfo(name = "pin")
     var pin: String
 )

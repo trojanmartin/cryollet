@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".contacts.ContactsFragment">
+    android:layout_height="match_parent">
 
-    <TextView
+    <EditText
+        android:id="@+id/edit_word"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="contaxt" />
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:fontFamily="sans-serif-light"
+        android:hint="dasdas"
+        android:inputType="textAutoComplete"
+        android:layout_margin="48dp"
+        android:textSize="18sp" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="48dp"
+        />
+
+</LinearLayout>

@@ -1,5 +1,6 @@
-package sk.fei.beskydky.cryollet.database
+package sk.fei.beskydky.cryollet.database.appDatabase
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -20,7 +21,7 @@ interface AppDatabaseDao {
     suspend fun updateUser(user: User)
 
     @Query("SELECT * from user WHERE userId = :key")
-    suspend fun getUserById(key: Long): User?
+    fun getUserById(key: Long): LiveData<User>
 
     @Query("DELETE FROM user")
     suspend fun clearAllUsers()
@@ -29,9 +30,9 @@ interface AppDatabaseDao {
     suspend fun clearAllWallets()
 
     @Query("SELECT * FROM user ORDER BY userId DESC LIMIT 1")
-    suspend fun getFirstUser(): User?
+    fun getFirstUser(): LiveData<User>
 
     @Query("SELECT * FROM wallet ORDER BY walletId DESC LIMIT 1")
-    suspend fun getFirstWallet(): Wallet?
+    fun getFirstWallet(): LiveData<User>
 
 }

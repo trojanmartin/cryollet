@@ -9,10 +9,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sk.fei.beskydky.cryollet.database.AppDatabase
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.data.model.User
 import java.io.IOException
-import sk.fei.beskydky.cryollet.database.AppDatabaseDao
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 
 
 /**
