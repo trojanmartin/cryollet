@@ -11,9 +11,5 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
    }
-//            setResult(Activity.RESULT_OK)
-//
-//            //Complete and destroy login activity once successful
-//            finish()
 
 }

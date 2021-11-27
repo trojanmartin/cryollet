@@ -6,11 +6,16 @@ import androidx.databinding.BindingAdapter
 
 @BindingAdapter("amountFormatted")
 fun TextView.setAmountString(item: FakeTransaction) {
-    text = item.amount.toString()
+    text = String.format("%.2f", item.amount)
 }
 
 
 @BindingAdapter("accountString")
 fun TextView.setAccountString(item: FakeTransaction) {
-    text = item.account
+    text = item.name ?: item.account
+}
+
+@BindingAdapter("currencyString")
+fun TextView.setCurrencyString(item: FakeTransaction) {
+    text = item.currency
 }

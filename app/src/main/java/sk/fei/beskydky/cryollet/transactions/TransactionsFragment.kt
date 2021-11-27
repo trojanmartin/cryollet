@@ -31,14 +31,13 @@ class TransactionsFragment : Fragment() {
         binding.transactionList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it?.toMutableList())
+                adapter.addHeaderAndSubmitList(it)
             }
         })
 
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
         binding.lifecycleOwner = this
-
        return binding.root
     }
 }

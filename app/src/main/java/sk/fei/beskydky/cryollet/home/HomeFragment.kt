@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
 import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
-
+import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class HomeFragment : Fragment() {
 
@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
             }
         })
         binding.viewModel = viewModel
+        binding.root.setHideKeyboardOnClick(this)
         return binding.root
     }
 
@@ -52,6 +53,4 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
         myContext = context as FragmentActivity
     }
-
-
 }
