@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
@@ -41,11 +42,11 @@ class SendPaymentFragment : Fragment() {
             }
         }
 
-        viewModel.user.observe(viewLifecycleOwner, {
+        viewModel.user.observe(viewLifecycleOwner, Observer {
             viewModel.searchCurrency(it)
         })
 
-        viewModel.contactName.observe(viewLifecycleOwner, {
+        viewModel.contactName.observe(viewLifecycleOwner, Observer {
             viewModel.searchContacts(it)
         })
 
