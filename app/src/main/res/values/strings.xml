@@ -25,6 +25,11 @@
     <string name="name">NAME</string>
     <string name="amount">AMOUNT</string>
     <string name="contacts">CONTACTS</string>
+    <string name="receive_payment">RECEIVE PAYMENT</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="approve">APPROVE</string>
+    <string name="request_payment">REQUEST PAYMENT</string>
 
 
     <!-- Currency drop down -->
