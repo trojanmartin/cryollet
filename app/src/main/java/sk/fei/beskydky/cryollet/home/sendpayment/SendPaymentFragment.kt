@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
 import sk.fei.beskydky.cryollet.hideKeyboard
+import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 
 class SendPaymentFragment : Fragment() {
@@ -59,9 +60,8 @@ class SendPaymentFragment : Fragment() {
             viewModel.searchContacts(it)
         })
 
-        view?.setOnClickListener {
-            hideKeyboard()
-        }
+
+        binding.root?.setHideKeyboardOnClick(this)
 
         binding.viewModel = viewModel
         return binding.root

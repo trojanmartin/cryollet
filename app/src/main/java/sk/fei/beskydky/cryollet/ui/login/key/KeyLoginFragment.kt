@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.KeyLoginFragmentBinding
+import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 import sk.fei.beskydky.cryollet.ui.login.LoggedInUserView
 
 class KeyLoginFragment : Fragment() {
@@ -29,7 +30,6 @@ class KeyLoginFragment : Fragment() {
 
         val username = binding.accountKey
         val login = binding.signInButton
-        //val loading = binding.loading
 
         keyLoginViewModel = ViewModelProvider(
             this,
@@ -65,6 +65,7 @@ class KeyLoginFragment : Fragment() {
             )
         }
 
+        binding.root?.setHideKeyboardOnClick(this)
         return binding.root
     }
 

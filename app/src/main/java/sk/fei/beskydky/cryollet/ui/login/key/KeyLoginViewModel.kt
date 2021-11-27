@@ -13,21 +13,25 @@ import sk.fei.beskydky.cryollet.ui.login.LoginResult
 
 class KeyLoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
+    val key = MutableLiveData<String>()
+
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(key: String) {
+    fun login() {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(key, "")
+        val currentKey = key?.value ?: ""
+        val result = loginRepository.login(currentKey, "")
 
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+        _loginResult.value =  LoginResult(LoggedInUserView(currentKey), null)
+//        if (result is Result.Success) {
+//            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+//        } else {
+//            _loginResult.value = LoginResult(error = R.string.login_failed)
+//        }
     }
 
     fun loginDataChanged(username: String) {

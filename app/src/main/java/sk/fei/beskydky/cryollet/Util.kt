@@ -23,6 +23,12 @@ fun convertLongToDateString(systemTime: Long): String {
         .format(systemTime).toString()
 }
 
+fun View.setHideKeyboardOnClick(fragment: Fragment){
+    setOnClickListener{
+        fragment.hideKeyboard()
+    }
+}
+
 fun Fragment.hideKeyboard() {
     view?.let { activity?.hideKeyboard(it) }
 }
