@@ -62,7 +62,7 @@
             android:layout_marginStart="@dimen/margin_wide"
             android:fontFamily="@font/ramabhadra"
             android:text="@string/sign_up"
-            android:textColor="@color/button_text"
+            android:textColor="@color/filled_button_text"
             android:textSize="@dimen/login_button_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

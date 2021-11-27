@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/account_balance"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="@dimen/text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="$5,000"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="@dimen/big_text_size"
         app:layout_constraintEnd_toStartOf="@+id/plus_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/income"
             android:textAlignment="center"
-            android:textColor="@color/button_background" />
+            android:textColor="@color/filled_button_background" />
 
         <TextView
             android:id="@+id/sum_income"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:text="24"
             android:textAlignment="center"
-            android:textColor="@color/button_background"
+            android:textColor="@color/filled_button_background"
             android:textSize="@dimen/big_text_size"
             tools:text="24" />
 
@@ -120,7 +120,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/expanse"
             android:textAlignment="center"
-            android:textColor="@color/button_background" />
+            android:textColor="@color/filled_button_background" />
 
         <TextView
             android:id="@+id/sum_expanse"
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:text="13"
             android:textAlignment="center"
-            android:textColor="@color/button_background"
+            android:textColor="@color/filled_button_background"
             android:textSize="@dimen/big_text_size"
             tools:text="13" />
     </LinearLayout>
@@ -158,13 +158,13 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
         android:text="@string/send_payment"
-        android:textColor="@color/button_background"
+        android:textColor="@color/filled_button_background"
         android:textSize="15sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/request_payment_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/request_payment_button"
-        app:strokeColor="@color/button_background"
+        app:strokeColor="@color/filled_button_background"
         app:strokeWidth="2dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="729dp" />
