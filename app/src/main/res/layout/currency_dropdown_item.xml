@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="12dp"
-    android:textColor="@color/filled_button_background"
+    android:textColor="@color/button_background"
     android:textSize="@dimen/smaller_text_size"
     android:text="TextView"
     android:background="@color/white"

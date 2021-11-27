@@ -9,11 +9,8 @@ class SendPaymentViewModel : ViewModel() {
     val user = MutableLiveData("")
     var userList: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
-    val contactName = MutableLiveData("")
-    var contactList: MutableLiveData<ArrayList<String>> = MutableLiveData()
-
     //dump
-    fun searchCurrency(name: String) {
+    fun searchUser(name: String) {
         val list = ArrayList<String>()
 
         list.add("CZK - Czech Koruna")
@@ -29,17 +26,5 @@ class SendPaymentViewModel : ViewModel() {
         list.add("QAR - Qatari Riyal")
         list.add("RON - Romanian Leu")
         userList.value = list
-    }
-
-    // dump
-    fun searchContacts(name: String) {
-        val list = ArrayList<String>()
-
-        list.add("Fero Pajta")
-        list.add("Lukas Hajducak")
-        list.add("Tanicka Smolarova")
-        list.add("Bukvica")
-
-        contactList.value = list
     }
 }

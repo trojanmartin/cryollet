@@ -23,8 +23,6 @@
             android:layout_marginTop="16dp"
             android:text="@string/send_payment"
             android:textSize="@dimen/big_text_size"
-            android:fontFamily="@font/ramabhadra"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +37,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
             android:text="@string/name"
-            android:textColor="@color/filled_button_background"
+            android:textColor="@color/button_background"
             android:textSize="@dimen/smaller_text_size"
             android:fontFamily="@font/ramabhadra"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,45 +45,22 @@
             tools:ignore="MissingConstraints"
             tools:text="NAME" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_contact"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/account_key"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_wide"
             android:layout_marginEnd="@dimen/margin_wide"
-            android:textColorHint="@color/filled_button_background"
-            app:boxStrokeColor="@color/filled_button_background"
-            app:layout_constraintEnd_toStartOf="@+id/scan_qr_button"
+            android:autofillHints="Your Key:"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.781"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/send_payment_name">
-
-            <AutoCompleteTextView
-                android:id="@+id/send_payment_contact"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="@string/contacts"
-                android:singleLine="true"
-                android:text="@={viewModel.contactName}"
-                android:textColor="@color/filled_button_background"
-                tools:text="Nickname" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/scan_qr_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="@dimen/margin_wide"
-            android:background="?android:selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="@+id/text_input_contact"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_input_contact"
-            app:srcCompat="@drawable/qr_code" />
-
+            app:layout_constraintTop_toBottomOf="@+id/send_payment_name"
+            tools:ignore="LabelFor,MissingConstraints" />
         <!-- -->
 
         <!-- WALLET KEY -->
@@ -93,14 +68,14 @@
             android:id="@+id/send_payment_wallet_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_wide"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/ramabhadra"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/wallet_key"
-            android:textColor="@color/filled_button_background"
+            android:fontFamily="@font/ramabhadra"
+            android:textColor="@color/button_background"
             android:textSize="@dimen/smaller_text_size"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_contact"
+            app:layout_constraintTop_toBottomOf="@+id/account_key"
             tools:ignore="MissingConstraints"
             tools:text="WALLET KEY" />
 
@@ -130,7 +105,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/amount"
-                android:textColor="@color/filled_button_background"
+                android:textColor="@color/button_background"
                 android:textSize="@dimen/smaller_text_size"
                 android:fontFamily="@font/ramabhadra"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,8 +123,7 @@
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
-            android:inputType="number"
-            android:digits="0123456789."
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/send_payment_amount_text"
@@ -160,14 +134,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:id="@+id/textinputcurrency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_wide"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/margin_wide"
-            android:textColorHint="@color/filled_button_background"
-            app:boxStrokeColor="@color/filled_button_background"
+            android:hint="@string/currency"
+            android:textColorHint="@color/button_background"
+            app:boxStrokeColor="@color/button_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/send_payment_amount">
@@ -177,27 +151,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/currency"
-                android:singleLine="true"
-                android:textColor="@color/filled_button_background"
+                android:textColor="@color/button_background"
                 android:text="@={viewModel.user}"
                 tools:text="EUR" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/ramabhadra"
-            android:text="@string/send_payment"
-            android:textSize="@dimen/login_button_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textinputcurrency"
-            app:layout_constraintVertical_bias="0.8" />
 
         <!-- -->
 

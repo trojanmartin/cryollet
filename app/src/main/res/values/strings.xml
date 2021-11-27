@@ -13,7 +13,7 @@
     <string name="income"><b>INCOME</b></string>
     <string name="expanse"><b>EXPANSE</b></string>
     <string name="request_pay">Request payment</string>
-    <string name="send_payment">SEND PAYMENT</string>
+    <string name="send_payment">Send payment</string>
     <string name="account_balance">Account balance</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="welcome">"Welcome !"</string>
@@ -24,12 +24,6 @@
     <string name="wallet_key">WALLET KEY</string>
     <string name="name">NAME</string>
     <string name="amount">AMOUNT</string>
-    <string name="contacts">CONTACTS</string>
-    <string name="receive_payment">RECEIVE PAYMENT</string>
-    <string name="cancel">CANCEL</string>
-    <string name="ok">OK</string>
-    <string name="approve">APPROVE</string>
-    <string name="request_payment">REQUEST PAYMENT</string>
 
 
     <!-- Currency drop down -->
@@ -47,19 +41,5 @@
         <item>QAR - Qatari Riyal</item>
         <item>RON - Romanian Leu</item>
     </string-array>
-
-    <!-- Contacts drop down menu -->
-    <string-array name="contancts_names">
-        <item>Fero Pajta</item>
-        <item>Lukas Hajducak</item>
-        <item>Tanicka Smolarova</item>
-        <item>Bukvica</item>
-    </string-array>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="invalid_password">Password must be >5 characters</string>
 
 </resources>
