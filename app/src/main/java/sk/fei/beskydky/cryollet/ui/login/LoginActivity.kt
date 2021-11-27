@@ -11,7 +11,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import sk.fei.beskydky.cryollet.databinding.ActivityLoginBinding
+//import sk.fei.beskydky.cryollet.databinding.ActivityLoginBinding
 
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.ui.login.key.KeyLoginViewModel
