@@ -1,10 +1,8 @@
 package sk.fei.beskydky.cryollet
 
-import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MenuViewModel : ViewModel() {
 
@@ -31,4 +29,8 @@ class MenuViewModel : ViewModel() {
     fun onTransactionsClicked(){
         _eventTransactionsClicked.value = true
     }
+
+
+
+
 }

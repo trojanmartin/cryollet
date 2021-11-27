@@ -2,13 +2,12 @@ package sk.fei.beskydky.cryollet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,4 +48,5 @@ class MainActivity : AppCompatActivity() {
             viewPager.currentItem = viewPager.currentItem - 1
         }
     }
+
 }

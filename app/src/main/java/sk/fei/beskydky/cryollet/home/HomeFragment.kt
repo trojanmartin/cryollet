@@ -18,4 +18,6 @@ class HomeFragment : Fragment() {
         }
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
+
+
 }
