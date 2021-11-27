@@ -29,9 +29,9 @@ class SendPaymentFragment : Fragment() {
 
         binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, list))
 
-        viewModel.user.observe(viewLifecycleOwner, {
-            viewModel.searchUser(it)
-        })
+//        viewModel.user.observe(viewLifecycleOwner, {
+//            viewModel.searchUser(it)
+//        })
         binding.viewModel = viewModel
         return binding.root
 

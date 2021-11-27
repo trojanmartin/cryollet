@@ -6,13 +6,18 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sk.fei.beskydky.cryollet.data.model.User
 
-class UserRepository (private val appDatabase: AppDatabaseDao) {
-    val user: LiveData<User> = appDatabase.getFirstUser()
+class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(user: User) {
-        appDatabase.insertUser(user)
+        appDatabaseDao.insert(user)
     }
+
+//    @Suppress("RedundantSuspendModifier")
+//    @WorkerThread
+//    suspend fun get():LiveData<User> {
+//        return  appDatabaseDao.getFirstUser()
+//    }
 
 }

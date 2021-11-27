@@ -17,7 +17,7 @@ data class Wallet (
     var account_id: String,
 
     @ColumnInfo(name = "secret_key")
-    var secretKey: String,
+    var secret_key: String,
 
     @ColumnInfo(name = "balance")
     var balance: Double

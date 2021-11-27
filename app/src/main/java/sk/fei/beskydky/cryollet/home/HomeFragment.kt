@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import org.stellar.sdk.KeyPair
 import sk.fei.beskydky.cryollet.R
-import sk.fei.beskydky.cryollet.database.stellar.StellarHandler
+//import sk.fei.beskydky.cryollet.database.stellar.StellarHandler
 import sk.fei.beskydky.cryollet.data.model.User
 
 
