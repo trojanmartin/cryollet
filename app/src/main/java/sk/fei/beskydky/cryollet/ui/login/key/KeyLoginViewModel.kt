@@ -15,6 +15,10 @@ class KeyLoginViewModel(private val loginRepository: LoginRepository) : ViewMode
 
     val key = MutableLiveData<String>()
 
+    private val _eventSignInClicked = MutableLiveData<Boolean>()
+    val eventSignInClicked: LiveData<Boolean>
+        get() = _eventSignInClicked
+
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
@@ -22,6 +26,7 @@ class KeyLoginViewModel(private val loginRepository: LoginRepository) : ViewMode
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login() {
+        _eventSignInClicked.value = true
         // can be launched in a separate asynchronous job
         val currentKey = key?.value ?: ""
         val result = loginRepository.login(currentKey, "")
