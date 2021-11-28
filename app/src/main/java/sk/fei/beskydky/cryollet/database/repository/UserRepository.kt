@@ -10,12 +10,6 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(user: User) {
-        appDatabaseDao.insertUser(user)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun update(user:User) {
         appDatabaseDao.updateUser(user)
     }
@@ -42,9 +36,8 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun create() :User {
-       //STELAR
-        return User(pin = (100..999).random().toString())
+    suspend fun createAndInsert(){
+        appDatabaseDao.insertUser(User(pin = (100..999).random().toString()))
     }
 
     @Suppress("RedundantSuspendModifier")
