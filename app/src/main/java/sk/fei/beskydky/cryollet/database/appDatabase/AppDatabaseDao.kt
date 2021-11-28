@@ -16,14 +16,12 @@ interface AppDatabaseDao {
     @Update
     suspend fun updateUser(user: User)
 
-    @Query("SELECT * from user WHERE userId = :key")
-    suspend fun getUserById(key: Long): User
 
     @Query("DELETE FROM user")
     suspend fun clearAllUsers()
 
     @Query("SELECT * FROM user ORDER BY userId DESC LIMIT 1")
-    suspend fun getFirstUser(): User
+    suspend fun getUser(): User
 
 
     //WALLET
@@ -33,8 +31,8 @@ interface AppDatabaseDao {
     @Update
     suspend fun updateWallet(wallet: Wallet)
 
-    @Query("SELECT * from wallet WHERE walletId = :key")
-    suspend fun getWalletById(key: Long): Wallet
+    @Query("SELECT * from wallet WHERE user_id = :key")
+    suspend fun getWalletByUserId(key: Long): Wallet
 
     @Query("DELETE FROM wallet")
     suspend fun clearAllWallets()

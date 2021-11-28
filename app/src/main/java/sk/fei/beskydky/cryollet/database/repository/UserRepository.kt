@@ -2,9 +2,9 @@ package sk.fei.beskydky.cryollet.database.repository
 
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import kotlinx.coroutines.flow.Flow
 import sk.fei.beskydky.cryollet.data.model.User
+import sk.fei.beskydky.cryollet.sha256
+import java.security.MessageDigest
 
 class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
 
@@ -17,27 +17,36 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun haveActiveAccount():Boolean {
-        val u = get()
-        return u != null && u.pin != "-1"
+        val user = get()
+        return user.pin != null
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun isPinCorrect(pin:String):Boolean {
-        val u = get()
-        return u.pin == pin
+        val user = get()
+        return user.pin == pin.sha256()
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun get():User {
-       return appDatabaseDao.getFirstUser()
+       return appDatabaseDao.getUser()
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun createAndInsert(){
-        appDatabaseDao.insertUser(User(pin = (100..999).random().toString()))
+        appDatabaseDao.insertUser(User(pin = null))
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updatePin(pin:String){
+        val user = appDatabaseDao.getUser()
+        val hashedPin = pin.sha256()
+        user.pin = hashedPin
+        appDatabaseDao.updateUser(user)
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -45,5 +54,7 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     suspend fun deleteAll() {
         appDatabaseDao.clearAllUsers()
     }
+
+
 
 }
