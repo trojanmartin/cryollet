@@ -1,12 +1,7 @@
 package sk.fei.beskydky.cryollet.home.sendpayment
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
-import sk.fei.beskydky.cryollet.stellar.StellarHandler
-import org.stellar.sdk.KeyPair
 
 data class User(val name: String)
 
@@ -14,8 +9,11 @@ class SendPaymentViewModel : ViewModel() {
     val user = MutableLiveData("")
     var userList: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
+    val contactName = MutableLiveData("")
+    var contactList: MutableLiveData<ArrayList<String>> = MutableLiveData()
+
     //dump
-    fun searchUser(name: String) {
+    fun searchCurrency(name: String) {
         val list = ArrayList<String>()
 
         list.add("CZK - Czech Koruna")
@@ -33,14 +31,15 @@ class SendPaymentViewModel : ViewModel() {
         userList.value = list
     }
 
-    //test
-    fun onClick() {
-        val stellarHandler = StellarHandler()
+    // dump
+    fun searchContacts(name: String) {
+        val list = ArrayList<String>()
 
-        val key: KeyPair = KeyPair.fromAccountId("GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP")
+        list.add("Fero Pajta")
+        list.add("Lukas Hajducak")
+        list.add("Tanicka Smolarova")
+        list.add("Bukvica")
 
-        val balance = viewModelScope.launch { stellarHandler.getBalances(key) }
-
-        Log.i("stellar", balance.toString())
+        contactList.value = list
     }
 }

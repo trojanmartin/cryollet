@@ -33,10 +33,11 @@ class ContactsFragment : Fragment() {
         val viewModelFactory = ContactsViewModelFactory(dataSource, application)
 
         // Get a reference to the ViewModel associated with this fragment.
-        val sleepTrackerViewModel =
+        val contactsViewModel =
             ViewModelProvider(
                 this, viewModelFactory).get(ContactsViewModel::class.java)
         binding.setLifecycleOwner(this)
+        binding.viewModel =contactsViewModel
         return binding.root
     }
 }

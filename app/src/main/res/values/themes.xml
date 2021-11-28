@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Cryollet" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/button_background</item>button_background
-        <item name="colorPrimaryVariant">@color/main_foreground</item>
+        <item name="colorPrimary">@color/filled_button_background</item>
+        <item name="colorPrimaryVariant">@color/secondary_text</item>
         <item name="colorOnPrimary">@color/input_background</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

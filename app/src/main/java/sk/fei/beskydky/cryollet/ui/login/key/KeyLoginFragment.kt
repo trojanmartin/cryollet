@@ -15,11 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.KeyLoginFragmentBinding
+import sk.fei.beskydky.cryollet.hideKeyboard
+import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 import sk.fei.beskydky.cryollet.ui.login.LoggedInUserView
 
 class KeyLoginFragment : Fragment() {
 
-    private lateinit var keyLoginViewModel: KeyLoginViewModel
+    private lateinit var viewModel: KeyLoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,13 +31,14 @@ class KeyLoginFragment : Fragment() {
 
         val username = binding.accountKey
         val login = binding.signInButton
-        //val loading = binding.loading
+        // disable login button unless both username / password is valid
+        login.isEnabled = false
 
-        keyLoginViewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
             KeyLoginViewModelFactory())[KeyLoginViewModel::class.java]
 
-        keyLoginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
+        viewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
@@ -46,7 +49,7 @@ class KeyLoginFragment : Fragment() {
             }
         })
 
-        keyLoginViewModel.loginResult.observe(viewLifecycleOwner, Observer {
+        viewModel.loginResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             // loading.visibility = View.GONE
@@ -60,11 +63,13 @@ class KeyLoginFragment : Fragment() {
         })
 
         username.afterTextChanged {
-            keyLoginViewModel.loginDataChanged(
+            viewModel.loginDataChanged(
                 username.text.toString()
             )
         }
 
+        binding.viewModel = viewModel
+        binding.root?.setHideKeyboardOnClick(this)
         return binding.root
     }
 
