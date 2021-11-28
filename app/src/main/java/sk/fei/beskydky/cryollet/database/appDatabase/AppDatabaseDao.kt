@@ -1,13 +1,13 @@
 package sk.fei.beskydky.cryollet.database.appDatabase
 
-import androidx.lifecycle.LiveData
+
 import androidx.room.*
+import sk.fei.beskydky.cryollet.data.model.Transaction
 import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.data.model.Wallet
 
 @Dao
 interface AppDatabaseDao {
-
 
     //USER
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,7 +15,6 @@ interface AppDatabaseDao {
 
     @Update
     suspend fun updateUser(user: User)
-
 
     @Query("DELETE FROM user")
     suspend fun clearAllUsers()
@@ -41,5 +40,21 @@ interface AppDatabaseDao {
     suspend fun getWallet(): Wallet?
 
 
+    //TRANSACTIONS
+    //USER
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTransaction(transaction: Transaction)
+
+    @Update
+    suspend fun updateTransaction(transaction: Transaction)
+
+    @Query("DELETE FROM transactions")
+    suspend fun clearAllTransactions()
+
+    @Query("SELECT * FROM transactions ORDER BY date DESC")
+    suspend fun getAllTransactions(): List<Transaction>
+
+    @Query("SELECT * FROM transactions WHERE user_id = :key")
+    suspend fun getTransactionsByContactId(contactId:Long): List<Transaction>
 
 }
