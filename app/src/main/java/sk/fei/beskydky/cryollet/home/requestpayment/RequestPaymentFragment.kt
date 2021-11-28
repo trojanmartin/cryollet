@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentRequestPaymentBinding
 
@@ -35,8 +36,7 @@ class RequestPaymentFragment : DialogFragment() {
 
         viewModel.eventApproveDialog.observe(viewLifecycleOwner, Observer {
             if (it) {
-                // TODO:  dorobit navigaciu
-                dismiss() // <- Potom treba vymazat
+                binding.root.findNavController().navigate(RequestPaymentFragment)
                 viewModel.onRequestPaymentApproveFinished()
             }
         })

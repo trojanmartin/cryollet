@@ -90,4 +90,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'com.hanks:passcodeview:0.1.2'
+
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    implementation 'com.google.zxing:core:3.3.0'
 }
