@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 
@@ -54,7 +55,8 @@ fun String.aesEncrypt(key: String): String {
 
     val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
     val cipher = Cipher.getInstance("AES")
-    cipher.init(Cipher.ENCRYPT_MODE, secretKeyEcb)
+    val ivParameterSpec = IvParameterSpec("bVQzNFNhRkQ1Njc4UUFaWA".toByteArray())
+    cipher.init(Cipher.ENCRYPT_MODE, secretKeyEcb,ivParameterSpec )
     return cipher.doFinal(plaintext).toString()
     //val iv: ByteArray = cipher.iv
 }
@@ -63,8 +65,9 @@ fun String.aesDecrypt(key: String): String {
     val plaintext: ByteArray = this.toByteArray()
 
     val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
+    val ivParameterSpec = IvParameterSpec("bVQzNFNhRkQ1Njc4UUFaWA".toByteArray())
     val cipher = Cipher.getInstance("AES")
-    cipher.init(Cipher.DECRYPT_MODE, secretKeyEcb)
+    cipher.init(Cipher.DECRYPT_MODE, secretKeyEcb, ivParameterSpec)
     return cipher.doFinal(plaintext).toString()
     //val iv: ByteArray = cipher.iv
 }
