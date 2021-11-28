@@ -8,6 +8,7 @@ import sk.fei.beskydky.cryollet.contacts.ContactsFragment
 import sk.fei.beskydky.cryollet.home.HomeFragment
 import sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment
 import sk.fei.beskydky.cryollet.transactions.TransactionsFragment
+import sk.fei.beskydky.cryollet.ui.login.pin.PinCodeFragment
 
 class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int {
@@ -17,7 +18,7 @@ class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         when(position){
             0 -> return TransactionsFragment()
-            1 -> return HomeFragment()
+            1 -> return PinCodeFragment()
             2 -> return ContactsFragment()
         }
         return HomeFragment()
