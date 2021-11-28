@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MenuViewModel::class.java]
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = BottomMenuAdapter(this)
-
+        viewPager.setCurrentItem(1, true)
         menu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.transactions_menu_item -> {
