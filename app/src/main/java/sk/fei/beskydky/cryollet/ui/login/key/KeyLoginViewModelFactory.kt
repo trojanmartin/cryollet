@@ -14,11 +14,7 @@ class KeyLoginViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(KeyLoginViewModel::class.java)) {
-            return KeyLoginViewModel(
-                loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
-                )
-            ) as T
+            return KeyLoginViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

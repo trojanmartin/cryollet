@@ -4,28 +4,46 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PinCodeViewModel(publicKey: String) : ViewModel() {
-    private val _ifUserHaveAlreadyPin = MutableLiveData<Boolean>()
-    val ifUserHaveAlreadyPin: LiveData<Boolean>
-        get() = _ifUserHaveAlreadyPin
+class PinCodeViewModel() : ViewModel() {
 
-    var key = publicKey
+    var pinCode = String()
+    var setUpPin = !userExist()
 
-    //    init {
-//        var user = db.getUser(key)
-//        checkIfPinSet(user)
-//    }
-//
-    fun getUserPIN(): String {
-        // TODO: Resource get PIN from DB
-        return "1234"
+    private val _eventPinSucceed = MutableLiveData<Boolean>()
+    val eventPinSucceed: LiveData<Boolean>
+        get() = _eventPinSucceed
+
+    private val _eventPinFails = MutableLiveData<Boolean>()
+    val eventPinFails: LiveData<Boolean>
+        get() = _eventPinFails
+
+
+    init {
+        if(!setUpPin){
+            pinCode = "1234" //TODO: Load from DB
+        }
     }
-//
-//    fun checkIfPinSet(user: User) {
-//        // TODO: Get user by his public key
-//        // User user = db.getUser(publicKey)
-//        _ifUserHaveAlreadyPin.value = user != null
-//    }
 
+    fun onPinSucceed(newPin: String?){
+        if(setUpPin){
+            // TODO: Create user into db with new  PIN
+        }
+        _eventPinSucceed.value = true
+    }
 
+    fun onPinSucceedFinished(){
+        _eventPinSucceed.value = false
+    }
+
+    fun onPinFails(){
+        _eventPinFails.value = true
+    }
+
+    fun onPinFailsFinished(){
+        _eventPinFails.value = false
+    }
+
+    private fun userExist(): Boolean{
+        return false //TODO: Call repo
+    }
 }

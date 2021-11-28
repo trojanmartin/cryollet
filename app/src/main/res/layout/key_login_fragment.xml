@@ -65,7 +65,7 @@
             android:text="@string/sign_up"
             android:textColor="@color/filled_button_text"
             android:textSize="@dimen/login_button_size"
-            android:onClick="@{() -> viewModel.login()}"
+            android:onClick="@{() -> viewModel.onLogin()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -102,6 +102,7 @@
                 android:text="@string/create_now"
                 android:textSize="@dimen/default_text_size"
                 android:textStyle="bold"
+                android:onClick="@{() -> viewModel.onRegister()}"
                 tools:layout_editor_absoluteX="326dp"
                 tools:layout_editor_absoluteY="570dp" />
         </LinearLayout>

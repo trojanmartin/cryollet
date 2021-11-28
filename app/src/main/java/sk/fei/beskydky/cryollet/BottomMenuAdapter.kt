@@ -18,7 +18,7 @@ class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         when(position){
             0 -> return TransactionsFragment()
-            1 -> return PinCodeFragment()
+            1 -> return HomeFragment()
             2 -> return ContactsFragment()
         }
         return HomeFragment()
