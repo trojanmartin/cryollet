@@ -40,6 +40,7 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun createAndInsert(pin:String){
+        appDatabaseDao.clearAllUsers()
         val hashedPin = pin.aesEncrypt(BuildConfig.PIN_SECRET)
         appDatabaseDao.insertUser(User(pin = hashedPin))
     }

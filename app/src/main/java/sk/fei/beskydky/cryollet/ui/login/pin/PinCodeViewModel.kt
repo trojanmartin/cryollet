@@ -3,8 +3,9 @@ package sk.fei.beskydky.cryollet.ui.login.pin
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
 
-class PinCodeViewModel() : ViewModel() {
+class PinCodeViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     var pinCode = String()
     var setUpPin = !userExist()

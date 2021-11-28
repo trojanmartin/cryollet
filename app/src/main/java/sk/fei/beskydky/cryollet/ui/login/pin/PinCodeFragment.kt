@@ -13,7 +13,12 @@ import androidx.navigation.findNavController
 import com.hanks.passcodeview.PasscodeView
 import com.hanks.passcodeview.PasscodeView.PasscodeViewListener
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
+import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 import sk.fei.beskydky.cryollet.databinding.FragmentPinCodeBinding
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
+import sk.fei.beskydky.cryollet.ui.login.key.KeyLoginViewModelFactory
 
 class PinCodeFragment : Fragment() {
 
@@ -27,7 +32,14 @@ class PinCodeFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pin_code, container, false)
-        viewModel = ViewModelProvider(this)[PinCodeViewModel::class.java]
+
+        val application = requireNotNull(this.activity).application
+        val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
+        val viewModelFactory = PinCodeViewModelFactory(UserRepository(databaseDataSource))
+
+        viewModel = ViewModelProvider(
+                            this,
+                            viewModelFactory).get(PinCodeViewModel::class.java)
 
         viewModel.eventPinFails.observe(viewLifecycleOwner, Observer {
             if (it){
