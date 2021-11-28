@@ -56,7 +56,9 @@ android {
     }
     defaultConfig {
         // should correspond to key/value pairs inside the file
-        buildConfigField("String", "PIN_SECRET", apikeyProperties['PIN_SECRET'])
+        buildConfigField("String", "SECRET_KEY", apikeyProperties['SECRET_KEY'])
+        buildConfigField("String", "SALT", apikeyProperties['SALT'])
+        buildConfigField("String", "IV", apikeyProperties['IV'])
     }
 }
 

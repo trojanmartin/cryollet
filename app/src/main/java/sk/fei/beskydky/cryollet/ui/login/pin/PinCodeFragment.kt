@@ -12,13 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.hanks.passcodeview.PasscodeView
 import com.hanks.passcodeview.PasscodeView.PasscodeViewListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
-import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 import sk.fei.beskydky.cryollet.databinding.FragmentPinCodeBinding
-import sk.fei.beskydky.cryollet.stellar.StellarHandler
-import sk.fei.beskydky.cryollet.ui.login.key.KeyLoginViewModelFactory
 
 class PinCodeFragment : Fragment() {
 
@@ -55,6 +56,7 @@ class PinCodeFragment : Fragment() {
             }
         })
 
+
         setUpPinView(binding, viewModel)
         return binding.root
     }
@@ -64,7 +66,7 @@ class PinCodeFragment : Fragment() {
         var headerText = getString(R.string.insert_pin)
 
 
-        if(viewModel.setUpPin){
+        if(!viewModel.userExists){
             type = PasscodeView.PasscodeViewType.TYPE_SET_PASSCODE
             headerText = getString(R.string.set_up_pin)
         }
