@@ -12,9 +12,9 @@
     <string name="cryolletlogo">cryolletLogo</string>
     <string name="income"><b>INCOME</b></string>
     <string name="expanse"><b>EXPANSE</b></string>
-    <string name="request_pay">Request payment</string>
-    <string name="send_payment">SEND PAYMENT</string>
-    <string name="account_balance">Account balance</string>
+    <string name="request_pay">Request \n payment</string>
+    <string name="send_payment">SEND \n PAYMENT</string>
+    <string name="dashboard">Dashboard</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
