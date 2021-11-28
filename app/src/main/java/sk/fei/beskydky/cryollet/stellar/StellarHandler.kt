@@ -2,13 +2,13 @@ package sk.fei.beskydky.cryollet.stellar
 
 import android.util.Log
 import kotlinx.coroutines.*
-import org.stellar.sdk.KeyPair
-import org.stellar.sdk.Network
-import org.stellar.sdk.Server
+import org.stellar.sdk.*
 import org.stellar.sdk.responses.AccountResponse
+import org.stellar.sdk.responses.SubmitTransactionResponse
 import java.io.InputStream
 import java.net.URL
 import java.util.*
+import kotlin.Exception
 
 
 class StellarHandler(
@@ -40,6 +40,32 @@ class StellarHandler(
 
         }
         return@withContext sourceAccount?.balances
+    }
+
+    suspend fun sendTransaction(source: KeyPair, destinationId: String, value: String): SubmitTransactionResponse? = withContext(Dispatchers.IO) {
+        var transactionResponse: SubmitTransactionResponse? = null
+        launch {
+            val sourceAccount: AccountResponse = server.accounts().account(source.accountId)
+            val destination = KeyPair.fromAccountId(destinationId)
+
+            val transaction: Transaction = Transaction.Builder(sourceAccount, network)
+                .addOperation(PaymentOperation.Builder(destination.accountId, AssetTypeNative(), value).build())
+                .addMemo(Memo.text("testTransaction"))
+                // Wait max 3 minutes
+                .setTimeout(180L)
+                .setBaseFee(Transaction.MIN_BASE_FEE)
+                .build()
+
+            transaction.sign(source)
+
+            try {
+                transactionResponse = server.submitTransaction(transaction)
+            } catch (e: Exception) {
+                Log.e("StellarTransaction", e.message.toString())
+            }
+        }
+
+        return@withContext transactionResponse
     }
 
 
