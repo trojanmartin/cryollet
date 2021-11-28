@@ -1,5 +1,6 @@
 package sk.fei.beskydky.cryollet.ui.login.pin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import sk.fei.beskydky.cryollet.MainActivity
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
@@ -51,8 +53,16 @@ class PinCodeFragment : Fragment() {
 
         viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
             if(it){
-                binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
-                viewModel.onPinSucceedFinished()
+                GlobalScope.launch {
+                    val wallet = databaseDataSource.getWallet()
+                    if(wallet != null){
+                        navigateToMainActivity()
+                    }else{
+                        binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
+                        viewModel.onPinSucceedFinished()
+                    }
+                }
+
             }
         })
 
@@ -86,5 +96,9 @@ class PinCodeFragment : Fragment() {
                 viewModel.onPinSucceed(number)
             }
         }
+    }
+    private fun navigateToMainActivity(){
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
     }
 }

@@ -25,12 +25,10 @@ class PinCodeViewModel(private val userRepository: UserRepository) : ViewModel()
 
     init {
         runBlocking {
-
                 userExists =  userExist()
                 if(userExists){
                     pinCode = userRepository.getPin()!!
                 }
-
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import shadow.okhttp3.Dispatcher
 import sk.fei.beskydky.cryollet.data.LoginRepository
@@ -46,14 +47,14 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     init{
-        localWalletExist()
+
     }
 
     fun onRegister(){
         _eventOnBusy.value = true
 
         //TODO:  do async register
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             val user = userRepository.get()
             val pin = userRepository.getPin()
             if (user != null && pin != null) {
@@ -67,9 +68,10 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
                 //if fail
                 _eventSetUpFailed.value = true
             }
+            _eventOnBusy.value = false
         }
 
-        _eventOnBusy.value = false
+
     }
 
     fun onLogin() {
@@ -100,12 +102,7 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
     private fun isKeyValid(key: String): Boolean {
         return key.length > 10
     }
-
-    private fun localWalletExist(){
-        viewModelScope.launch {
-            _walletExist.value = walletRepository.get() != null
-        }
-    }
+    
 
 
 }

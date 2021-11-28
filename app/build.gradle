@@ -27,7 +27,7 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.example.android.trackmysleepquality"
+        applicationId "sk.fei.beskydky.cryollet"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
