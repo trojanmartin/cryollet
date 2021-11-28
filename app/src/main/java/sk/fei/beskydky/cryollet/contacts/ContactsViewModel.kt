@@ -13,7 +13,6 @@ class ContactsViewModel(database:AppDatabaseDao,application: Application) : Andr
 
     private var userRepository: UserRepository = UserRepository(database)
 
-
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
@@ -23,9 +22,14 @@ class ContactsViewModel(database:AppDatabaseDao,application: Application) : Andr
     }
 
     private fun initUser() {
-        val u = User(pin = "666")
+
         viewModelScope.launch {
-            userRepository.insert(u)
+            _user.value = userRepository.get()
+            if(user.value == null){
+                var newUser = userRepository.create()
+                userRepository.insert(newUser)
+                _user.value = newUser
+            }
         }
     }
 }
