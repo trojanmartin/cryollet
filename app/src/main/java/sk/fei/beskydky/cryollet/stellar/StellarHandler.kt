@@ -1,11 +1,14 @@
 package sk.fei.beskydky.cryollet.stellar
 
+import android.content.Context
 import android.util.Log
+import androidx.room.Room
 import kotlinx.coroutines.*
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.Network
 import org.stellar.sdk.Server
 import org.stellar.sdk.responses.AccountResponse
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import java.io.InputStream
 import java.net.URL
 import java.util.*
@@ -43,5 +46,21 @@ class StellarHandler(
     }
 
 
+    companion object {
 
+        @Volatile
+        private var INSTANCE: StellarHandler? = null
+
+        fun getInstance(context: Context): StellarHandler {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = StellarHandler()
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+    }
 }
