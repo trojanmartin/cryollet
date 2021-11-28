@@ -2,6 +2,7 @@
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="viewModel"
@@ -46,12 +47,12 @@
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
+            android:text="@={viewModel.key}"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/account_key_text"
-            app:layout_constraintTop_toBottomOf="@+id/account_key_text"
-            tools:ignore="LabelFor,MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@+id/account_key_text"/>
 
         <Button
             android:id="@+id/sign_in_button"
@@ -62,14 +63,14 @@
             android:layout_marginStart="@dimen/margin_wide"
             android:fontFamily="@font/ramabhadra"
             android:text="@string/sign_up"
-            android:textColor="@color/button_text"
+            android:textColor="@color/filled_button_text"
             android:textSize="@dimen/login_button_size"
+            android:onClick="@{() -> viewModel.login()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_key"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
             android:layout_width="match_parent"

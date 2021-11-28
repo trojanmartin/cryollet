@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
+import sk.fei.beskydky.cryollet.hideKeyboard
+import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class SendPaymentFragment : Fragment() {
 
@@ -25,13 +29,31 @@ class SendPaymentFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(SendPaymentViewModel::class.java)
 
         // dump currency data
-        val list = resources.getStringArray(R.array.currency)
+        val currency = resources.getStringArray(R.array.currency)
 
-        binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, list))
+        // dump contacts data
+        val contacts = resources.getStringArray(R.array.contancts_names)
 
-//        viewModel.user.observe(viewLifecycleOwner, {
-//            viewModel.searchUser(it)
-//        })
+        binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, currency))
+        binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
+
+        binding.sendPaymentAmount.doAfterTextChanged {
+            if(it?.length == 2 && "00" == it.toString()) {
+                binding.sendPaymentAmount.text.clear()
+            }
+        }
+
+        viewModel.user.observe(viewLifecycleOwner, Observer{
+            viewModel.searchCurrency(it)
+        })
+
+        viewModel.contactName.observe(viewLifecycleOwner, Observer {
+            viewModel.searchContacts(it)
+        })
+
+
+        binding.root?.setHideKeyboardOnClick(this)
+
         binding.viewModel = viewModel
         return binding.root
 
