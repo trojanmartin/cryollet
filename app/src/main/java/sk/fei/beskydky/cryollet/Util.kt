@@ -6,8 +6,14 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import java.security.KeyFactory
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
+
 
 /**
  * Take the Long milliseconds returned by the system and stored in Room,
@@ -43,14 +49,22 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+fun String.aesEncrypt(key: String): String {
+    val plaintext: ByteArray = this.toByteArray()
 
-fun String.sha256(): String {
-    return hashString(this, "SHA-256")
+    val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
+    val cipher = Cipher.getInstance("AES_256")
+    cipher.init(Cipher.ENCRYPT_MODE, secretKeyEcb)
+    return cipher.doFinal(plaintext).toString()
+    //val iv: ByteArray = cipher.iv
 }
 
-private fun hashString(input: String, algorithm: String): String {
-    return MessageDigest
-        .getInstance(algorithm)
-        .digest(input.toByteArray())
-        .fold("", { str, it -> str + "%02x".format(it) })
+fun String.aesDecrypt(key: String): String {
+    val plaintext: ByteArray = this.toByteArray()
+
+    val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
+    val cipher = Cipher.getInstance("AES_256")
+    cipher.init(Cipher.DECRYPT_MODE, secretKeyEcb)
+    return cipher.doFinal(plaintext).toString()
+    //val iv: ByteArray = cipher.iv
 }

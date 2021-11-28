@@ -10,5 +10,5 @@ data class User (
     var userId: Long = 0L,
 
     @ColumnInfo(name = "pin")
-    var pin: String?
+    var pin: String
 )

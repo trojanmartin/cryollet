@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PinCodeViewModel(publicKey: String) : ViewModel() {
+class  PinCodeViewModel(publicKey: String) : ViewModel() {
     private val _ifUserHaveAlreadyPin = MutableLiveData<Boolean>()
     val ifUserHaveAlreadyPin: LiveData<Boolean>
         get() = _ifUserHaveAlreadyPin

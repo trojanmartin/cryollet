@@ -26,7 +26,7 @@ class ContactsViewModel(database:AppDatabaseDao,application: Application) : Andr
         viewModelScope.launch {
             _user.value = userRepository.get()
             if(user.value == null){
-               userRepository.createAndInsert()
+               userRepository.createAndInsert("666")
                 _user.value = userRepository.get()
             }
         }
