@@ -68,7 +68,13 @@ class KeyLoginFragment : Fragment() {
         })
 
         viewModel.eventOnBusy.observe(viewLifecycleOwner, Observer {
-            //TODO: Spinner
+            var indicator = binding.busyIndicator
+            if(it){
+                indicator.show()
+            }
+            else{
+                indicator.hide()
+            }
         })
 
         viewModel.eventSetUpCompleted.observe(viewLifecycleOwner, Observer {
