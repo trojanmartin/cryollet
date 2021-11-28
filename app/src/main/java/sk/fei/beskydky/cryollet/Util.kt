@@ -53,7 +53,7 @@ fun String.aesEncrypt(key: String): String {
     val plaintext: ByteArray = this.toByteArray()
 
     val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
-    val cipher = Cipher.getInstance("AES_256")
+    val cipher = Cipher.getInstance("AES")
     cipher.init(Cipher.ENCRYPT_MODE, secretKeyEcb)
     return cipher.doFinal(plaintext).toString()
     //val iv: ByteArray = cipher.iv
@@ -63,7 +63,7 @@ fun String.aesDecrypt(key: String): String {
     val plaintext: ByteArray = this.toByteArray()
 
     val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
-    val cipher = Cipher.getInstance("AES_256")
+    val cipher = Cipher.getInstance("AES")
     cipher.init(Cipher.DECRYPT_MODE, secretKeyEcb)
     return cipher.doFinal(plaintext).toString()
     //val iv: ByteArray = cipher.iv
