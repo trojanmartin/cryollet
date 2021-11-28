@@ -17,8 +17,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import sk.fei.beskydky.cryollet.MainActivity
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.contacts.ContactsViewModelFactory
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
+import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 import sk.fei.beskydky.cryollet.databinding.KeyLoginFragmentBinding
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
 import sk.fei.beskydky.cryollet.ui.login.LoggedInUserView
 
 class KeyLoginFragment : Fragment() {
@@ -29,16 +34,27 @@ class KeyLoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: KeyLoginFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.key_login_fragment,container, false)
+        val binding: KeyLoginFragmentBinding = DataBindingUtil.inflate(
+                                                                    inflater,
+                                                                    R.layout.key_login_fragment,
+                                                                    container,
+                                                                    false)
 
         val username = binding.accountKey
         val login = binding.signInButton
         // disable onLogin button unless both username / password is valid
         login.isEnabled = false
 
+        val application = requireNotNull(this.activity).application
+        val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
+        val stellarDataSource = StellarHandler.getInstance(application)
+        val viewModelFactory = KeyLoginViewModelFactory(
+                                            UserRepository(databaseDataSource),
+                                            WalletRepository(databaseDataSource, stellarDataSource))
+
         viewModel = ViewModelProvider(
             this,
-            KeyLoginViewModelFactory())[KeyLoginViewModel::class.java]
+            viewModelFactory).get(KeyLoginViewModel::class.java)
 
         viewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
@@ -52,7 +68,13 @@ class KeyLoginFragment : Fragment() {
         })
 
         viewModel.eventOnBusy.observe(viewLifecycleOwner, Observer {
-            //TODO: Spinner
+            var indicator = binding.busyIndicator
+            if(it){
+                indicator.show()
+            }
+            else{
+                indicator.hide()
+            }
         })
 
         viewModel.eventSetUpCompleted.observe(viewLifecycleOwner, Observer {

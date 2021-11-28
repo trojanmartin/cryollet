@@ -3,9 +3,9 @@ package sk.fei.beskydky.cryollet.ui.login.pin
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
 
-
-class PinCodeViewModel() : ViewModel() {
+class PinCodeViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     var pinCode = String()
     var setUpPin = !userExist()
@@ -20,31 +20,31 @@ class PinCodeViewModel() : ViewModel() {
 
 
     init {
-        if(!setUpPin){
+        if (!setUpPin) {
             pinCode = "1234" //TODO: Load from DB
         }
     }
 
-    fun onPinSucceed(newPin: String?){
-        if(setUpPin){
+    fun onPinSucceed(newPin: String?) {
+        if (setUpPin) {
             // TODO: Create user into db with new  PIN
         }
         _eventPinSucceed.value = true
     }
 
-    fun onPinSucceedFinished(){
+    fun onPinSucceedFinished() {
         _eventPinSucceed.value = false
     }
 
-    fun onPinFails(){
+    fun onPinFails() {
         _eventPinFails.value = true
     }
 
-    fun onPinFailsFinished(){
+    fun onPinFailsFinished() {
         _eventPinFails.value = false
     }
 
-    private fun userExist(): Boolean{
+    private fun userExist(): Boolean {
         return false //TODO: Call repo
     }
 }

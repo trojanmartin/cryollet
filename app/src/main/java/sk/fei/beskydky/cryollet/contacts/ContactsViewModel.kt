@@ -18,20 +18,10 @@ class ContactsViewModel(database:AppDatabaseDao,application: Application) : Andr
         get() = _user
 
     init {
-        initUser()
+
     }
 
-    private fun initUser() {
 
-        viewModelScope.launch {
-            _user.value = userRepository.get()
-            if(user.value == null){
-                var newUser = userRepository.create()
-                userRepository.insert(newUser)
-                _user.value = newUser
-            }
-        }
-    }
 }
 
 class ContactsViewModelFactory(

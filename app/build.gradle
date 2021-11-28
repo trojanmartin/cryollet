@@ -12,8 +12,11 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License.C:\Users\patrik.smolar\School\FEI-API-2ING-21-22\MOBV\cryollet\app\apikey.properties
  */
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -50,6 +53,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    defaultConfig {
+        // should correspond to key/value pairs inside the file
+        buildConfigField("String", "PIN_SECRET", apikeyProperties['PIN_SECRET'])
     }
 }
 
@@ -93,4 +100,5 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation 'com.google.zxing:core:3.3.0'
+
 }
