@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         } else {
             // Otherwise, select the previous step.
-            viewPager.currentItem = viewPager.currentItem - 1
+            viewPager.currentItem = 0
         }
     }
 

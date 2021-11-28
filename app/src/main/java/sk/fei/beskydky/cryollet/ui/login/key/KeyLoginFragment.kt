@@ -1,9 +1,9 @@
 package sk.fei.beskydky.cryollet.ui.login.key
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +11,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import sk.fei.beskydky.cryollet.MainActivity
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.KeyLoginFragmentBinding
-import sk.fei.beskydky.cryollet.hideKeyboard
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 import sk.fei.beskydky.cryollet.ui.login.LoggedInUserView
 
@@ -31,7 +33,7 @@ class KeyLoginFragment : Fragment() {
 
         val username = binding.accountKey
         val login = binding.signInButton
-        // disable login button unless both username / password is valid
+        // disable onLogin button unless both username / password is valid
         login.isEnabled = false
 
         viewModel = ViewModelProvider(
@@ -41,7 +43,7 @@ class KeyLoginFragment : Fragment() {
         viewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
-            // disable login button unless both username / password is valid
+            // disable onLogin button unless both username / password is valid
             login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
@@ -49,17 +51,20 @@ class KeyLoginFragment : Fragment() {
             }
         })
 
-        viewModel.loginResult.observe(viewLifecycleOwner, Observer {
-            val loginResult = it ?: return@Observer
+        viewModel.eventOnBusy.observe(viewLifecycleOwner, Observer {
+            //TODO: Spinner
+        })
 
-            // loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
+        viewModel.eventSetUpCompleted.observe(viewLifecycleOwner, Observer {
+            if(it){
+               navigateToMainActivity()
             }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
+        })
 
+        viewModel.eventSetUpFailed.observe(viewLifecycleOwner, Observer {
+            if(it){
+                showLoginFailed(R.string.login_failed)
+            }
         })
 
         username.afterTextChanged {
@@ -69,23 +74,17 @@ class KeyLoginFragment : Fragment() {
         }
 
         binding.viewModel = viewModel
-        binding.root?.setHideKeyboardOnClick(this)
+        binding.root.setHideKeyboardOnClick(this)
         return binding.root
-    }
-
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            context,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(context, errorString, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToMainActivity(){
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
     }
 }
 
