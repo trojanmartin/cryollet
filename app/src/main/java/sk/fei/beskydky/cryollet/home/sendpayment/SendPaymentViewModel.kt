@@ -1,11 +1,12 @@
 package sk.fei.beskydky.cryollet.home.sendpayment
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.*
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
+import org.stellar.sdk.KeyPair
 
 data class User(val name: String)
 
@@ -33,12 +34,13 @@ class SendPaymentViewModel : ViewModel() {
     }
 
     //test
-    @DelicateCoroutinesApi
     fun onClick() {
         val stellarHandler = StellarHandler()
-        GlobalScope.launch {
-            stellarHandler.createAccount()
-//        sk.fei.beskydky.cryollet.database.stellar.StellarHandler.createWallet()
-        }
+
+        val key: KeyPair = KeyPair.fromAccountId("GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP")
+
+        val balance = viewModelScope.launch { stellarHandler.getBalances(key) }
+
+        Log.i("stellar", balance.toString())
     }
 }
