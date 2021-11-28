@@ -8,4 +8,5 @@
     <color name="main_foreground">#8F92A9</color>
     <color name="input_background">#F5F5FA</color>
     <color name="button_text">#FFFFFF</color>
+    <color name="pin_correct">#9E1c9d</color>
 </resources>

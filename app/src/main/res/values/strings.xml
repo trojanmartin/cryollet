@@ -42,4 +42,14 @@
         <item>RON - Romanian Leu</item>
     </string-array>
 
+    <!-- Contacts drop down menu -->
+    <string-array name="contancts_names">
+        <item>Fero Pajta</item>
+        <item>Lukas Hajducak</item>
+        <item>Tanicka Smolarova</item>
+        <item>Bukvica</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
