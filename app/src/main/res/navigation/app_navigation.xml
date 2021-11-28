@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="sk.fei.beskydky.cryollet.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_homeFragment_to_requestPaymentFragment"
+            app:destination="@id/requestPaymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment"
+        android:label="RequestPaymentFragment"
+        tools:layout="@layout/fragment_request_payment">
+        <action
+            android:id="@+id/action_requestPaymentFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeFragment"
+        android:label="QrCodeFragment"
+        tools:layout="@layout/fragment_qr_code">
+        <action
+            android:id="@+id/action_qrCodeFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="requestPaymentInfo"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment"
+        android:label="SendPaymentFragment"
+        tools:layout="@layout/fragment_send_payment">
+        <action
+            android:id="@+id/action_sendPaymentFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+</navigation>

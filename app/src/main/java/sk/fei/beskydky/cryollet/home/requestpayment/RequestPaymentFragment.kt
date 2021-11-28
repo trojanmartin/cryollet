@@ -17,6 +17,7 @@ class RequestPaymentFragment : DialogFragment() {
 
     private lateinit var binding: FragmentRequestPaymentBinding
     private lateinit var viewModel: RequestPaymentViewModel
+    private val _separator : String = ","
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +37,10 @@ class RequestPaymentFragment : DialogFragment() {
 
         viewModel.eventApproveDialog.observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.root.findNavController().navigate(RequestPaymentFragment)
+                val dataToQRCode = viewModel.getDataToGenerateQRCode()
+                binding.root.findNavController()
+                    .navigate(RequestPaymentFragmentDirections
+                        .actionRequestPaymentFragmentToQrCodeFragment(dataToQRCode))
                 viewModel.onRequestPaymentApproveFinished()
             }
         })

@@ -13,6 +13,16 @@ class RequestPaymentViewModel : ViewModel() {
     val eventApproveDialog: LiveData<Boolean>
         get() = _eventApproveDialog
 
+    val requestPaymentAmount = MutableLiveData<Int>()
+    val requestPaymentCurrency = MutableLiveData<String>()
+
+    private val separator = ','
+
+    init {
+        requestPaymentAmount.value = 0
+        requestPaymentCurrency.value = "EUR"
+    }
+
     fun onRequestPaymentCancel() {
         _eventCancelledDialog.value = true
     }
@@ -27,5 +37,16 @@ class RequestPaymentViewModel : ViewModel() {
 
     fun onRequestPaymentApproveFinished() {
         _eventApproveDialog.value = false
+    }
+
+    fun getDataToGenerateQRCode() : String {
+        val dataToQRCode = StringBuilder()
+        dataToQRCode.append(requestPaymentAmount.value.toString())
+            .append(separator)
+            .append(requestPaymentCurrency.value.toString())
+//            .append(separator)
+//            .append(user.publicKey)
+
+        return dataToQRCode.toString()
     }
 }

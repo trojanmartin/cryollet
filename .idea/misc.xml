@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/activity_login.xml" value="0.14924863387978143" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/activity_main.xml" value="0.14924863387978143" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_qr_code.xml" value="0.19375" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_request_payment.xml" value="0.25" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.188671875" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.188671875" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_list_fragment.xml" value="0.188671875" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.151953125" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable/ic_credit_card.xml" value="0.221484375" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable/ic_launcher_background.xml" value="0.151953125" />
