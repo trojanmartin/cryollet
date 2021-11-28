@@ -1,7 +1,13 @@
 package sk.fei.beskydky.cryollet.home.sendpayment
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import org.stellar.sdk.KeyPair
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 data class User(val name: String)
 
@@ -41,5 +47,15 @@ class SendPaymentViewModel : ViewModel() {
         list.add("Bukvica")
 
         contactList.value = list
+    }
+
+    fun onClick() = viewModelScope.launch {
+        val stellarHandler = StellarHandler()
+
+        val source: KeyPair = KeyPair.fromSecretSeed("SCZWUQZX7AD7OENXXKNOHJXSOT2WAJOBRLVV7YNASLAMOECWTJPAC3WS")
+        val destinationId: String = "GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP"
+
+        val response = stellarHandler.getPayments(source)
+        Log.i("Stellar", "Success")
     }
 }
