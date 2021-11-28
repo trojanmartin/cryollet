@@ -170,6 +170,7 @@
             android:layout_marginEnd="16dp"
             android:text="@string/send_payment"
             android:textSize="15sp"
+            android:onClick="@{()->viewModel.onSendPayment()}"
             app:layout_constraintBaseline_toBaselineOf="@+id/request_payment_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

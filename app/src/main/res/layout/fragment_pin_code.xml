@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="sk.fei.beskydky.cryollet.ui.login.pin.PinCodeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.hanks.passcodeview.PasscodeView
+            android:id="@+id/passcode_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/secondary_text"
+            app:correctStateColor="@color/pin_correct"
+            app:numberTextColor="@color/filled_button_background"
+            app:wrongStateColor="@color/input_background"
+            app:passcodeLength="4" />
+
+    </RelativeLayout>
+
+</layout>
