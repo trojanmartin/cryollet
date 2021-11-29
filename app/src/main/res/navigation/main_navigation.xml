@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="sk.fei.beskydky.cryollet.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/contactsFragment"
         android:name="sk.fei.beskydky.cryollet.contacts.ContactsFragment"
@@ -16,4 +20,8 @@
         android:id="@+id/transactionsFragment"
         android:name="sk.fei.beskydky.cryollet.transactions.TransactionsFragment"
         android:label="TransactionsFragment" />
+    <fragment
+        android:id="@+id/sendPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment"
+        android:label="SendPaymentFragment" />
 </navigation>

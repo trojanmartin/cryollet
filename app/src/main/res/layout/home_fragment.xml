@@ -21,12 +21,12 @@
                 android:id="@+id/home_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/dashboard"
                 android:textColor="@color/default_text"
                 android:textSize="@dimen/header_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.099"
+                app:layout_constraintHorizontal_bias="0.129"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,10 +44,11 @@
                 android:id="@+id/transaction_graph"
                 android:layout_width="289dp"
                 android:layout_height="200dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/home_header"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/account_balance_amount" />
 
             <LinearLayout
@@ -128,15 +129,18 @@
                 android:layout_width="164dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/white"
                 android:onClick="@{()-> viewModel.onRequestPayment()}"
                 android:text="@string/request_pay"
                 android:textColor="@color/filled_button_background"
                 android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/amount_LL"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/amount_LL"
                 app:layout_constraintTop_toBottomOf="@+id/amount_LL"
+                app:layout_constraintVertical_bias="0.0"
                 app:strokeColor="@color/filled_button_background"
                 app:strokeWidth="2dp" />
 
@@ -145,13 +149,16 @@
                 android:layout_width="164dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="24dp"
                 android:onClick="@{()->viewModel.onSendPayment()}"
                 android:text="@string/send_payment"
                 android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/currency_LL"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/currency_LL"
                 app:layout_constraintTop_toBottomOf="@+id/currency_LL"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="MissingConstraints" />
 
             <ImageButton
