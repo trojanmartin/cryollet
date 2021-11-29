@@ -13,7 +13,7 @@
     <string name="income"><b>INCOME</b></string>
     <string name="expanse"><b>EXPANSE</b></string>
     <string name="request_pay">Request \n payment</string>
-    <string name="send_payment">SEND \n PAYMENT</string>
+    <string name="send_payment">Send Payment</string>
     <string name="account_balance">Account balance</string>
     <string name="dashboard">Dashboard</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -67,5 +67,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="insert_pin">Enter a passcode</string>
     <string name="set_up_pin">Set up your new passcode</string>
+    <string name="send_payment_button">SEND PAYMENT</string>
 
 </resources>
