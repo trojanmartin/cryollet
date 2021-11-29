@@ -27,8 +27,8 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.example.android.trackmysleepquality"
-        minSdkVersion 19
+        applicationId "sk.fei.beskydky.cryollet"
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -56,7 +56,9 @@ android {
     }
     defaultConfig {
         // should correspond to key/value pairs inside the file
-        buildConfigField("String", "PIN_SECRET", apikeyProperties['PIN_SECRET'])
+        buildConfigField("String", "SECRET_KEY", apikeyProperties['SECRET_KEY'])
+        buildConfigField("String", "SALT", apikeyProperties['SALT'])
+        buildConfigField("String", "IV", apikeyProperties['IV'])
     }
 }
 
@@ -76,6 +78,7 @@ dependencies {
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.compose.animation:animation-core:1.0.0-beta04'
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
@@ -100,5 +103,8 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation 'com.google.zxing:core:3.3.0'
+
+    //graphs
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
 }

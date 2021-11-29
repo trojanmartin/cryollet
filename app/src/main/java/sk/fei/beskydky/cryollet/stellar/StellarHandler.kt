@@ -4,14 +4,15 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import kotlinx.coroutines.*
-import org.stellar.sdk.KeyPair
-import org.stellar.sdk.Network
-import org.stellar.sdk.Server
+import org.stellar.sdk.*
 import org.stellar.sdk.responses.AccountResponse
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import org.stellar.sdk.responses.SubmitTransactionResponse
+import org.stellar.sdk.responses.operations.OperationResponse
 import java.io.InputStream
 import java.net.URL
 import java.util.*
+import kotlin.Exception
 
 
 class StellarHandler(
@@ -37,12 +38,47 @@ class StellarHandler(
 
     suspend fun getBalances(keyPair: KeyPair): Array<AccountResponse.Balance>? = withContext(Dispatchers.IO) {
         var sourceAccount: AccountResponse? = null
-        launch {
-            sourceAccount = server.accounts().account(keyPair.getAccountId())
-            delay(2000L)
+        sourceAccount = server.accounts().account(keyPair.getAccountId())
 
-        }
         return@withContext sourceAccount?.balances
+    }
+
+    suspend fun sendTransaction(source: KeyPair, destinationId: String,
+                                assetType: AssetTypeNative = AssetTypeNative(),
+                                value: String, memo: String = "testTransaction"):
+                                SubmitTransactionResponse? = withContext(Dispatchers.IO) {
+
+        var transactionResponse: SubmitTransactionResponse? = null
+        val sourceAccount: AccountResponse = server.accounts().account(source.accountId)
+        val destination = KeyPair.fromAccountId(destinationId)
+
+        val transaction: Transaction = Transaction.Builder(sourceAccount, network)
+            .addOperation(PaymentOperation.Builder(destination.accountId, assetType, value).build())
+            .addMemo(Memo.text(memo))
+            // Wait max 3 minutes
+            .setTimeout(180L)
+            .setBaseFee(Transaction.MIN_BASE_FEE)
+            .build()
+
+        transaction.sign(source)
+
+        try {
+            transactionResponse = server.submitTransaction(transaction)
+            Log.i("Stellar", transactionResponse.toString())
+        } catch (e: Exception) {
+            Log.e("Stellar", e.message.toString())
+        }
+
+        return@withContext transactionResponse
+    }
+
+    suspend fun getPayments(source: KeyPair) = withContext(Dispatchers.IO) {
+        var list: ArrayList<OperationResponse>? = null
+        val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
+
+        list = paymentsOperationResponse.records
+        Log.i("Stellar", list.toString())
+        return@withContext list
     }
 
 

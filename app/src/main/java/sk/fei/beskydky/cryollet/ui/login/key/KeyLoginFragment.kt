@@ -76,7 +76,11 @@ class KeyLoginFragment : Fragment() {
                 indicator.hide()
             }
         })
-
+        viewModel.walletExist.observe(viewLifecycleOwner, Observer {
+            if(it){
+                navigateToMainActivity()
+            }
+        })
         viewModel.eventSetUpCompleted.observe(viewLifecycleOwner, Observer {
             if(it){
                navigateToMainActivity()
