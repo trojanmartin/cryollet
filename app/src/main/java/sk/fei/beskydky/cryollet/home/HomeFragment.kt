@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
 
         viewModel.eventSendPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
-                //TODO:  dokoncit navigaciu na send payment fragment
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment())
                 viewModel.onSendPaymentFinished()
             }
         })

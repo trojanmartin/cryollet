@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.data.model.Transaction
 import sk.fei.beskydky.cryollet.databinding.TransactionItemViewBinding
 
 private val ITEM_VIEW__TYPE_HEADER = 0
@@ -14,8 +15,8 @@ private val ITEM_VIEW_TYPE_ITEM = 1
 
 sealed class DataItem {
     abstract val id: Long
-    data class TransactionItem(val transaction: FakeTransaction): DataItem()      {
-        override val id = transaction.id
+    data class TransactionItem(val transaction: Transaction): DataItem()      {
+        override val id = transaction.transactionId
     }
 
     object Header: DataItem() {
@@ -48,7 +49,7 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<FakeTransaction>?) {
+    fun addHeaderAndSubmitList(list: List<Transaction>?) {
         val items = when (list) {
             null -> listOf(DataItem.Header)
             else -> listOf(DataItem.Header) + list.map { DataItem.TransactionItem(it) }
@@ -67,7 +68,7 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
             }
         }
 
-        fun bind(item: FakeTransaction){
+        fun bind(item: Transaction){
             binding.transaction = item
             binding.executePendingBindings()
         }
