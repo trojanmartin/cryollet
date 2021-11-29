@@ -3,6 +3,8 @@ package sk.fei.beskydky.cryollet
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -12,6 +14,9 @@ import java.text.SimpleDateFormat
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 
@@ -50,21 +55,30 @@ fun Context.hideKeyboard(view: View) {
 }
 
 fun String.aesEncrypt(key: String): String {
-    val plaintext: ByteArray = this.toByteArray()
+    val ivParameterSpec = IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
 
-    val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
-    val cipher = Cipher.getInstance("AES")
-    cipher.init(Cipher.ENCRYPT_MODE, secretKeyEcb)
-    return cipher.doFinal(plaintext).toString()
-    //val iv: ByteArray = cipher.iv
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec)
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec)
+    return Base64.encodeToString(cipher.doFinal(this.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+
+
 }
 
 fun String.aesDecrypt(key: String): String {
-    val plaintext: ByteArray = this.toByteArray()
+    val ivParameterSpec =  IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
 
-    val secretKeyEcb: SecretKey = SecretKeySpec(key.toByteArray(), "AES")
-    val cipher = Cipher.getInstance("AES")
-    cipher.init(Cipher.DECRYPT_MODE, secretKeyEcb)
-    return cipher.doFinal(plaintext).toString()
-    //val iv: ByteArray = cipher.iv
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec);
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+    return  String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
+
 }

@@ -27,7 +27,7 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @WorkerThread
     suspend fun isPinCorrect(pin:String):Boolean {
         val user = get()
-        val hashedPin = pin.aesEncrypt(BuildConfig.PIN_SECRET)
+        val hashedPin = pin.aesEncrypt(BuildConfig.SECRET_KEY)
         return user?.pin == hashedPin
     }
 
@@ -40,7 +40,8 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun createAndInsert(pin:String){
-        val hashedPin = pin.aesEncrypt(BuildConfig.PIN_SECRET)
+        appDatabaseDao.clearAllUsers()
+        val hashedPin = pin.aesEncrypt(BuildConfig.SECRET_KEY)
         appDatabaseDao.insertUser(User(pin = hashedPin))
     }
 
@@ -48,7 +49,7 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @WorkerThread
     suspend fun updatePin(pin:String){
         val user = appDatabaseDao.getUser()
-        val hashedPin = pin.aesEncrypt(BuildConfig.PIN_SECRET)
+        val hashedPin = pin.aesEncrypt(BuildConfig.SECRET_KEY)
         user?.pin = hashedPin
         if (user != null) {
             appDatabaseDao.updateUser(user)
@@ -59,7 +60,7 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @WorkerThread
     suspend fun getPin() :String?{
         val user = appDatabaseDao.getUser()
-        return user?.pin?.aesDecrypt(BuildConfig.PIN_SECRET)
+        return user?.pin?.aesDecrypt(BuildConfig.SECRET_KEY)
     }
 
 

@@ -1,5 +1,6 @@
 package sk.fei.beskydky.cryollet.ui.login.pin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.hanks.passcodeview.PasscodeView
 import com.hanks.passcodeview.PasscodeView.PasscodeViewListener
+import kotlinx.coroutines.*
+import sk.fei.beskydky.cryollet.MainActivity
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.data.model.Wallet
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.databinding.FragmentPinCodeBinding
+import java.util.*
 
 class PinCodeFragment : Fragment() {
 
@@ -27,7 +34,14 @@ class PinCodeFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pin_code, container, false)
-        viewModel = ViewModelProvider(this)[PinCodeViewModel::class.java]
+
+        val application = requireNotNull(this.activity).application
+        val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
+        val viewModelFactory = PinCodeViewModelFactory(UserRepository(databaseDataSource))
+
+        viewModel = ViewModelProvider(
+                            this,
+                            viewModelFactory).get(PinCodeViewModel::class.java)
 
         viewModel.eventPinFails.observe(viewLifecycleOwner, Observer {
             if (it){
@@ -38,10 +52,20 @@ class PinCodeFragment : Fragment() {
 
         viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
             if(it){
-                binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
-                viewModel.onPinSucceedFinished()
+             var wallet = Wallet(userId = 0L, walletId = 0L, accountId = "", secretKey = "", balance = 0.0)
+                runBlocking {
+                    var wallet = databaseDataSource.getWallet()
+                }
+                if(wallet != null){
+                    navigateToMainActivity()
+                }else{
+                    binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
+                    viewModel.onPinSucceedFinished()
+                }
+
             }
         })
+
 
         setUpPinView(binding, viewModel)
         return binding.root
@@ -52,7 +76,7 @@ class PinCodeFragment : Fragment() {
         var headerText = getString(R.string.insert_pin)
 
 
-        if(viewModel.setUpPin){
+        if(!viewModel.userExists){
             type = PasscodeView.PasscodeViewType.TYPE_SET_PASSCODE
             headerText = getString(R.string.set_up_pin)
         }
@@ -72,5 +96,9 @@ class PinCodeFragment : Fragment() {
                 viewModel.onPinSucceed(number)
             }
         }
+    }
+    private fun navigateToMainActivity(){
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
     }
 }

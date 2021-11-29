@@ -12,13 +12,15 @@ data class Transaction (
     @ColumnInfo(name = "origin_wallet")
     var originWallet: String,
 
+    @ColumnInfo(name = "destination_wallet")
+    var destinationWallet: String,
+
     @ColumnInfo(name = "date")
-    var date: Date,
+    var date: String,
 
     @ColumnInfo(name = "currency")
     var currency: String,
 
     @ColumnInfo(name = "amount")
-    var ammount: Long
-
+    var amount: String
 )
