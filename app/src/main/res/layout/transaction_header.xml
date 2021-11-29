@@ -12,13 +12,16 @@
 
         <TextView
             android:id="@+id/account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/default_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:text="Transactions"
-            android:textSize="@dimen/header_size"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/default_text"
+            android:textSize="@dimen/header_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.099"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
