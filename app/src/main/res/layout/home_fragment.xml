@@ -39,13 +39,13 @@
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/transaction_graph"
-            android:layout_width="371dp"
-            android:layout_height="174dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="289dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/home_header"
             app:layout_constraintTop_toBottomOf="@+id/account_balance_amount" />
-
 
         <LinearLayout
             android:id="@+id/amount_LL"
@@ -70,7 +70,7 @@
                 android:text="@string/income"
                 android:textAlignment="center"
                 android:textColor="@color/filled_button_background"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/sum_income"
@@ -107,7 +107,7 @@
                 android:text="@string/expanse"
                 android:textAlignment="center"
                 android:textColor="@color/filled_button_background"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/sum_expanse"
@@ -124,7 +124,7 @@
             android:id="@+id/request_payment_button"
             android:layout_width="164dp"
             android:layout_height="60dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/white"
             android:onClick="@{()-> viewModel.onRequestPayment()}"
             android:text="@string/request_pay"
@@ -141,12 +141,12 @@
             android:id="@+id/send_payment_button"
             android:layout_width="164dp"
             android:layout_height="60dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:onClick="@{()->viewModel.onSendPayment()}"
             android:text="@string/send_payment"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@+id/currency_LL"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/currency_LL"
             app:layout_constraintTop_toBottomOf="@+id/currency_LL"
             tools:ignore="MissingConstraints" />
@@ -159,10 +159,9 @@
             android:background="?android:selectableItemBackground"
             android:src="@drawable/plus_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.974"
+            app:layout_constraintHorizontal_bias="0.841"
             app:layout_constraintStart_toEndOf="@+id/home_header"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

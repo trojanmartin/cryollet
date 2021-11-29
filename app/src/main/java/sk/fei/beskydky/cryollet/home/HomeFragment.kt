@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -69,7 +70,7 @@ class HomeFragment : Fragment() {
         val dataEntries = ArrayList<PieEntry>()
         dataEntries.add(PieEntry(72f, "Android"))
         dataEntries.add(PieEntry(26f, "Ios"))
-        dataEntries.add(PieEntry(2f, "Other"))
+        dataEntries.add(PieEntry(20f, "Other"))
 
         val colors: ArrayList<Int> = ArrayList()
         colors.add(Color.parseColor("#373A4D"))
@@ -79,30 +80,25 @@ class HomeFragment : Fragment() {
         val dataSet = PieDataSet(dataEntries, "")
         val data = PieData(dataSet)
 
+
         // In Percentage
         data.setValueFormatter(PercentFormatter())
         dataSet.sliceSpace = 3f
         dataSet.colors = colors
         pieChart.data = data
         data.setValueTextSize(15f)
-        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-       // pieChart.animateY(1400, Easing.EaseInOutQuad)
 
         pieChart.setDrawEntryLabels(false)
-        pieChart.setDrawCenterText(false)
-        pieChart.setDrawMarkers(false)
-
-        //create hole in center
-        pieChart.holeRadius = 58f
-        pieChart.transparentCircleRadius = 61f
+        pieChart.extraRightOffset = 30f;
         pieChart.isDrawHoleEnabled = false
+        var desc = Description()
+        desc.isEnabled = false
+        pieChart.description = desc
 
-//        pieChart.setDrawCenterText()
-//        pieChart.centerText = "Mobile OS Market share"
-
-        pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-        pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER
-
+        var legend = pieChart.legend
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT;
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER;
+        legend.orientation = Legend.LegendOrientation.VERTICAL;
         pieChart.invalidate()
     }
 }
