@@ -13,15 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.hanks.passcodeview.PasscodeView
 import com.hanks.passcodeview.PasscodeView.PasscodeViewListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import sk.fei.beskydky.cryollet.MainActivity
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.data.model.Wallet
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.databinding.FragmentPinCodeBinding
+import java.util.*
 
 class PinCodeFragment : Fragment() {
 
@@ -53,14 +52,15 @@ class PinCodeFragment : Fragment() {
 
         viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
             if(it){
-                GlobalScope.launch {
-                    val wallet = databaseDataSource.getWallet()
-                    if(wallet != null){
-                        navigateToMainActivity()
-                    }else{
-                        binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
-                        viewModel.onPinSucceedFinished()
-                    }
+             var wallet = Wallet(userId = 0L, walletId = 0L, accountId = "", secretKey = "", balance = 0.0)
+                runBlocking {
+                    var wallet = databaseDataSource.getWallet()
+                }
+                if(wallet != null){
+                    navigateToMainActivity()
+                }else{
+                    binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
+                    viewModel.onPinSucceedFinished()
                 }
 
             }

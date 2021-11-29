@@ -16,12 +16,11 @@ data class Transaction (
     var destinationWallet: String,
 
     @ColumnInfo(name = "date")
-    var date: Date,
+    var date: String,
 
     @ColumnInfo(name = "currency")
     var currency: String,
 
     @ColumnInfo(name = "amount")
-    var ammount: Long
-
+    var amount: String
 )
