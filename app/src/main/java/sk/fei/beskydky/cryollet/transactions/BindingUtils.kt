@@ -7,7 +7,7 @@ import sk.fei.beskydky.cryollet.data.model.Transaction
 
 @BindingAdapter("amountFormatted")
 fun TextView.setAmountString(item: Transaction) {
-    text = String.format("%.2f", item.amount)
+    text = item.amount
 }
 
 

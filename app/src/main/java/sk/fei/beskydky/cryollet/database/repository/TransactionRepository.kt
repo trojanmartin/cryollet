@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.responses.operations.PaymentOperationResponse
+import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.data.model.Transaction
 import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
@@ -27,10 +28,11 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
     suspend fun getAllTransactions(): MutableList<Transaction> {
         val result = mutableListOf<Transaction>()
         val user = appDatabaseDao.getUser()
-        val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
+        val sk = walletRepository.getSecretKey(BuildConfig.SECRET_KEY)
+        val source: KeyPair = KeyPair.fromSecretSeed(sk)
         var response = stellarDataSource.getPayments(source)
         if (response != null) {
-            for (i in  1 .. response.size){
+            for (i in  1 .. response.size-1){
                 val item = response[i] as PaymentOperationResponse
                 result.add(
                     Transaction(

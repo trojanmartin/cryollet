@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         viewModel.eventSendPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment())
+                //findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment())
                 viewModel.onSendPaymentFinished()
             }
         })

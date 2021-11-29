@@ -52,7 +52,7 @@ class PinCodeFragment : Fragment() {
 
         viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
             if(it){
-             var wallet = Wallet(userId = 0L, walletId = 0L, accountId = "", secretKey = "", balance = 0.0)
+             var wallet = null
                 runBlocking {
                     var wallet = databaseDataSource.getWallet()
                 }
