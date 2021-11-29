@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/activity_login.xml" value="0.14924863387978143" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/activity_main.xml" value="0.14924863387978143" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_contacts_container.xml" value="0.14375" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_home_container.xml" value="0.164453125" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_qr_code.xml" value="0.19375" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_request_payment.xml" value="0.25" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.188671875" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_transaction_container.xml" value="0.154296875" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.188671875" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_list_fragment.xml" value="0.188671875" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.151953125" />
@@ -36,9 +39,8 @@
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3625" />
         <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/activity_contacst.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/contacts_fragment.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.33" />
-        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.33" />
-        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/key_login_fragment.xml" value="0.11727456940222898" />
+        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

@@ -28,18 +28,12 @@ class QrCodeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_code, container, false)
-        viewModel = ViewModelProvider(this)[QrCodeViewModel::class.java]
-
-        viewModel.eventGenerateQRCode.observe(viewLifecycleOwner, Observer {
-            if(it) {
-                val data = "{ \"meno\": \"Jakub\" }"
-                generateQRCode(data)
-                binding.viewModel?.onGenerateQRCodeFinished()
-            }
-        })
-
-
-        binding.viewModel = viewModel
+//        viewModel = ViewModelProvider(this)[QrCodeViewModel::class.java]
+//        val args = QrCodeFragmentArgs.fromBundle(requireArguments())
+//
+//        generateQRCode(args.requestPaymentInfo)
+//
+//        binding.viewModel = viewModel
         return binding.root
     }
 

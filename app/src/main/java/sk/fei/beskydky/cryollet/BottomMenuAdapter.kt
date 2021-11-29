@@ -19,10 +19,10 @@ class BottomMenuAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         when(position){
 
-            0 -> return TransactionsFragment()
+            0 -> return TransactionContainerFragment()
             1 -> return HomeFragment()
-            2 -> return ContactsFragment()
+            2 -> return ContactsContainerFragment()
         }
-        return HomeFragment()
+        return HomeContainerFragment()
     }
 }
