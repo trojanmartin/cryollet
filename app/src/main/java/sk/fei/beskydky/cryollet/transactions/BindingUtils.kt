@@ -7,13 +7,13 @@ import sk.fei.beskydky.cryollet.data.model.Transaction
 
 @BindingAdapter("amountFormatted")
 fun TextView.setAmountString(item: Transaction) {
-    text = String.format("%.2f", item.amount)
+    text = item.amount
 }
 
 
 @BindingAdapter("accountString")
 fun TextView.setAccountString(item: Transaction) {
-    text = item.originWallet// ?: item.account
+    text = item.externalWalletId// ?: item.account
 }
 
 @BindingAdapter("currencyString")
