@@ -20,33 +20,34 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
+import sk.fei.beskydky.cryollet.home.requestpayment.CustomDialogInterface
+import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var viewModel: HomeViewModel
-
     private lateinit var myContext: FragmentActivity
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         viewModel.eventRequestPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
-                //val dialog = RequestPaymentFragment()
-                //dialog.show(myContext.supportFragmentManager, "requestPaymentDialog")
-                val data = "jakub"
-                findNavController()
-                    .navigate(
-                        HomeFragmentDirections
-                            .actionHomeFragmentToRequestPaymentFragment()
-                    )
+                val dialog = RequestPaymentFragment(object : CustomDialogInterface {
+                    override fun okButtonClicked(value: String?) {
+                        findNavController()
+                                .navigate(
+                                        HomeFragmentDirections
+                                                .actionHomeFragmentToQrCodeFragment(value!!))
+                    }
+                })
+                dialog.show(myContext.supportFragmentManager, "RequestPaymentDialog")
                 viewModel.onRequestPaymentFinished()
             }
         })
@@ -57,8 +58,6 @@ class HomeFragment : Fragment() {
                 viewModel.onSendPaymentFinished()
             }
         })
-
-
 
         setUpGraph(binding, viewModel)
         binding.viewModel = viewModel
