@@ -13,7 +13,7 @@ fun TextView.setAmountString(item: Transaction) {
 
 @BindingAdapter("accountString")
 fun TextView.setAccountString(item: Transaction) {
-    text = item.originWallet// ?: item.account
+    text = item.externalWalletId// ?: item.account
 }
 
 @BindingAdapter("currencyString")

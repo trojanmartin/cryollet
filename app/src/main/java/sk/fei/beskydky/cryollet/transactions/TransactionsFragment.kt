@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.transactions
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import sk.fei.beskydky.cryollet.ui.login.pin.PinCodeViewModelFactory
 
 class TransactionsFragment : Fragment() {
     private lateinit var viewModel: TransactionsViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +47,8 @@ class TransactionsFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(it)
             }
         })
+
+
 
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.

@@ -1,19 +1,23 @@
 package sk.fei.beskydky.cryollet.data.model
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
-@Entity(tableName = "transactions")
+@Entity(tableName = "transactions",foreignKeys = arrayOf(
+        ForeignKey(
+                entity = Contact::class,
+                parentColumns = arrayOf("wallet_id"),
+                childColumns = arrayOf("external_walletId"),
+                onDelete = ForeignKey.CASCADE
+        )))
 data class Transaction (
     @PrimaryKey(autoGenerate = true)
     var transactionId: Long = 0L,
 
-    @ColumnInfo(name = "origin_wallet")
-    var originWallet: String,
+    @ColumnInfo(name = "external_walletId")
+    var externalWalletId: String,
 
-    @ColumnInfo(name = "destination_wallet")
-    var destinationWallet: String,
+    @ColumnInfo(name = "isReceivedType")
+    var isReceivedType: Boolean,
 
     @ColumnInfo(name = "date")
     var date: String,
@@ -23,4 +27,5 @@ data class Transaction (
 
     @ColumnInfo(name = "amount")
     var amount: String
+
 )

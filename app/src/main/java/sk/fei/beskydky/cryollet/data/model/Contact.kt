@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "contacts")
 data class Contact (
-    @PrimaryKey(autoGenerate = true)
-    var userId: Long = 0L,
+
+    @PrimaryKey()
+    @ColumnInfo(name = "wallet_id")
+    var walletId: String,
 
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String
 
-    @ColumnInfo(name = "wallet_id")
-    var walletId: String
 )
