@@ -52,11 +52,11 @@ class RequestPaymentFragment : DialogFragment() {
         viewModel.eventApproveDialog.observe(viewLifecycleOwner, Observer {
             if (it) {
                 val dataToQRCode = viewModel.getDataToGenerateQRCode()
-//                NavHostFragment.findNavController(this)
-//                    .navigate(
-//                        RequestPaymentFragmentDirections
-//                            .actionRequestPaymentFragmentToQrCodeFragment(dataToQRCode)
-//                    )
+                findNavController(this)
+                    .navigate(
+                        RequestPaymentFragmentDirections
+                            .actionRequestPaymentFragmentToQrCodeFragment(dataToQRCode)
+                    )
                 viewModel.onRequestPaymentApproveFinished()
             }
         })

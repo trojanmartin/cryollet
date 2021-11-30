@@ -17,15 +17,16 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository) : 
     val eventApproveDialog: LiveData<Boolean>
         get() = _eventApproveDialog
 
-    private val requestPaymentAmount = MutableLiveData<Int>()
-    private val requestPaymentCurrency = MutableLiveData<String>()
+    val requestPaymentAmount = MutableLiveData<String>()
+    val requestPaymentCurrency = MutableLiveData<String>()
     private val publicKey = MutableLiveData<String>()
 
     private val separator = ','
 
     init {
-        requestPaymentAmount.value = 0
-        requestPaymentCurrency.value = "EUR"
+        viewModelScope.launch {
+            publicKey.value = walletRepository.get()?.accountId.toString()
+        }
     }
 
     fun onRequestPaymentCancel() {
@@ -51,9 +52,9 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository) : 
         }
         dataToQRCode.append(requestPaymentAmount.value.toString())
             .append(separator)
-            .append(requestPaymentCurrency.value.toString())
+            .append(requestPaymentCurrency.value)
             .append(separator)
-            .append(publicKey)
+            .append(publicKey.value)
         return dataToQRCode.toString()
     }
 }

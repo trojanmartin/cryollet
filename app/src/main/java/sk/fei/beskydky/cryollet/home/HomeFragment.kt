@@ -42,18 +42,18 @@ class HomeFragment : Fragment() {
                 //val dialog = RequestPaymentFragment()
                 //dialog.show(myContext.supportFragmentManager, "requestPaymentDialog")
                 val data = "jakub"
-//                NavHostFragment.findNavController(this)
-//                    .navigate(
-//                        HomeFragmentDirections
-//                            .actionHomeFragmentToSendPaymentFragment()
-//                    )
+                findNavController()
+                    .navigate(
+                        HomeFragmentDirections
+                            .actionHomeFragmentToRequestPaymentFragment()
+                    )
                 viewModel.onRequestPaymentFinished()
             }
         })
 
         viewModel.eventSendPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
-//                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment())
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment())
                 viewModel.onSendPaymentFinished()
             }
         })

@@ -60,6 +60,7 @@
             android:digits="0123456789."
             android:ems="10"
             android:inputType="number"
+            android:text="@={viewModel.requestPaymentAmount}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/send_payment_amount_text"
@@ -89,6 +90,7 @@
                 android:layout_weight="1"
                 android:hint="@string/currency"
                 android:singleLine="true"
+                android:text="@={viewModel.requestPaymentCurrency}"
                 android:textColor="@color/filled_button_background"
                 tools:text="EUR" />
         </com.google.android.material.textfield.TextInputLayout>
