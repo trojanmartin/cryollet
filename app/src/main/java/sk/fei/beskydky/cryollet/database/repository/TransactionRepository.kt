@@ -28,7 +28,8 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
     suspend fun getAllTransactions(): MutableList<Transaction> {
         val result = mutableListOf<Transaction>()
         val user = appDatabaseDao.getUser()
-        val sk = walletRepository.getSecretKey(BuildConfig.SECRET_KEY)
+        val pin = userRepository.getPin()!!
+        val sk = walletRepository.getSecretKey(pin)
         val source: KeyPair = KeyPair.fromSecretSeed(sk)
         var response = stellarDataSource.getPayments(source)
         if (response != null) {

@@ -62,11 +62,29 @@ fun Context.hideKeyboard(view: View) {
 }
 
 fun String.aesEncrypt(key: String): String {
-    return this
+    val ivParameterSpec = IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
+
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec)
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec)
+    return Base64.encodeToString(cipher.doFinal(this.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+
 }
 
 fun String.aesDecrypt(key: String): String {
-    return this
+    val ivParameterSpec =  IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
 
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec);
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+    return  String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
 }
 
