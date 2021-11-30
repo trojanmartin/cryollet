@@ -25,37 +25,38 @@ class PinCodeViewModel(private val userRepository: UserRepository) : ViewModel()
 
     init {
         runBlocking {
-                userExists =  userExist()
-                if(userExists){
-                    pinCode = userRepository.getPin()!!
-                }
+            userExists = userExist()
+            if (userExists) {
+                pinCode = userRepository.getPin()!!
+            }
         }
     }
 
-    fun onPinSucceed(newPin: String?){
-        if(!userExists){
+    fun onPinSucceed(newPin: String?) {
+        if (!userExists) {
             viewModelScope.launch(Dispatchers.Default) {
                 userRepository.createAndInsert(newPin!!)
             }
-
         }
         _eventPinSucceed.value = true
     }
 
-    fun onPinSucceedFinished(){
+    fun onPinSucceedFinished() {
         _eventPinSucceed.value = false
     }
 
-    fun onPinFails(){
+    fun onPinFails() {
         _eventPinFails.value = true
     }
 
-    fun onPinFailsFinished(){
+    fun onPinFailsFinished() {
         _eventPinFails.value = false
     }
 
+
     private suspend fun userExist(): Boolean {
         return userRepository.get() != null
+
     }
 
 }

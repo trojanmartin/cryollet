@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "946463285928",
+    "project_id": "cryollet",
+    "storage_bucket": "cryollet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946463285928:android:8b67d6b17d604d6b09189d",
+        "android_client_info": {
+          "package_name": "sk.fei.beskydky.cryollet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946463285928-fsl917a2t9qngkniufkaoe0nic43a489.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPilG_4nVoa4pRUBY1OXpWbd0JoSfWkMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946463285928-fsl917a2t9qngkniufkaoe0nic43a489.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

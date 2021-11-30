@@ -7,7 +7,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="sk.fei.beskydky.cryollet.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_requestPaymentFragment"
+            app:destination="@id/requestPaymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/contactsFragment"
         android:name="sk.fei.beskydky.cryollet.contacts.ContactsFragment"
@@ -16,4 +23,38 @@
         android:id="@+id/transactionsFragment"
         android:name="sk.fei.beskydky.cryollet.transactions.TransactionsFragment"
         android:label="TransactionsFragment" />
+    <fragment
+        android:id="@+id/sendPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment"
+        android:label="SendPaymentFragment" >
+        <action
+            android:id="@+id/action_sendPaymentFragment_to_paymentResultFragment"
+            app:destination="@id/paymentResultFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment"
+        android:label="RequestPaymentFragment" >
+        <action
+            android:id="@+id/action_requestPaymentFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeFragment"
+        android:label="QrCodeFragment" >
+        <argument
+            android:name="requestPaymentInfo"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentResultFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.PaymentResultFragment"
+        android:label="PaymentResultFragment" >
+        <action
+            android:id="@+id/action_paymentResultFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
 </navigation>

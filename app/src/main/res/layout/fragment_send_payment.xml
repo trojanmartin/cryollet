@@ -17,57 +17,53 @@
 
         <TextView
             android:id="@+id/send_payment_text"
-            style="@style/main_app_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/send_payment"
-            android:textSize="@dimen/big_text_size"
-            android:fontFamily="@font/ramabhadra"
-
+            android:textColor="@color/default_text"
+            android:textSize="@dimen/header_size"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.099"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:text="SEND PAYMENT" />
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <!-- NAME -->
         <TextView
             android:id="@+id/send_payment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="56dp"
+            android:fontFamily="@font/ramabhadra"
             android:text="@string/name"
             android:textColor="@color/filled_button_background"
             android:textSize="@dimen/smaller_text_size"
-            android:fontFamily="@font/ramabhadra"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/send_payment_text"
+            app:layout_constraintStart_toStartOf="@+id/text_input_contact"
+            app:layout_constraintBottom_toTopOf="@+id/text_input_contact"
             tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="91dp"
             tools:text="NAME" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_contact"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
+            android:layout_width="303dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_wide"
-            android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/transparent"
             android:textColorHint="@color/filled_button_background"
             app:boxStrokeColor="@color/filled_button_background"
-            app:layout_constraintEnd_toStartOf="@+id/scan_qr_button"
-            app:layout_constraintHorizontal_bias="0.781"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/send_payment_name">
+            app:layout_constraintTop_toBottomOf="@+id/send_payment_text">
 
             <AutoCompleteTextView
                 android:id="@+id/send_payment_contact"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/contacts"
                 android:singleLine="true"
+                android:background="@drawable/rounded_edittext"
                 android:text="@={viewModel.contactName}"
                 android:textColor="@color/filled_button_background"
                 tools:text="Nickname" />
@@ -78,29 +74,36 @@
             android:id="@+id/scan_qr_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/text_input_contact"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/text_input_contact"
             app:layout_constraintTop_toTopOf="@+id/text_input_contact"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/qr_code" />
 
         <!-- -->
 
         <!-- WALLET KEY -->
+
+        <!-- -->
+
+        <!-- AMOUNT -->
+
         <TextView
             android:id="@+id/send_payment_wallet_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_wide"
-            android:layout_marginTop="50dp"
             android:fontFamily="@font/ramabhadra"
             android:text="@string/wallet_key"
             android:textColor="@color/filled_button_background"
             android:textSize="@dimen/smaller_text_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_contact"
+            app:layout_constraintBottom_toTopOf="@+id/send_payment_wallet_key"
+            app:layout_constraintStart_toStartOf="@+id/send_payment_wallet_key"
             tools:ignore="MissingConstraints"
             tools:text="WALLET KEY" />
 
@@ -110,33 +113,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="@dimen/margin_wide"
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
+            android:textColor="@color/filled_button_background"
+            android:text="@={viewModel.walletKey}"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.781"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/send_payment_wallet_text"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_contact"
             tools:ignore="LabelFor,MissingConstraints" />
-        <!-- -->
 
-            <!-- AMOUNT -->
-            <TextView
-                android:id="@+id/send_payment_amount_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/amount"
-                android:textColor="@color/filled_button_background"
-                android:textSize="@dimen/smaller_text_size"
-                android:fontFamily="@font/ramabhadra"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/send_payment_wallet_key"
-                tools:ignore="MissingConstraints"
-                tools:text="AMOUNT" />
+        <TextView
+            android:id="@+id/send_payment_amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ramabhadra"
+            android:text="@string/amount"
+            android:textColor="@color/filled_button_background"
+            android:textSize="@dimen/smaller_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/send_payment_amount"
+            app:layout_constraintStart_toStartOf="@+id/send_payment_amount"
+            tools:ignore="MissingConstraints"
+            tools:text="AMOUNT" />
+
+        <!--  -->
+
+        <!-- CURRENCY -->
 
         <EditText
             android:id="@+id/send_payment_amount"
@@ -144,28 +150,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="@dimen/margin_wide"
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:inputType="number"
+            android:textColor="@color/filled_button_background"
             android:digits="0123456789."
+            android:ems="10"
+            android:text="@={viewModel.amount}"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/send_payment_amount_text"
-            tools:ignore="LabelFor,MissingConstraints" />
-        <!--  -->
+            app:layout_constraintTop_toBottomOf="@+id/send_payment_wallet_key" />
 
-        <!-- CURRENCY -->
+        <TextView
+        android:id="@+id/currency_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ramabhadra"
+        android:text="@string/currency"
+        android:textColor="@color/filled_button_background"
+        android:textSize="@dimen/smaller_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/textinputcurrency"
+        app:layout_constraintStart_toStartOf="@+id/textinputcurrency" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:id="@+id/textinputcurrency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_wide"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="@dimen/margin_wide"
+            android:background="@android:color/transparent"
             android:textColorHint="@color/filled_button_background"
             app:boxStrokeColor="@color/filled_button_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -177,27 +194,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/currency"
+                android:background="@drawable/rounded_edittext"
                 android:singleLine="true"
-                android:textColor="@color/filled_button_background"
-                android:text="@={viewModel.user}"
-                tools:text="EUR" />
+                android:text="@={viewModel.currency}"
+                android:textColor="@color/filled_button_background" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/pay_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="50dp"
             android:fontFamily="@font/ramabhadra"
-            android:text="@string/send_payment"
+            android:onClick="@{() -> viewModel.onSendPayment()}"
+            android:text="@string/send_payment_button"
             android:textSize="@dimen/login_button_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textinputcurrency"
+            app:layout_constraintHorizontal_bias="0.531"
+            app:layout_constraintStart_toStartOf="@+id/textinputcurrency"
             app:layout_constraintTop_toBottomOf="@+id/textinputcurrency"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintVertical_bias="0.509" />
 
         <!-- -->
 

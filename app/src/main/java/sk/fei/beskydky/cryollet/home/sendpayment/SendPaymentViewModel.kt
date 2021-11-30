@@ -1,10 +1,7 @@
 package sk.fei.beskydky.cryollet.home.sendpayment
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.async
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.stellar.sdk.KeyPair
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
@@ -12,16 +9,38 @@ import sk.fei.beskydky.cryollet.stellar.StellarHandler
 data class User(val name: String)
 
 class SendPaymentViewModel : ViewModel() {
-    val user = MutableLiveData("")
-    var userList: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    val currency = MutableLiveData("")
+    var currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
     val contactName = MutableLiveData("")
     var contactList: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
+
+    private val _eventPaymentCompleted = MutableLiveData<Boolean>()
+    val eventPaymentCompleted: LiveData<Boolean>
+        get() = _eventPaymentCompleted
+
+    private val _formState = MutableLiveData<SendPaymentFormState>()
+    val formState: LiveData<SendPaymentFormState>
+        get() = _formState
+
+
+    val walletKey = MutableLiveData<String>()
+    val amount = MutableLiveData<String>()
+
+    val formObserver = MediatorLiveData<Boolean>()
+
+    init {
+        formObserver.addSource(walletKey) { onFormChanged() }
+        formObserver.addSource(amount) { onFormChanged() }
+        formObserver.addSource(currency) { onFormChanged() }
+        onFormChanged()
+    }
+
+
     //dump
     fun searchCurrency(name: String) {
         val list = ArrayList<String>()
-
         list.add("CZK - Czech Koruna")
         list.add("DKK - Danish Krone")
         list.add("DOP - Dominican Peso")
@@ -34,7 +53,7 @@ class SendPaymentViewModel : ViewModel() {
         list.add("PYG - Paraguayan Guarani")
         list.add("QAR - Qatari Riyal")
         list.add("RON - Romanian Leu")
-        userList.value = list
+        currencyList.value = list
     }
 
     // dump
@@ -49,6 +68,10 @@ class SendPaymentViewModel : ViewModel() {
         contactList.value = list
     }
 
+    fun onSendPayment(){
+        _eventPaymentCompleted.value = true
+    }
+
     fun onClick() = viewModelScope.launch {
         val stellarHandler = StellarHandler()
 
@@ -57,5 +80,26 @@ class SendPaymentViewModel : ViewModel() {
 
         val response = stellarHandler.getPayments(source)
         Log.i("Stellar", "Success")
+    }
+
+
+    private fun onFormChanged(){
+        var state = SendPaymentFormState()
+        state.keyValid = isKeyValid()
+        state.amountValid = isAmountValid()
+        state.currencyValid = isCurrencyValid()
+        _formState.value = state
+    }
+
+    private fun isKeyValid(): Boolean{
+        return !walletKey.value.isNullOrBlank()
+    }
+
+    private fun isAmountValid(): Boolean{
+        return !walletKey.value.isNullOrBlank()
+    }
+
+    private fun isCurrencyValid(): Boolean{
+        return !currency.value.isNullOrBlank()
     }
 }

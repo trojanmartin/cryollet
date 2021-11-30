@@ -43,14 +43,14 @@ class PinCodeFragment : Fragment() {
                             this,
                             viewModelFactory).get(PinCodeViewModel::class.java)
 
-        viewModel.eventPinFails.observe(viewLifecycleOwner, Observer {
+        viewModel.eventPinFails.observe(viewLifecycleOwner, {
             if (it){
                 Toast.makeText(requireContext(), "Password is wrong!", Toast.LENGTH_SHORT).show()
                 viewModel.onPinFailsFinished()
             }
         })
 
-        viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
+        viewModel.eventPinSucceed.observe(viewLifecycleOwner, {
             if(it){
                 var waletExists = false
                 runBlocking {
