@@ -3,10 +3,13 @@ package sk.fei.beskydky.cryollet
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import java.security.KeyFactory
 import java.security.MessageDigest
@@ -81,4 +84,19 @@ fun String.aesDecrypt(key: String): String {
     cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
     return  String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
 
+}
+
+/**
+ * Extension function to simplify setting an afterTextChanged action to EditText components.
+ */
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    })
 }

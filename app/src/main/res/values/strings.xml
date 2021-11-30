@@ -68,5 +68,7 @@
     <string name="insert_pin">Enter a passcode</string>
     <string name="set_up_pin">Set up your new passcode</string>
     <string name="send_payment_button">SEND PAYMENT</string>
+    <string name="payment_completed">Payment completed!</string>
+    <string name="great">Great!</string>
 
 </resources>

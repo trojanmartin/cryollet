@@ -10,9 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
-import sk.fei.beskydky.cryollet.hideKeyboard
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class SendPaymentFragment : Fragment() {
@@ -27,6 +27,8 @@ class SendPaymentFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_send_payment, container, false)
         viewModel = ViewModelProvider(this).get(SendPaymentViewModel::class.java)
+
+        val sendPaymentButton = binding.payButton
 
         // dump currency data
         val currency = resources.getStringArray(R.array.currency)
@@ -43,7 +45,7 @@ class SendPaymentFragment : Fragment() {
             }
         }
 
-        viewModel.user.observe(viewLifecycleOwner, Observer{
+        viewModel.currency.observe(viewLifecycleOwner, Observer{
             viewModel.searchCurrency(it)
         })
 
@@ -51,6 +53,15 @@ class SendPaymentFragment : Fragment() {
             viewModel.searchContacts(it)
         })
 
+        viewModel.eventPaymentCompleted.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(SendPaymentFragmentDirections.actionSendPaymentFragmentToPaymentResultFragment())
+        })
+
+        viewModel.formState.observe(viewLifecycleOwner, Observer {
+            sendPaymentButton.isEnabled = it.isValid()
+        })
+
+        viewModel.formObserver.observe(viewLifecycleOwner,{})
 
         binding.root?.setHideKeyboardOnClick(this)
 

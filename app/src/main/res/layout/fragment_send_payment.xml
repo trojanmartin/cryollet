@@ -117,6 +117,8 @@
             android:layout_marginEnd="@dimen/margin_wide"
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
+            android:textColor="@color/filled_button_background"
+            android:text="@={viewModel.walletKey}"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -152,8 +154,10 @@
             android:layout_marginEnd="@dimen/margin_wide"
             android:autofillHints="Your Key:"
             android:background="@drawable/rounded_edittext"
+            android:textColor="@color/filled_button_background"
             android:digits="0123456789."
             android:ems="10"
+            android:text="@={viewModel.amount}"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -190,27 +194,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:singleLine="true"
                 android:background="@drawable/rounded_edittext"
-                android:text="@={viewModel.user}"
-                android:textColor="@color/filled_button_background"/>
+                android:singleLine="true"
+                android:text="@={viewModel.currency}"
+                android:textColor="@color/filled_button_background" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/pay_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/ramabhadra"
+            android:onClick="@{() -> viewModel.onSendPayment()}"
             android:text="@string/send_payment_button"
             android:textSize="@dimen/login_button_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textinputcurrency"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.531"
             app:layout_constraintStart_toStartOf="@+id/textinputcurrency"
-            app:layout_constraintTop_toBottomOf="@+id/textinputcurrency" />
+            app:layout_constraintTop_toBottomOf="@+id/textinputcurrency"
+            app:layout_constraintVertical_bias="0.509" />
 
         <!-- -->
 
