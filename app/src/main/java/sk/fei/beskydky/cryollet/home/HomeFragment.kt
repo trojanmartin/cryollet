@@ -20,7 +20,6 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
-import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class HomeFragment : Fragment() {
@@ -40,8 +39,14 @@ class HomeFragment : Fragment() {
 
         viewModel.eventRequestPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
-                val dialog = RequestPaymentFragment()
-                dialog.show(myContext.supportFragmentManager, "requestPaymentDialog")
+                //val dialog = RequestPaymentFragment()
+                //dialog.show(myContext.supportFragmentManager, "requestPaymentDialog")
+                val data = "jakub"
+                findNavController()
+                    .navigate(
+                        HomeFragmentDirections
+                            .actionHomeFragmentToRequestPaymentFragment()
+                    )
                 viewModel.onRequestPaymentFinished()
             }
         })
@@ -55,7 +60,7 @@ class HomeFragment : Fragment() {
 
 
 
-        setUpGraph(binding,  viewModel)
+        setUpGraph(binding, viewModel)
         binding.viewModel = viewModel
         binding.root.setHideKeyboardOnClick(this)
         return binding.root
@@ -66,7 +71,7 @@ class HomeFragment : Fragment() {
         myContext = context as FragmentActivity
     }
 
-    fun setUpGraph(binding: HomeFragmentBinding, viewModel: HomeViewModel){
+    fun setUpGraph(binding: HomeFragmentBinding, viewModel: HomeViewModel) {
         var pieChart = binding.transactionGraph
         val dataEntries = ArrayList<PieEntry>()
         dataEntries.add(PieEntry(72f, "Android"))

@@ -65,8 +65,8 @@ class KeyLoginFragment : Fragment() {
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
             }
-        })
 
+        })
         viewModel.eventOnBusy.observe(viewLifecycleOwner, Observer {
             var indicator = binding.busyIndicator
             if(it){
