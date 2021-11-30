@@ -2,6 +2,7 @@ package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
 import org.stellar.sdk.KeyPair
+import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
 import sk.fei.beskydky.cryollet.data.model.Wallet
@@ -10,6 +11,7 @@ import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
 
+    private val userRepository = UserRepository(appDatabaseDao)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -20,12 +22,6 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun get(): Wallet? {
-        val source: KeyPair = KeyPair.fromSecretSeed("SCZWUQZX7AD7OENXXKNOHJXSOT2WAJOBRLVV7YNASLAMOECWTJPAC3WS")
-        appDatabaseDao.clearAllWallets()
-        val wallet = appDatabaseDao.getUser()?.let { Wallet(userId = it.userId,accountId = source.accountId.toString(), secretKey = source.secretSeed.toString(), balance = 10000.0 ) }
-        if (wallet != null) {
-            appDatabaseDao.insertWallet(wallet)
-        }
         return appDatabaseDao.getWallet()
     }
 
@@ -34,14 +30,20 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
     suspend fun createAndInsert(userId:Long, pin:String) {
         appDatabaseDao.clearAllWallets()
         var registeredKeyPair = stellarDataSource.createAccount()
-        val hashedSecretKey = registeredKeyPair.secretSeed.toString().aesEncrypt(pin)
+        val secretKey = registeredKeyPair.secretSeed.joinToString("")
+        val hashedSecretKey = secretKey.aesEncrypt(pin)
         appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = registeredKeyPair.accountId, secretKey = hashedSecretKey , balance = 10000.0))
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getSecretKey(pin:String) :String? {
+    suspend fun getSecretKey(pin:String) :String {
         val wallet = get()
-        return wallet?.secretKey?.aesDecrypt(pin)
+        var key = "a"
+        if (wallet != null){
+            key = wallet.secretKey.aesDecrypt(pin)
+        }
+
+        return key
     }
 
     @Suppress("RedundantSuspendModifier")

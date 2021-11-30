@@ -43,20 +43,23 @@ class PinCodeFragment : Fragment() {
                             this,
                             viewModelFactory).get(PinCodeViewModel::class.java)
 
-        viewModel.eventPinFails.observe(viewLifecycleOwner, Observer {
+        viewModel.eventPinFails.observe(viewLifecycleOwner, {
             if (it){
                 Toast.makeText(requireContext(), "Password is wrong!", Toast.LENGTH_SHORT).show()
                 viewModel.onPinFailsFinished()
             }
         })
 
-        viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
+        viewModel.eventPinSucceed.observe(viewLifecycleOwner, {
             if(it){
-             var wallet = Wallet(userId = 0L, walletId = 0L, accountId = "", secretKey = "", balance = 0.0)
+                var waletExists = false
                 runBlocking {
-                    var wallet = databaseDataSource.getWallet()
+                    val w = databaseDataSource.getWallet()
+                    if(w != null){
+                        waletExists = true
+                    }
                 }
-                if(wallet != null){
+                if(waletExists){
                     navigateToMainActivity()
                 }else{
                     binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())

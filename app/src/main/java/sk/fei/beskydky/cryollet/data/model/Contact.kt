@@ -5,13 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "contacts")
-data class Contacts (
-    @PrimaryKey(autoGenerate = true)
-    var userId: Long = 0L,
+data class Contact (
+
+    @PrimaryKey()
+    @ColumnInfo(name = "wallet_id")
+    var walletId: String,
 
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String
 
-    @ColumnInfo(name = "wallet_id")
-    var walletId: String
 )
