@@ -22,12 +22,6 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun get(): Wallet? {
-//        val source: KeyPair = KeyPair.fromSecretSeed("SCZWUQZX7AD7OENXXKNOHJXSOT2WAJOBRLVV7YNASLAMOECWTJPAC3WS")
-//        appDatabaseDao.clearAllWallets()
-//        val wallet = appDatabaseDao.getUser()?.let { Wallet(userId = it.userId,accountId = source.accountId.toString(), secretKey = source.secretSeed.toString().aesEncrypt(BuildConfig.SECRET_KEY), balance = 10000.0 ) }
-//        if (wallet != null) {
-//            appDatabaseDao.insertWallet(wallet)
-//        }
         return appDatabaseDao.getWallet()
     }
 

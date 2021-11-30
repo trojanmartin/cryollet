@@ -52,11 +52,14 @@ class PinCodeFragment : Fragment() {
 
         viewModel.eventPinSucceed.observe(viewLifecycleOwner, Observer {
             if(it){
-             var wallet = null
+                var waletExists = false
                 runBlocking {
-                    var wallet = databaseDataSource.getWallet()
+                    val w = databaseDataSource.getWallet()
+                    if(w != null){
+                        waletExists = true
+                    }
                 }
-                if(wallet != null){
+                if(waletExists){
                     navigateToMainActivity()
                 }else{
                     binding.root.findNavController().navigate(PinCodeFragmentDirections.actionPinCodeFragmentToKeyLoginFragment())
