@@ -47,9 +47,6 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository) : 
 
     fun getDataToGenerateQRCode(): String {
         val dataToQRCode = StringBuilder()
-        viewModelScope.launch {
-            publicKey.value = walletRepository.get()?.accountId.toString()
-        }
         dataToQRCode.append(requestPaymentAmount.value.toString())
             .append(separator)
             .append(requestPaymentCurrency.value)

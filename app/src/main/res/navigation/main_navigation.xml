@@ -12,11 +12,12 @@
             android:id="@+id/action_homeFragment_to_sendPaymentFragment"
             app:destination="@id/sendPaymentFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_requestPaymentFragment"
-            app:destination="@id/requestPaymentFragment" />
+            android:id="@+id/action_homeFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -34,14 +35,12 @@
             android:id="@+id/action_sendPaymentFragment_to_paymentResultFragment"
             app:destination="@id/paymentResultFragment"
             app:popUpTo="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/requestPaymentFragment"
-        android:name="sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment"
-        android:label="RequestPaymentFragment" >
         <action
-            android:id="@+id/action_requestPaymentFragment_to_qrCodeFragment"
-            app:destination="@id/qrCodeFragment" />
+            android:id="@+id/action_sendPaymentFragment_to_qrCodeScannerFragment"
+            app:destination="@id/qrCodeScannerFragment" />
+        <argument
+            android:name="qrCodeResult"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeFragment"
@@ -59,6 +58,14 @@
             android:id="@+id/action_paymentResultFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" >
+        <action
+            android:id="@+id/action_qrCodeScannerFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
