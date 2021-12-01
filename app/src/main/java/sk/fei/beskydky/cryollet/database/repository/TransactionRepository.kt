@@ -23,7 +23,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
             amount:String,
             memo:String = "") {
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
-       stellarDataSource.sendTransaction(source, destinationId, "NATIVE",amount, memo)
+       stellarDataSource.sendTransaction(source, destinationId, "XLM",amount, memo)
     }
 
     @Suppress("RedundantSuspendModifier")

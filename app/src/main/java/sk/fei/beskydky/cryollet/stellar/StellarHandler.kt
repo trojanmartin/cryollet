@@ -8,7 +8,6 @@ import org.stellar.sdk.requests.ErrorResponse
 import org.stellar.sdk.responses.AccountResponse
 import org.stellar.sdk.responses.SubmitTransactionResponse
 import org.stellar.sdk.responses.operations.OperationResponse
-import java.io.InputStream
 import java.net.URL
 import java.util.*
 import kotlin.Exception
@@ -69,7 +68,7 @@ class StellarHandler(
         val sourceAccount: AccountResponse = server.accounts().account(source.accountId)
         val destination = KeyPair.fromAccountId(destinationId)
 
-        val asset = if (assetCode!=="NATIVE") getAsset(assetCode) else AssetTypeNative()
+        val asset = if (assetCode!=="XLM") getAsset(assetCode) else AssetTypeNative()
 
         val transaction: Transaction = Transaction.Builder(sourceAccount, network)
             .addOperation(PaymentOperation.Builder(destination.accountId, asset, value).build())
