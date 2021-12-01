@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_homeFragment_to_requestPaymentFragment"
             app:destination="@id/requestPaymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -57,4 +60,8 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="sk.fei.beskydky.cryollet.home.info.UserInfoFragment"
+        android:label="UserInfoFragment" />
 </navigation>
