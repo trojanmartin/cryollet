@@ -6,20 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import shadow.okhttp3.Dispatcher
-import sk.fei.beskydky.cryollet.data.LoginRepository
-import sk.fei.beskydky.cryollet.data.Result
 
 import sk.fei.beskydky.cryollet.R
-import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.database.repository.WalletRepository
-import sk.fei.beskydky.cryollet.stellar.StellarHandler
-import sk.fei.beskydky.cryollet.ui.login.LoggedInUserView
 import sk.fei.beskydky.cryollet.ui.login.LoginFormState
-import sk.fei.beskydky.cryollet.ui.login.LoginResult
 
 class KeyLoginViewModel(private val userRepository: UserRepository,
                         private val walletRepository: WalletRepository) : ViewModel() {
@@ -58,7 +49,7 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
             val user = userRepository.get()
             val pin = userRepository.getPin()
             if (user != null && pin != null) {
-                walletRepository.createAndInsert(user.userId, pin)
+                walletRepository.createNewAndInsert(user.userId, pin)
             }
             val wallet = walletRepository.get()
             if(wallet != null){
@@ -77,15 +68,25 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
     fun onLogin() {
         _eventOnBusy.value = true
 
-        //TODO:  do async login
+        viewModelScope.launch {
+            val user = userRepository.get()
+            var result = false
+            val pin = userRepository.getPin()
+            if (user != null && pin != null) {
+                result = walletRepository.createFromSecretAndInsert("",user.userId,pin )
+            }
 
-        //if success
-        _eventSetUpCompleted.value = true
+            if(result){
+                //if success
+                _eventSetUpCompleted.value = true
+            }else{
+                //if fail
+                _eventSetUpFailed.value = true
+            }
+            _eventOnBusy.value = false
+        }
 
-        //if fail
-        _eventSetUpFailed.value = true
 
-        _eventOnBusy.value = false
     }
 
 

@@ -104,6 +104,7 @@ class StellarHandler(
 
     }
 
+    companion object{
         @Volatile
         private var INSTANCE: StellarHandler? = null
 
