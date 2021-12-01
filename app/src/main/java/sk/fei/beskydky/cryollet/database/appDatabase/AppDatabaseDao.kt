@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.database.appDatabase
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import sk.fei.beskydky.cryollet.data.model.*
 import sk.fei.beskydky.cryollet.data.model.Transaction
@@ -52,13 +53,13 @@ interface AppDatabaseDao {
     suspend fun clearAllTransactions()
 
     @Query("SELECT * FROM transactions" )
-    suspend fun getAllTransactions(): MutableList<TransactionWithContact>
+    suspend fun getAllTransactions(): LiveData<MutableList<TransactionWithContact>>
 
     @Query("SELECT * FROM transactions WHERE isReceivedType = 1 ORDER BY date DESC")
-    suspend fun getReceivedTransactions(): MutableList<TransactionWithContact>
+    suspend fun getReceivedTransactions(): LiveData<MutableList<TransactionWithContact>>
 
     @Query("SELECT * FROM transactions WHERE isReceivedType = 0 ORDER BY date DESC")
-    suspend fun getSentTransactions(): MutableList<TransactionWithContact>
+    suspend fun getSentTransactions(): LiveData<MutableList<TransactionWithContact>>
 
 
     //CONTACTS
@@ -75,7 +76,7 @@ interface AppDatabaseDao {
     suspend fun insertContactReplace(contacts: MutableList<Contact>)
 
     @Query("SELECT * from contacts")
-    suspend fun getAllContacts(): MutableList<Contact>
+    suspend fun getAllContacts(): LiveData<MutableList<Contact>>
 
     @Query("SELECT * from contacts WHERE name = :name")
     suspend fun getContactByName(name: String): Contact?
@@ -95,6 +96,9 @@ interface AppDatabaseDao {
 
     @Update
     suspend fun updateBalance(balance: Balance)
+
+    @Update
+    suspend fun updateBalance(balance: List<Balance>)
 
     @Query("SELECT * from balances")
     suspend fun getAllBalances(): MutableList<Balance>

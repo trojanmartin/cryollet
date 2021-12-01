@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import sk.fei.beskydky.cryollet.data.model.Contact
 import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
@@ -22,7 +23,7 @@ class ContactsRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun get() : MutableList<Contact> {
+    suspend fun get() : LiveData<MutableList<Contact>> {
        return  appDatabaseDao.getAllContacts()
     }
 
