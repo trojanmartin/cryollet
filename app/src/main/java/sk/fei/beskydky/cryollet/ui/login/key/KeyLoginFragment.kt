@@ -44,8 +44,8 @@ class KeyLoginFragment : Fragment() {
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
         val viewModelFactory = KeyLoginViewModelFactory(
-                UserRepository(databaseDataSource),
-                WalletRepository(databaseDataSource, stellarDataSource))
+                UserRepository.getInstance(databaseDataSource),
+                WalletRepository.getInstance(databaseDataSource, stellarDataSource))
 
         viewModel = ViewModelProvider(
                 this,

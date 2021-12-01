@@ -37,7 +37,7 @@ class PinCodeFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
-        val viewModelFactory = PinCodeViewModelFactory(UserRepository(databaseDataSource))
+        val viewModelFactory = PinCodeViewModelFactory(UserRepository.getInstance(databaseDataSource))
 
         viewModel = ViewModelProvider(
                             this,
