@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        
+
         setUpGraph(binding, viewModel)
         binding.viewModel = viewModel
         binding.root.setHideKeyboardOnClick(this)

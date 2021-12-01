@@ -4,19 +4,20 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.stellar.sdk.KeyPair
+import sk.fei.beskydky.cryollet.data.model.Contact
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 
-class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : ViewModel() {
+class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
+                           private val database: AppDatabaseDao) : ViewModel() {
     val currency = MutableLiveData("")
+    val contactName = MutableLiveData<String>("")
 
     private val _currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val currencyList: LiveData<ArrayList<String>>
         get() = _currencyList
-
-    val contactName = MutableLiveData("")
-    var contactList: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
     private val _eventPaymentCompleted = MutableLiveData<Boolean>()
     val eventPaymentCompleted: LiveData<Boolean>
@@ -32,6 +33,8 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : V
 
     private val separator: String = " - "
 
+    val contacts = database.getAllContactsLiveData()
+
 
     val walletKey = MutableLiveData<String>()
     val amount = MutableLiveData<String>()
@@ -42,6 +45,7 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : V
         formObserver.addSource(walletKey) { onFormChanged() }
         formObserver.addSource(amount) { onFormChanged() }
         formObserver.addSource(currency) { onFormChanged() }
+        formObserver.addSource(contactName) { onItemSelectedHandler() }
         onFormChanged()
 
         viewModelScope.launch {
@@ -60,17 +64,6 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : V
 
     fun onScanQRCodeFinished() {
         _eventScanQRCode.value = false
-    }
-
-    fun searchContacts(name: String) {
-        val list = ArrayList<String>()
-
-        list.add("Fero Pajta")
-        list.add("Lukas Hajducak")
-        list.add("Tanicka Smolarova")
-        list.add("Bukvica")
-
-        contactList.value = list
     }
 
     fun onSendPayment() {
@@ -93,6 +86,24 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : V
                 .append(separator)
                 .append(assetDescription)
         return builder.toString()
+    }
+
+    fun formatContact(listOfContacts: MutableList<Contact>) : List<String> {
+        val contacts = ArrayList<String>()
+
+        for (c in listOfContacts) {
+            contacts.add(c.name)
+        }
+        return contacts
+    }
+
+    private fun onItemSelectedHandler() {
+        if(contactName.value != "" && contactName.value != null) {
+            viewModelScope.launch {
+                val contact = database.getContactByName(contactName.value ?: "")
+                walletKey.value = contact?.walletId ?: ""
+            }
+        }
     }
 
 

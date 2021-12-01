@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
@@ -11,6 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.stellar.sdk.responses.AccountResponse
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.contacts.ContactsViewModel
@@ -45,16 +49,19 @@ class SendPaymentFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
-        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository(databaseDataSource, stellarDataSource))
+        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository(databaseDataSource, stellarDataSource),databaseDataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[SendPaymentViewModel::class.java]
+
 
         viewModel.currencyList.observe(viewLifecycleOwner, Observer {
             binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, it))
         })
 
-        //viewModel.contactList.observe
-        //binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
+        viewModel.contacts.observe(viewLifecycleOwner, Observer {
+            val contacts = viewModel.formatContact(it)
+            binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
+        })
 
 
         binding.sendPaymentAmount.doAfterTextChanged {
@@ -80,14 +87,6 @@ class SendPaymentFragment : Fragment() {
             }
         })
 
-//        viewModel.currency.observe(viewLifecycleOwner, Observer {
-//            viewModel.searchCurrency(it)
-//        })
-
-        viewModel.contactName.observe(viewLifecycleOwner, Observer {
-            viewModel.searchContacts(it)
-        })
-
         viewModel.eventPaymentCompleted.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(SendPaymentFragmentDirections.actionSendPaymentFragmentToPaymentResultFragment())
         })
@@ -97,7 +96,7 @@ class SendPaymentFragment : Fragment() {
         })
 
         viewModel.formObserver.observe(viewLifecycleOwner, {})
-
+        binding.lifecycleOwner = this
         binding.root?.setHideKeyboardOnClick(this)
 
         binding.viewModel = viewModel
