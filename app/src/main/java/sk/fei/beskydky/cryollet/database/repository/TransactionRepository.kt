@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.responses.operations.PaymentOperationResponse
@@ -27,7 +28,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getAllTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
+    suspend fun getAllTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
@@ -36,7 +37,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
+    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
@@ -45,7 +46,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getReceivedTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
+    suspend fun getReceivedTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
