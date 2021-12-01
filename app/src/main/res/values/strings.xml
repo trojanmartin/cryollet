@@ -31,6 +31,7 @@
     <string name="ok">OK</string>
     <string name="approve">APPROVE</string>
     <string name="request_payment">REQUEST PAYMENT</string>
+    <string name="copied">Copied!</string>
 
 
     <!-- Currency drop down -->
