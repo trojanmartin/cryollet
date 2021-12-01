@@ -63,14 +63,17 @@ interface AppDatabaseDao {
     suspend fun getSentTransactions(): MutableList<TransactionWithContact>
 
     //CONTACTS
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContact(contact: Contact)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContacts(contacts: MutableList<Contact>)
 
     @Update
     suspend fun updateContact(contact: Contact)
+
+    @Query("SELECT * from contacts")
+    suspend fun getAllContacts(): MutableList<Contact>
 
     @Query("SELECT * from contacts WHERE name = :name")
     suspend fun getContactByName(name: String): Contact?
