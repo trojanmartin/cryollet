@@ -64,13 +64,19 @@ interface AppDatabaseDao {
 
     //CONTACTS
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContact(contact: Contact)
+    suspend fun insertContactIgnore(contact: Contact)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertContacts(contacts: MutableList<Contact>)
+    suspend fun insertContactIgnore(contacts: MutableList<Contact>)
 
-    @Update
-    suspend fun updateContact(contact: Contact)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertContactReplace(contact: Contact)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertContactReplace(contacts: MutableList<Contact>)
+
+
+    @Query("SELECT * from contacts")
+    suspend fun getAllContacts(): MutableList<Contact>
 
     @Query("SELECT * from contacts WHERE name = :name")
     suspend fun getContactByName(name: String): Contact?

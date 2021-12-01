@@ -61,7 +61,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
         for (transaction in listTransactions){
             listContacts.add(Contact(transaction.externalWalletId, transaction.externalWalletId))
         }
-        appDatabaseDao.insertContacts(listContacts)
+        appDatabaseDao.insertContactIgnore(listContacts)
         appDatabaseDao.insertTransactions(listTransactions)
     }
 
