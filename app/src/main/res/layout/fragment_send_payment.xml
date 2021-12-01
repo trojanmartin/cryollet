@@ -211,6 +211,7 @@
             android:onClick="@{() -> viewModel.onSendPayment()}"
             android:text="@string/send_payment_button"
             android:textSize="@dimen/login_button_size"
+            android:onClick="@{() -> viewModel.onClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textinputcurrency"
             app:layout_constraintHorizontal_bias="0.531"
