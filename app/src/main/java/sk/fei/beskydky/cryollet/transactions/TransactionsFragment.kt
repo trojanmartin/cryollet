@@ -33,7 +33,7 @@ class TransactionsFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
-        val viewModelFactory = TransactionsViewModelFactory(databaseDataSource)
+        val viewModelFactory = TransactionsViewModelFactory(TransactionRepository.getInstance(databaseDataSource, stellarDataSource))
 
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionsViewModel::class.java]
         binding.viewModel = viewModel

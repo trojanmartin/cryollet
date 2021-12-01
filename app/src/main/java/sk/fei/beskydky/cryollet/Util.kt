@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import shadow.com.google.common.base.Optional
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
@@ -112,4 +113,12 @@ fun Context.copyToClipboard(text: String){
     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("Copied text", text)
     clipboard.setPrimaryClip(clip)
+}
+
+fun <T : Any> Optional<T>.toNullable(): T? {
+    return if (this.isPresent) {
+        this.get()
+    } else {
+        null
+    }
 }

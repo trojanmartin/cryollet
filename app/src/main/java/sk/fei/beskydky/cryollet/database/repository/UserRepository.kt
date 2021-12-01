@@ -1,14 +1,25 @@
 package sk.fei.beskydky.cryollet.database.repository
 
+import android.content.Context
+import android.util.Log
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
 import sk.fei.beskydky.cryollet.data.model.User
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import java.security.MessageDigest
 
-class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
+class UserRepository private constructor (private val appDatabaseDao: AppDatabaseDao) {
+
+    var user :User? = null
+
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -34,7 +45,14 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun get(): User? {
-       return appDatabaseDao.getUser()
+        if(user != null){
+            return user
+        }else{
+            Log.i("test", "volal sa")
+             val a = appDatabaseDao.getUser()
+            user = a
+            return user
+        }
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -72,5 +90,23 @@ class UserRepository (private val appDatabaseDao: AppDatabaseDao) {
     }
 
 
+    companion object {
+
+        @Volatile
+        private var INSTANCE: UserRepository? = null
+
+        fun getInstance(appDatabaseDao: AppDatabaseDao): UserRepository {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = UserRepository(appDatabaseDao)
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
+    }
 
 }

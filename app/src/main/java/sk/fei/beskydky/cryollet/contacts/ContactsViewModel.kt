@@ -11,7 +11,7 @@ import sk.fei.beskydky.cryollet.database.repository.UserRepository
 
 class ContactsViewModel(database:AppDatabaseDao,application: Application) : AndroidViewModel (application) {
 
-    private var userRepository: UserRepository = UserRepository(database)
+    private var userRepository: UserRepository = UserRepository.getInstance(database)
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>

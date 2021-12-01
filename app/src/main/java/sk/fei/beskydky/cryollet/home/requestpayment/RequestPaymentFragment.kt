@@ -38,7 +38,7 @@ class RequestPaymentFragment : DialogFragment() {
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
         val viewModelFactory =
-            RequestPaymentViewModelFactory(WalletRepository(databaseDataSource, stellarDataSource))
+            RequestPaymentViewModelFactory(WalletRepository.getInstance(databaseDataSource, stellarDataSource))
 
         viewModel = ViewModelProvider(this, viewModelFactory)[RequestPaymentViewModel::class.java]
 
