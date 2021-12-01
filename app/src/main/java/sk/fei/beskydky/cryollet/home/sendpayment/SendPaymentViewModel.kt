@@ -20,6 +20,10 @@ class SendPaymentViewModel : ViewModel() {
     val eventPaymentCompleted: LiveData<Boolean>
         get() = _eventPaymentCompleted
 
+    private val _eventScanQRCode = MutableLiveData<Boolean>()
+    val eventScanQRCode: LiveData<Boolean>
+        get() = _eventScanQRCode
+
     private val _formState = MutableLiveData<SendPaymentFormState>()
     val formState: LiveData<SendPaymentFormState>
         get() = _formState
@@ -35,6 +39,14 @@ class SendPaymentViewModel : ViewModel() {
         formObserver.addSource(amount) { onFormChanged() }
         formObserver.addSource(currency) { onFormChanged() }
         onFormChanged()
+    }
+
+    fun onScanQRCode() {
+        _eventScanQRCode.value = true
+    }
+
+    fun onScanQRCodeFinished() {
+        _eventScanQRCode.value = false
     }
 
 

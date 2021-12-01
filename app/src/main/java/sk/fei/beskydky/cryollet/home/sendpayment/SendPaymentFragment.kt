@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
+import sk.fei.beskydky.cryollet.home.qrcode.QrCodeFragmentArgs
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
 
 class SendPaymentFragment : Fragment() {
@@ -21,8 +22,8 @@ class SendPaymentFragment : Fragment() {
     private lateinit var viewModel: SendPaymentViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_send_payment, container, false)
@@ -40,12 +41,29 @@ class SendPaymentFragment : Fragment() {
         binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
 
         binding.sendPaymentAmount.doAfterTextChanged {
-            if(it?.length == 2 && "00" == it.toString()) {
+            if (it?.length == 2 && "00" == it.toString()) {
                 binding.sendPaymentAmount.text.clear()
             }
         }
 
-        viewModel.currency.observe(viewLifecycleOwner, Observer{
+        val qrResponseData = SendPaymentFragmentArgs.fromBundle(requireArguments())
+        if(qrResponseData.qrCodeResult != "") {
+            val resolvedResult : List<String> = qrResponseData.qrCodeResult.split(',')
+            viewModel.amount.value = resolvedResult[0]
+            viewModel.currency.value = resolvedResult[1]
+            viewModel.walletKey.value = resolvedResult[2]
+        }
+
+        viewModel.eventScanQRCode.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController()
+                        .navigate(
+                                SendPaymentFragmentDirections
+                                        .actionSendPaymentFragmentToQrCodeScannerFragment())
+            }
+        })
+
+        viewModel.currency.observe(viewLifecycleOwner, Observer {
             viewModel.searchCurrency(it)
         })
 
@@ -61,7 +79,7 @@ class SendPaymentFragment : Fragment() {
             sendPaymentButton.isEnabled = it.isValid()
         })
 
-        viewModel.formObserver.observe(viewLifecycleOwner,{})
+        viewModel.formObserver.observe(viewLifecycleOwner, {})
 
         binding.root?.setHideKeyboardOnClick(this)
 

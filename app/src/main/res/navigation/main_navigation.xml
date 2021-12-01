@@ -31,6 +31,12 @@
             android:id="@+id/action_sendPaymentFragment_to_paymentResultFragment"
             app:destination="@id/paymentResultFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_sendPaymentFragment_to_qrCodeScannerFragment"
+            app:destination="@id/qrCodeScannerFragment" />
+        <argument
+            android:name="qrCodeResult"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeFragment"
@@ -48,5 +54,13 @@
             android:id="@+id/action_paymentResultFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" >
+        <action
+            android:id="@+id/action_qrCodeScannerFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
     </fragment>
 </navigation>
