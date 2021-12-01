@@ -31,8 +31,6 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
     val formState: LiveData<SendPaymentFormState>
         get() = _formState
 
-    private val separator: String = " - "
-
     val contacts = database.getAllContactsLiveData()
 
 
@@ -52,7 +50,7 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
             val balances = balanceRepository.get()
             val resultList: ArrayList<String> = ArrayList()
             for (balance in balances) {
-                resultList.add(formatCurrency(balance.assetName, balance.assetDescription))
+                resultList.add(balance.assetName)
             }
             _currencyList.value = resultList
         }
@@ -78,14 +76,6 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
 
         val response = stellarHandler.getPayments(source)
         Log.i("Stellar", "Success")
-    }
-
-    private fun formatCurrency(assetName: String, assetDescription: String): String {
-        val builder = StringBuilder()
-        builder.append(assetName)
-                .append(separator)
-                .append(assetDescription)
-        return builder.toString()
     }
 
     fun formatContact(listOfContacts: MutableList<Contact>) : List<String> {
