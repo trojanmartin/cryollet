@@ -55,7 +55,7 @@ class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val
         val storage = appDatabaseDao.getAllBalances()
         if(storage.size == 0){
             var list = listOf(
-                    Balance(balanceId = 0L, assetName = "native", issuer = "first", amount = "0"))
+                    Balance(balanceId = 0L, assetName = "native", issuer = "first", amount = "0", assetDescription = "kokot"))
             appDatabaseDao.insertBalance(list)
         }
         refreshBalances()

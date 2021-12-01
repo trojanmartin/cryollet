@@ -28,7 +28,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getAllTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
+    suspend fun getAllTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
@@ -37,7 +37,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
+    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact>{
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
@@ -46,7 +46,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getReceivedTransactions(refreshFromStellar:Boolean = false): LiveData<MutableList<TransactionWithContact>> {
+    suspend fun getReceivedTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }

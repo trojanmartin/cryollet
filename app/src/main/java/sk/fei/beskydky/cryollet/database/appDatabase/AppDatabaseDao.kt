@@ -53,13 +53,13 @@ interface AppDatabaseDao {
     suspend fun clearAllTransactions()
 
     @Query("SELECT * FROM transactions" )
-    suspend fun getAllTransactions(): LiveData<MutableList<TransactionWithContact>>
+    suspend fun getAllTransactions(): MutableList<TransactionWithContact>
 
     @Query("SELECT * FROM transactions WHERE isReceivedType = 1 ORDER BY date DESC")
-    suspend fun getReceivedTransactions(): LiveData<MutableList<TransactionWithContact>>
+    suspend fun getReceivedTransactions(): MutableList<TransactionWithContact>
 
     @Query("SELECT * FROM transactions WHERE isReceivedType = 0 ORDER BY date DESC")
-    suspend fun getSentTransactions(): LiveData<MutableList<TransactionWithContact>>
+    suspend fun getSentTransactions(): MutableList<TransactionWithContact>
 
 
     //CONTACTS
@@ -76,7 +76,7 @@ interface AppDatabaseDao {
     suspend fun insertContactReplace(contacts: MutableList<Contact>)
 
     @Query("SELECT * from contacts")
-    suspend fun getAllContacts(): LiveData<MutableList<Contact>>
+    suspend fun getAllContacts(): MutableList<Contact>
 
     @Query("SELECT * from contacts WHERE name = :name")
     suspend fun getContactByName(name: String): Contact?

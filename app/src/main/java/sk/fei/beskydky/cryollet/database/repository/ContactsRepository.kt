@@ -23,7 +23,7 @@ class ContactsRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun get() : LiveData<MutableList<Contact>> {
+    suspend fun get() : MutableList<Contact> {
        return  appDatabaseDao.getAllContacts()
     }
 

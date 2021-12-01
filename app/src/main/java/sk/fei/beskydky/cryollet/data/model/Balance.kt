@@ -17,6 +17,9 @@ data class Balance (
         @ColumnInfo(name = "issuer")
         var issuer: String,
 
+        @ColumnInfo(name = "asset_description")
+        var assetDescription: String,
+
         @ColumnInfo(name = "amount")
         var amount: String,
 )
