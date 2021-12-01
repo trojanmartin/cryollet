@@ -19,7 +19,7 @@ class TransactionsViewModel(private val transRepo: TransactionRepository) : View
 
     init {
         viewModelScope.launch {
-            //transRepo.makeTransaction("GA3KRKTFY5XFKNA6TGDJYRLDIGVJ4XUDOB3E6ZWOHS46HTSQUNTF544D", "10", "test")
+            transRepo.makeTransaction("GA3KRKTFY5XFKNA6TGDJYRLDIGVJ4XUDOB3E6ZWOHS46HTSQUNTF544D", "10", "test")
             _transactions.value = transRepo.getAllTransactions(true)
         }
     }
