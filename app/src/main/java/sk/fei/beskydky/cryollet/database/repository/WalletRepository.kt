@@ -32,7 +32,7 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
         var registeredKeyPair = stellarDataSource.createAccount()
         val secretKey = registeredKeyPair.secretSeed.joinToString("")
         val hashedSecretKey = secretKey.aesEncrypt(pin)
-        appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = registeredKeyPair.accountId, secretKey = hashedSecretKey , balance = 10000.0))
+        appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = registeredKeyPair.accountId, secretKey = hashedSecretKey))
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
