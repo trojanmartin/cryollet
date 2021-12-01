@@ -55,7 +55,11 @@ class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val
         val storage = appDatabaseDao.getAllBalances()
         if(storage.size == 0){
             var list = listOf(
-                    Balance(balanceId = 0L, assetName = "native", issuer = "first", amount = "0", assetDescription = "kokot"))
+                    Balance(balanceId = 0L, assetName = "XLM", issuer = "SDA5JK3V55GXYBC74Z2QHYBC2DTRA4UN7C5APPKJWLUK3ETBGF5RKJBZ", amount = "0", assetDescription = "Lumen"),
+                    Balance(balanceId = 0L, assetName = "BTC", issuer = "SDA5JK3V55GXYBC74Z2QHYBC2DTRA4UN7C5APPKJWLUK3ETBGF5RKJBZ", amount = "0", assetDescription = "Bitcoin"),
+                    Balance(balanceId = 0L, assetName = "EUR", issuer = "SDA5JK3V55GXYBC74Z2QHYBC2DTRA4UN7C5APPKJWLUK3ETBGF5RKJBZ", amount = "0", assetDescription = "Euro"),
+                    Balance(balanceId = 0L, assetName = "USD", issuer = "SDA5JK3V55GXYBC74Z2QHYBC2DTRA4UN7C5APPKJWLUK3ETBGF5RKJBZ", amount = "0", assetDescription = "Dollar"),
+            )
             appDatabaseDao.insertBalance(list)
         }
         refreshBalances()
@@ -71,7 +75,7 @@ class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
         val balyAnces = stellarDataSource.getBalances(source)!!
 
-        for (i in 1 until balyAnces.size) {
+        for (i in 0 until balyAnces.size) {
             val item = balyAnces[i]
             for (s in storage){
                 if(s.assetName == item.assetType){

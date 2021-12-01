@@ -15,6 +15,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun prefillDatabase(){
         val dataSource = AppDatabase.getInstance(application).appDatabaseDao
-        //BalanceRepository(dataSource).fillWithData()
+        val stellarDataSource = StellarHandler.getInstance(application)
+        BalanceRepository(dataSource, stellarDataSource).fillWithData()
     }
 }
