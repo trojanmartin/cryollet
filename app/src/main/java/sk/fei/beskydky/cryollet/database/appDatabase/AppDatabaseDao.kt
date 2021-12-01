@@ -58,6 +58,9 @@ interface AppDatabaseDao {
     @Query("SELECT * FROM transactions" )
     fun getAllTransactionsLiveData(): LiveData<MutableList<Transaction>>
 
+    @Query("SELECT * FROM transactions" )
+    fun getAllTransactionsWithContactLiveData(): LiveData<MutableList<TransactionWithContact>>
+
     @Query("SELECT * FROM transactions WHERE isReceivedType = 1 ORDER BY date DESC")
     suspend fun getReceivedTransactions(): MutableList<TransactionWithContact>
 
@@ -105,6 +108,9 @@ interface AppDatabaseDao {
 
     @Query("SELECT * from balances")
     suspend fun getAllBalances(): MutableList<Balance>
+
+    @Query("SELECT * from balances")
+    fun getAllBalancesLiveData(): LiveData<MutableList<Balance>>
 
     @Query("DELETE FROM balances")
     suspend fun clearAllBalances()

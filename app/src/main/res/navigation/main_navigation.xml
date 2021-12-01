@@ -63,5 +63,10 @@
     <fragment
         android:id="@+id/userInfoFragment"
         android:name="sk.fei.beskydky.cryollet.home.info.UserInfoFragment"
-        android:label="UserInfoFragment" />
+        android:label="UserInfoFragment" >
+        <action
+            android:id="@+id/action_userInfoFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
 </navigation>

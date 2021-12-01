@@ -32,9 +32,8 @@ class TransactionsFragment : Fragment() {
            R.layout.transaction_list_fragment, container, false)
 
         val application = requireNotNull(this.activity).application
-        val stellarDataSource = StellarHandler.getInstance(application)
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
-        val viewModelFactory = TransactionsViewModelFactory(TransactionRepository(databaseDataSource, stellarDataSource))
+        val viewModelFactory = TransactionsViewModelFactory(databaseDataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionsViewModel::class.java]
         binding.viewModel = viewModel
@@ -47,8 +46,6 @@ class TransactionsFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(it)
             }
         })
-
-
 
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
