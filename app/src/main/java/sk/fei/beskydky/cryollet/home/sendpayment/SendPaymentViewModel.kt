@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import org.stellar.sdk.KeyPair
+import org.stellar.sdk.*
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 data class User(val name: String)
@@ -55,7 +54,9 @@ class SendPaymentViewModel : ViewModel() {
         val source: KeyPair = KeyPair.fromSecretSeed("SCZWUQZX7AD7OENXXKNOHJXSOT2WAJOBRLVV7YNASLAMOECWTJPAC3WS")
         val destinationId: String = "GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP"
 
-        val response = stellarHandler.getPayments(source)
+//        val response = stellarHandler.getPayments(source)
+//        val response = stellarHandler.sendTransaction(source, destinationId, AssetTypeNative(), "1" )
+        val response = stellarHandler.getAccount("SBSIDBWIQBJR6YJTDAGHRXZL64MDP6NJHNTYATRUG2UWLGTNHIK55MMU")
         Log.i("Stellar", "Success")
     }
 }

@@ -193,6 +193,7 @@
             android:fontFamily="@font/ramabhadra"
             android:text="@string/send_payment"
             android:textSize="@dimen/login_button_size"
+            android:onClick="@{() -> viewModel.onClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

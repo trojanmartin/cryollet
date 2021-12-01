@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PinCodeViewModel(publicKey: String) : ViewModel() {
+class PinCodeViewModel : ViewModel() {
     private val _ifUserHaveAlreadyPin = MutableLiveData<Boolean>()
     val ifUserHaveAlreadyPin: LiveData<Boolean>
         get() = _ifUserHaveAlreadyPin
 
-    var key = publicKey
+//    var key = publicKey
 
     //    init {
 //        var user = db.getUser(key)
