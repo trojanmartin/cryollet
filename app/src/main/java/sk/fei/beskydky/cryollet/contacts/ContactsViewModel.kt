@@ -1,38 +1,25 @@
 package sk.fei.beskydky.cryollet.contacts
 
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sk.fei.beskydky.cryollet.data.model.User
-import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
-import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
-import sk.fei.beskydky.cryollet.database.repository.UserRepository
+import sk.fei.beskydky.cryollet.data.model.Contact
+import sk.fei.beskydky.cryollet.database.repository.ContactsRepository
 
-class ContactsViewModel(database:AppDatabaseDao,application: Application) : AndroidViewModel (application) {
+class ContactsViewModel(contactsRepository : ContactsRepository) : ViewModel() {
 
-    private var userRepository: UserRepository = UserRepository(database)
-
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User>
-        get() = _user
+    private var _contacts = MutableLiveData<MutableList<Contact>>()
+    val contacts: LiveData<MutableList<Contact>>
+        get() = _contacts
 
     init {
-
-    }
-
-
-}
-
-class ContactsViewModelFactory(
-    private val dataSource: AppDatabaseDao,
-    private val application: Application) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ContactsViewModel::class.java)) {
-            return ContactsViewModel(dataSource, application) as T
+        viewModelScope.launch {
+            //transRepo.makeTransaction("GA3KRKTFY5XFKNA6TGDJYRLDIGVJ4XUDOB3E6ZWOHS46HTSQUNTF544D", "10", "test")
+            _contacts.value = contactsRepository.get()
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 

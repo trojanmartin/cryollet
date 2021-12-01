@@ -75,7 +75,7 @@ interface AppDatabaseDao {
     suspend fun insertContactReplace(contacts: MutableList<Contact>)
 
 
-    @Query("SELECT * from contacts")
+    @Query("SELECT * from contacts ORDER BY name ASC")
     suspend fun getAllContacts(): MutableList<Contact>
 
     @Query("SELECT * from contacts WHERE name = :name")
