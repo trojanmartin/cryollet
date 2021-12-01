@@ -71,7 +71,7 @@ class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
         val balyAnces = stellarDataSource.getBalances(source)!!
 
-        for (i in 1 until balyAnces.size) {
+        for (i in 0 until balyAnces.size) {
             val item = balyAnces[i]
             for (s in storage){
                 if(s.assetName == item.assetType){
