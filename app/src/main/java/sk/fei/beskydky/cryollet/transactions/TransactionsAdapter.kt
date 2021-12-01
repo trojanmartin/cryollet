@@ -38,7 +38,7 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
         when(holder){
             is ViewHolder -> {
                 val trans = getItem(position) as DataItem.TransactionItem
-                holder.bind(trans.transaction.transaction)
+                holder.bind(trans.transaction)
             }
         }
     }
@@ -69,7 +69,7 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
             }
         }
 
-        fun bind(item: Transaction){
+        fun bind(item: TransactionWithContact){
             binding.transaction = item
             binding.executePendingBindings()
         }

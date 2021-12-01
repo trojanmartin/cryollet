@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_homeFragment_to_qrCodeFragment"
             app:destination="@id/qrCodeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -63,4 +67,8 @@
             android:id="@+id/action_qrCodeScannerFragment_to_sendPaymentFragment"
             app:destination="@id/sendPaymentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="sk.fei.beskydky.cryollet.home.info.UserInfoFragment"
+        android:label="UserInfoFragment" />
 </navigation>

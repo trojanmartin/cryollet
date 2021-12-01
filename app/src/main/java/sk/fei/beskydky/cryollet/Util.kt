@@ -2,6 +2,8 @@ package sk.fei.beskydky.cryollet
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.preference.PreferenceManager
 import android.text.Editable
@@ -104,4 +106,10 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
+}
+
+fun Context.copyToClipboard(text: String){
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("Copied text", text)
+    clipboard.setPrimaryClip(clip)
 }

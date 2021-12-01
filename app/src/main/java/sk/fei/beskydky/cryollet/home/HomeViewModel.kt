@@ -1,10 +1,9 @@
 package sk.fei.beskydky.cryollet.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val database: AppDatabaseDao) : ViewModel() {
     private val _eventRequestPaymentClicked = MutableLiveData<Boolean>()
     val eventRequestPaymentClicked: LiveData<Boolean>
         get() = _eventRequestPaymentClicked
@@ -12,6 +11,13 @@ class HomeViewModel : ViewModel() {
     private val _eventSendPaymentClicked = MutableLiveData<Boolean>()
     val eventSendPaymentClicked: LiveData<Boolean>
         get() = _eventSendPaymentClicked
+
+    private val _eventInfoClicked = MutableLiveData<Boolean>()
+    val eventInfoClicked: LiveData<Boolean>
+        get() = _eventInfoClicked
+
+     val transactions = database.getAllTransactionsLiveData()
+
 
     fun onRequestPayment() {
         _eventRequestPaymentClicked.value = true
@@ -27,5 +33,13 @@ class HomeViewModel : ViewModel() {
 
     fun onSendPaymentFinished() {
         _eventSendPaymentClicked.value = false
+    }
+
+    fun onInfoClicked() {
+        _eventInfoClicked.value = true
+    }
+
+    fun onInfoClickedFinished() {
+        _eventInfoClicked.value = false
     }
 }

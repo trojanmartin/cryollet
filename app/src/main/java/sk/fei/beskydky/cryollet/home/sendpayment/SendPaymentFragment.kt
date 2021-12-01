@@ -53,7 +53,7 @@ class SendPaymentFragment : Fragment() {
             binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, it))
         })
 
-        viewModel.contactList.observe
+        //viewModel.contactList.observe
         //binding.sendPaymentContact.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, contacts))
 
 

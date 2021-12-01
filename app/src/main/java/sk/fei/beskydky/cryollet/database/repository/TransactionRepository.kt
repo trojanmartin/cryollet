@@ -1,7 +1,9 @@
 package sk.fei.beskydky.cryollet.database.repository
 
+import android.content.res.Resources
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import org.stellar.sdk.AssetTypeCreditAlphaNum4
 import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.responses.operations.PaymentOperationResponse
@@ -86,12 +88,18 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
                 val isReceivedPayment = source.accountId != item.sourceAccount
 
+                var code = when(item.asset){
+                    is AssetTypeCreditAlphaNum4 -> (item.asset as AssetTypeCreditAlphaNum4).code
+                    is AssetTypeNative -> "XLM"
+                    else -> throw Resources.NotFoundException("Asset not found")
+                }
+
                 result.add(
                         Transaction(
                                 transactionId = item.id.toString(),
                                 externalWalletId = if(isReceivedPayment) item.from else item.to,
                                 date = item.createdAt,
-                                currency = item.asset.toString(),
+                                currency = code,
                                 amount = item.amount,
                                 isReceivedType = isReceivedPayment
                         ))

@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
 import sk.fei.beskydky.cryollet.home.requestpayment.CustomDialogInterface
 import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModelFactory: HomeViewModelFactory
     private lateinit var myContext: FragmentActivity
 
     override fun onCreateView(
@@ -35,7 +37,13 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        val application = requireNotNull(this.activity).application
+        val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
+        viewModelFactory = HomeViewModelFactory(databaseDataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+
+        val incomeCount = binding.sumIncome
+        val sentCount = binding.sumExpanse
 
         viewModel.eventRequestPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -52,13 +60,28 @@ class HomeFragment : Fragment() {
             }
         })
 
+        viewModel.transactions.observe(viewLifecycleOwner,{ trans ->
+            val received: Int = trans.count { it.isReceivedType }
+
+            incomeCount.text = received.toString()
+            sentCount.text = (trans.count() - received).toString()
+        })
         viewModel.eventSendPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSendPaymentFragment(""))
+
                 viewModel.onSendPaymentFinished()
             }
         })
 
+        viewModel.eventInfoClicked.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserInfoFragment())
+                viewModel.onInfoClickedFinished()
+            }
+        })
+
+        
         setUpGraph(binding, viewModel)
         binding.viewModel = viewModel
         binding.root.setHideKeyboardOnClick(this)

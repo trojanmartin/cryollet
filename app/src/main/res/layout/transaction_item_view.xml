@@ -7,7 +7,7 @@
     <data>
         <variable
             name="transaction"
-            type="sk.fei.beskydky.cryollet.data.model.Transaction" />
+            type="sk.fei.beskydky.cryollet.data.model.TransactionWithContact" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="28.07"
-            android:textColor="@color/default_text"
             app:amountFormatted="@{transaction}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.98"
