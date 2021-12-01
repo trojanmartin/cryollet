@@ -2,10 +2,12 @@ package sk.fei.beskydky.cryollet.stellar
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import kotlinx.coroutines.*
 import org.stellar.sdk.*
 import org.stellar.sdk.requests.ErrorResponse
 import org.stellar.sdk.responses.AccountResponse
+import org.stellar.sdk.responses.AssetResponse
 import org.stellar.sdk.responses.SubmitTransactionResponse
 import org.stellar.sdk.responses.operations.OperationResponse
 import java.net.URL
@@ -26,31 +28,11 @@ class StellarHandler(
         )
         URL(friendBotUrl).openStream()
 
-        val account: AccountResponse = server.accounts().account(newAccount.getAccountId())
-        val issuerAccount: AccountResponse = server.accounts().account(issuer.getAccountId())
-        Log.i("Stellar", account.getAccountId())
-
         val assetResponse = server.assets().assetIssuer(issuer.accountId).execute()
 
-        // Create trust line between assets and created account
-        val changeTrustTransaction = Transaction.Builder(account, network)
-            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assetResponse.records[0].asset), "2147483647").build())
-            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assetResponse.records[1].asset), "2147483647").build())
-            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assetResponse.records[2].asset), "2147483647").build())
-            .setTimeout(180L)
-            .setBaseFee(Transaction.MIN_BASE_FEE)
-            .build()
-        submitTransaction(changeTrustTransaction, newAccount)
-
-        // Fund new account
-        val fundNewAccountTransaction = Transaction.Builder(issuerAccount, network)
-            .addOperation(PaymentOperation.Builder(account.accountId, assetResponse.records[0].asset, "30").build())
-            .addOperation(PaymentOperation.Builder(account.accountId, assetResponse.records[1].asset, "15").build())
-            .addOperation(PaymentOperation.Builder(account.accountId, assetResponse.records[2].asset, "10").build())
-            .setTimeout(180L)
-            .setBaseFee(Transaction.MIN_BASE_FEE)
-            .build()
-        submitTransaction(fundNewAccountTransaction, issuer)
+        // Create trust line with assets and fund new account
+        createTrustLineWithAssets(newAccount, assetResponse.records)
+        fundAccount(newAccount, assetResponse.records)
 
         return@withContext newAccount
     }
@@ -86,20 +68,24 @@ class StellarHandler(
         val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
 
         list = paymentsOperationResponse.records
-        Log.i("Stellar", list.toString())
         return@withContext list
     }
 
     suspend fun getAccount(secretSeed: String): KeyPair? = withContext(Dispatchers.IO) {
-        val keys = KeyPair.fromSecretSeed(secretSeed)
+        val accKeys = KeyPair.fromSecretSeed(secretSeed)
         try {
-            server.accounts().account(keys.accountId)
+            server.accounts().account(accKeys.accountId)
         } catch (e :ErrorResponse) {
             Log.e("Stellar", e.message.toString())
             if (e.code == 404) return@withContext null
         }
+        val assetResponse = server.assets().assetIssuer(issuer.accountId).execute()
 
-        return@withContext keys
+        // Create trust line with assets and fund new account
+        createTrustLineWithAssets(accKeys, assetResponse.records)
+        fundAccount(accKeys, assetResponse.records)
+
+        return@withContext accKeys
     }
 
     private suspend fun submitTransaction(transaction: Transaction, signer: KeyPair) = withContext(Dispatchers.IO){
@@ -120,6 +106,30 @@ class StellarHandler(
             .assetIssuer(issuer.accountId)
             .execute()
         return@withContext assetResponse.records[0].asset
+    }
+
+    private suspend fun createTrustLineWithAssets(accKeys: KeyPair, assets: ArrayList<AssetResponse>) = withContext(Dispatchers.IO) {
+        val account: AccountResponse = server.accounts().account(accKeys.getAccountId())
+        val changeTrustTransaction = Transaction.Builder(account, network)
+            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assets[0].asset), "2147483647").build())
+            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assets[1].asset), "2147483647").build())
+            .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assets[2].asset), "2147483647").build())
+            .setTimeout(180L)
+            .setBaseFee(Transaction.MIN_BASE_FEE)
+            .build()
+        submitTransaction(changeTrustTransaction, accKeys)
+    }
+
+    private suspend fun fundAccount(accKeys: KeyPair, assets: ArrayList<AssetResponse>) = withContext(Dispatchers.IO) {
+        val issuerAccount: AccountResponse = server.accounts().account(issuer.getAccountId())
+        val fundNewAccountTransaction = Transaction.Builder(issuerAccount, network)
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[0].asset, "30").build())
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[1].asset, "15").build())
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[2].asset, "10").build())
+            .setTimeout(180L)
+            .setBaseFee(Transaction.MIN_BASE_FEE)
+            .build()
+        submitTransaction(fundNewAccountTransaction, issuer)
     }
 
     companion object {

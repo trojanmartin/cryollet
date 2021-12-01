@@ -31,7 +31,7 @@ class ContactsFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
-        val viewModelFactory = ContactsViewModelFactory(ContactsRepository(databaseDataSource))
+        val viewModelFactory = ContactsViewModelFactory(ContactsRepository.getInstance(databaseDataSource))
 
         viewModel = ViewModelProvider(this, viewModelFactory)[ContactsViewModel::class.java]
         binding.viewModel = viewModel

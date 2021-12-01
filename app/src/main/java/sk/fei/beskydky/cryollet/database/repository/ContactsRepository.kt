@@ -7,7 +7,7 @@ import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import java.lang.Exception
 
-class ContactsRepository (private val appDatabaseDao: AppDatabaseDao) {
+class ContactsRepository private constructor(private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -37,6 +37,25 @@ class ContactsRepository (private val appDatabaseDao: AppDatabaseDao) {
     @WorkerThread
     suspend fun getByWaleId(walletId:String) : Contact? {
         return appDatabaseDao.getContactByWalletId(walletId)
+    }
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: ContactsRepository? = null
+
+        fun getInstance(appDatabaseDao: AppDatabaseDao): ContactsRepository {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = ContactsRepository(appDatabaseDao)
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
     }
 
 }

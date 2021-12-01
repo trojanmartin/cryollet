@@ -1,17 +1,26 @@
 package sk.fei.beskydky.cryollet.database.repository
 
+import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.stellar.sdk.KeyPair
 import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
+import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.data.model.Wallet
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
-class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
+class  WalletRepository private constructor (private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler)  {
 
-    private val userRepository = UserRepository(appDatabaseDao)
+    private val userRepository = UserRepository.getInstance(appDatabaseDao)
+
+
+    private var wallet : Wallet? = null
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -22,7 +31,14 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun get(): Wallet? {
-        return appDatabaseDao.getWallet()
+        if(wallet != null){
+            return wallet
+        }else{
+            Log.i("test", "volal sa")
+            val a = appDatabaseDao.getWallet()
+            wallet = a
+            return wallet
+        }
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -66,6 +82,26 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
     @WorkerThread
     suspend fun deleteAll() {
         appDatabaseDao.clearAllWallets()
+    }
+
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: WalletRepository? = null
+
+        fun getInstance(appDatabaseDao: AppDatabaseDao, stellarDataSource: StellarHandler): WalletRepository {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = WalletRepository(appDatabaseDao, stellarDataSource)
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
     }
 
 

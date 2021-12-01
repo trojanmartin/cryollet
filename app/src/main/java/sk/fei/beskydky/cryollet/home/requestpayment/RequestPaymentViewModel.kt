@@ -37,7 +37,7 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository,
             val balances = balanceRepository.get()
             val resultList: ArrayList<String> = ArrayList()
             for (balance in balances) {
-                resultList.add(formatCurrency(balance.assetName, balance.assetDescription))
+                resultList.add(balance.assetName)
             }
             _currencyList.value = resultList
         }
@@ -67,13 +67,5 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository,
             .append(separator)
             .append(publicKey.value)
         return dataToQRCode.toString()
-    }
-
-    private fun formatCurrency(assetName: String, assetDescription: String): String {
-        val builder = StringBuilder()
-        builder.append(assetName)
-                .append(separatorDash)
-                .append(assetDescription)
-        return builder.toString()
     }
 }

@@ -49,7 +49,7 @@ class SendPaymentFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
-        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository(databaseDataSource, stellarDataSource),databaseDataSource)
+        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository.getInstance(databaseDataSource, stellarDataSource),databaseDataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[SendPaymentViewModel::class.java]
 
