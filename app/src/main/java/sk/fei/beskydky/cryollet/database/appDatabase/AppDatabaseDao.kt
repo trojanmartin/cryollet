@@ -96,6 +96,9 @@ interface AppDatabaseDao {
     @Update
     suspend fun updateBalance(balance: Balance)
 
+    @Update
+    suspend fun updateBalance(balance: List<Balance>)
+
     @Query("SELECT * from balances")
     suspend fun getAllBalances(): MutableList<Balance>
 

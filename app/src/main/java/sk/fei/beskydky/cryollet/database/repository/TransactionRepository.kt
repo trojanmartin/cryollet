@@ -87,6 +87,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
                 result.add(
                         Transaction(
+                                transactionId = item.transactionHash,
                                 externalWalletId = if(isReceivedPayment) item.from else item.to,
                                 date = item.createdAt,
                                 currency = item.asset.toString(),
