@@ -4,17 +4,19 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.stellar.sdk.KeyPair
+import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
-data class User(val name: String)
 
-class SendPaymentViewModel : ViewModel() {
+class SendPaymentViewModel(private val balanceRepository: BalanceRepository) : ViewModel() {
     val currency = MutableLiveData("")
-    var currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
+
+    private val _currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    val currencyList: LiveData<ArrayList<String>>
+        get() = _currencyList
 
     val contactName = MutableLiveData("")
     var contactList: MutableLiveData<ArrayList<String>> = MutableLiveData()
-
 
     private val _eventPaymentCompleted = MutableLiveData<Boolean>()
     val eventPaymentCompleted: LiveData<Boolean>
@@ -28,6 +30,8 @@ class SendPaymentViewModel : ViewModel() {
     val formState: LiveData<SendPaymentFormState>
         get() = _formState
 
+    private val separator: String = " - "
+
 
     val walletKey = MutableLiveData<String>()
     val amount = MutableLiveData<String>()
@@ -39,6 +43,15 @@ class SendPaymentViewModel : ViewModel() {
         formObserver.addSource(amount) { onFormChanged() }
         formObserver.addSource(currency) { onFormChanged() }
         onFormChanged()
+
+        viewModelScope.launch {
+            val balances = balanceRepository.get()
+            val resultList: ArrayList<String> = ArrayList()
+            for (balance in balances) {
+                resultList.add(formatCurrency(balance.assetName, balance.assetDescription))
+            }
+            _currencyList.value = resultList
+        }
     }
 
     fun onScanQRCode() {
@@ -49,26 +62,6 @@ class SendPaymentViewModel : ViewModel() {
         _eventScanQRCode.value = false
     }
 
-
-    //dump
-    fun searchCurrency(name: String) {
-        val list = ArrayList<String>()
-        list.add("CZK - Czech Koruna")
-        list.add("DKK - Danish Krone")
-        list.add("DOP - Dominican Peso")
-        list.add("EUR - Euro")
-        list.add("ALL - Albanian Lek")
-        list.add("AMD - Armenian Dram")
-        list.add("AOA - Angolan Kwanza")
-        list.add("ARS - Argentine Peso")
-        list.add("PLN - Polish Zloty")
-        list.add("PYG - Paraguayan Guarani")
-        list.add("QAR - Qatari Riyal")
-        list.add("RON - Romanian Leu")
-        currencyList.value = list
-    }
-
-    // dump
     fun searchContacts(name: String) {
         val list = ArrayList<String>()
 
@@ -80,7 +73,7 @@ class SendPaymentViewModel : ViewModel() {
         contactList.value = list
     }
 
-    fun onSendPayment(){
+    fun onSendPayment() {
         _eventPaymentCompleted.value = true
     }
 
@@ -94,8 +87,16 @@ class SendPaymentViewModel : ViewModel() {
         Log.i("Stellar", "Success")
     }
 
+    private fun formatCurrency(assetName: String, assetDescription: String): String {
+        val builder = StringBuilder()
+        builder.append(assetName)
+                .append(separator)
+                .append(assetDescription)
+        return builder.toString()
+    }
 
-    private fun onFormChanged(){
+
+    private fun onFormChanged() {
         var state = SendPaymentFormState()
         state.keyValid = isKeyValid()
         state.amountValid = isAmountValid()
@@ -103,15 +104,15 @@ class SendPaymentViewModel : ViewModel() {
         _formState.value = state
     }
 
-    private fun isKeyValid(): Boolean{
+    private fun isKeyValid(): Boolean {
         return !walletKey.value.isNullOrBlank()
     }
 
-    private fun isAmountValid(): Boolean{
+    private fun isAmountValid(): Boolean {
         return !walletKey.value.isNullOrBlank()
     }
 
-    private fun isCurrencyValid(): Boolean{
+    private fun isCurrencyValid(): Boolean {
         return !currency.value.isNullOrBlank()
     }
 }
