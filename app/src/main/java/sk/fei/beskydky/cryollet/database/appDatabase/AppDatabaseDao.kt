@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.database.appDatabase
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import sk.fei.beskydky.cryollet.data.model.*
 import sk.fei.beskydky.cryollet.data.model.Transaction
@@ -45,13 +46,11 @@ interface AppDatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTransactions(transactions: MutableList<Transaction>)
-
     @Update
     suspend fun updateTransaction(transaction: Transaction)
 
     @Query("DELETE FROM transactions")
     suspend fun clearAllTransactions()
-
 
     @Query("SELECT * FROM transactions" )
     suspend fun getAllTransactions(): MutableList<TransactionWithContact>
@@ -62,6 +61,7 @@ interface AppDatabaseDao {
     @Query("SELECT * FROM transactions WHERE isReceivedType = 0 ORDER BY date DESC")
     suspend fun getSentTransactions(): MutableList<TransactionWithContact>
 
+
     //CONTACTS
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertContactIgnore(contact: Contact)
@@ -71,9 +71,9 @@ interface AppDatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContactReplace(contact: Contact)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContactReplace(contacts: MutableList<Contact>)
-
 
     @Query("SELECT * from contacts ORDER BY name ASC")
     suspend fun getAllContacts(): MutableList<Contact>
@@ -86,5 +86,30 @@ interface AppDatabaseDao {
 
     @Query("DELETE FROM contacts")
     suspend fun clearAllContacts()
+
+    //BALANCES
+    @Insert
+    suspend fun insertBalance(balance: Balance)
+
+    @Insert
+    suspend fun insertBalance(balances: List<Balance>)
+
+    @Update
+    suspend fun updateBalance(balance: Balance)
+
+    @Update
+    suspend fun updateBalance(balance: List<Balance>)
+
+    @Query("SELECT * from balances")
+    suspend fun getAllBalances(): MutableList<Balance>
+
+    @Query("DELETE FROM balances")
+    suspend fun clearAllBalances()
+
+    @Query("SELECT * FROM balances WHERE id = :id")
+    suspend fun getBalanceById(id:Long): Balance?
+
+    @Query("SELECT * FROM balances WHERE asset_name = :assetName")
+    suspend fun getBalanceByShortName(assetName:String): Balance?
 
 }

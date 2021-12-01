@@ -8,11 +8,11 @@
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/contacts_item.xml" value="0.5" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_qr_code_scanner.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_request_payment.xml" value="0.21927083333333333" />
-        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_header.xml" value="0.2203125" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_item_view.xml" value="0.2203125" />
         <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_list_fragment.xml" value="0.2203125" />
+        <entry key="..\:/Users/patrik.smolar/School/FEI-API-2ING-21-22/MOBV/cryollet/app/src/main/res/layout/fragment_send_payment.xml" value="0.22083333333333333" />
       </map>
     </option>
   </component>

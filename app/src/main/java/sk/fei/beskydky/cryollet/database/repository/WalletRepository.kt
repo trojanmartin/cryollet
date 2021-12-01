@@ -27,13 +27,29 @@ class WalletRepository(private val appDatabaseDao: AppDatabaseDao, private val s
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun createAndInsert(userId:Long, pin:String) {
+    suspend fun createFromSecretAndInsert(secret:String,userId:Long, pin:String): Boolean {
+        var res = false
+        val account = stellarDataSource.getAccount(secret)
+        if(account != null){
+            res = true
+            appDatabaseDao.clearAllWallets()
+            val secretKey = account.secretSeed.joinToString("")
+            val hashedSecretKey = secretKey.aesEncrypt(pin)
+            appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = account.accountId, secretKey = hashedSecretKey))
+        }
+        return res
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun createNewAndInsert(userId:Long, pin:String) {
         appDatabaseDao.clearAllWallets()
         var registeredKeyPair = stellarDataSource.createAccount()
         val secretKey = registeredKeyPair.secretSeed.joinToString("")
         val hashedSecretKey = secretKey.aesEncrypt(pin)
-        appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = registeredKeyPair.accountId, secretKey = hashedSecretKey , balance = 10000.0))
+        appDatabaseDao.insertWallet(Wallet(userId = userId, accountId = registeredKeyPair.accountId, secretKey = hashedSecretKey))
     }
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getSecretKey(pin:String) :String {

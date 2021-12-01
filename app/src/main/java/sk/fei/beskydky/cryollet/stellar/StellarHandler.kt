@@ -5,10 +5,13 @@ import android.util.Log
 import androidx.room.Room
 import kotlinx.coroutines.*
 import org.stellar.sdk.*
+import org.stellar.sdk.requests.ErrorResponse
 import org.stellar.sdk.responses.AccountResponse
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import org.stellar.sdk.responses.SubmitTransactionResponse
 import org.stellar.sdk.responses.operations.OperationResponse
+import org.stellar.sdk.xdr.AssetType
+import org.stellar.sdk.xdr.ClaimClaimableBalanceOp
 import java.io.InputStream
 import java.net.URL
 import java.util.*
@@ -52,8 +55,11 @@ class StellarHandler(
         val sourceAccount: AccountResponse = server.accounts().account(source.accountId)
         val destination = KeyPair.fromAccountId(destinationId)
 
+        val assetResponse = server.assets().assetCode("EUR").assetIssuer("GAKNDFRRWA3RPWNLTI3G4EBSD3RGNZZOY5WKWYMQ6CQTG3KIEKPYWAYC").execute()
+        val asset = assetResponse.records[0].asset
+
         val transaction: Transaction = Transaction.Builder(sourceAccount, network)
-            .addOperation(PaymentOperation.Builder(destination.accountId, assetType, value).build())
+            .addOperation(PaymentOperation.Builder(destination.accountId, asset, value).build())
             .addMemo(Memo.text(memo))
             // Wait max 3 minutes
             .setTimeout(180L)
@@ -76,14 +82,29 @@ class StellarHandler(
         var list: ArrayList<OperationResponse>? = null
         val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
 
+
         list = paymentsOperationResponse.records
         Log.i("Stellar", list.toString())
         return@withContext list
     }
 
+    suspend fun getAccount(secretSeed: String): KeyPair? = withContext(Dispatchers.IO) {
+        val keys = KeyPair.fromSecretSeed(secretSeed)
+        try {
+            val account: AccountResponse = server.accounts().account(keys.accountId)
+        } catch (e :ErrorResponse) {
+            Log.e("Stellar", e.message.toString())
+            if (e.code == 404) return@withContext null
+        }
 
-    companion object {
+        return@withContext keys
+    }
 
+    private suspend fun getAsset(code: String) = withContext(Dispatchers.IO) {
+
+    }
+
+    companion object{
         @Volatile
         private var INSTANCE: StellarHandler? = null
 

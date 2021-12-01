@@ -1,6 +1,7 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
 import org.stellar.sdk.responses.operations.PaymentOperationResponse
@@ -36,7 +37,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact> {
+    suspend fun getSentTransactions(refreshFromStellar:Boolean = false): MutableList<TransactionWithContact>{
         if(refreshFromStellar){
             refreshDatabaseFromStellar()
         }
@@ -87,6 +88,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
                 result.add(
                         Transaction(
+                                transactionId = item.transactionHash,
                                 externalWalletId = if(isReceivedPayment) item.from else item.to,
                                 date = item.createdAt,
                                 currency = item.asset.toString(),
