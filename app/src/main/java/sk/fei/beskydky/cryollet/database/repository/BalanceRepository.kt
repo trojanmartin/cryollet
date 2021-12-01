@@ -1,17 +1,13 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
-import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
-import org.stellar.sdk.responses.operations.PaymentOperationResponse
 import sk.fei.beskydky.cryollet.data.model.Balance
-import sk.fei.beskydky.cryollet.data.model.Contact
-import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
-import java.lang.Exception
+import sk.fei.beskydky.cryollet.toNullable
 
-class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
+class BalanceRepository private constructor(private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -70,23 +66,42 @@ class BalanceRepository (private val appDatabaseDao: AppDatabaseDao, private val
     suspend fun refreshBalances() {
         val storage = appDatabaseDao.getAllBalances()
 
-        val walletRepository = WalletRepository(appDatabaseDao, stellarDataSource)
-        val userRepository = UserRepository(appDatabaseDao)
+        val walletRepository = WalletRepository.getInstance(appDatabaseDao, stellarDataSource)
+        val userRepository = UserRepository.getInstance(appDatabaseDao)
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
         val balyAnces = stellarDataSource.getBalances(source)!!
 
-        for (i in 0 until balyAnces.size) {
-            val item = balyAnces[i]
-            for (s in storage){
-                if(s.assetName == item.assetType){
-                    s.amount = item.balance
-                }
+        for (element in balyAnces) {
+
+            var e = storage.firstOrNull { x -> x.assetName == element.assetCode.toNullable()  }
+            if(e != null){
+                e.amount = element.balance
+            }else if(element.assetType == "native"){
+                e = storage.first { x -> x.assetName == "XLM" }
+                e.amount = element.balance
             }
         }
         appDatabaseDao.updateBalance(storage)
     }
 
 
+    companion object {
 
+        @Volatile
+        private var INSTANCE: BalanceRepository? = null
+
+        fun getInstance(appDatabaseDao: AppDatabaseDao, stellarDataSource: StellarHandler): BalanceRepository {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = BalanceRepository(appDatabaseDao,stellarDataSource)
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
+    }
 
 }

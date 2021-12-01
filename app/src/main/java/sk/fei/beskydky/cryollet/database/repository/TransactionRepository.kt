@@ -2,7 +2,6 @@ package sk.fei.beskydky.cryollet.database.repository
 
 import android.content.res.Resources
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
 import org.stellar.sdk.AssetTypeCreditAlphaNum4
 import org.stellar.sdk.AssetTypeNative
 import org.stellar.sdk.KeyPair
@@ -13,10 +12,11 @@ import sk.fei.beskydky.cryollet.data.model.TransactionWithContact
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
-class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
+class TransactionRepository private constructor(private val appDatabaseDao: AppDatabaseDao, private val stellarDataSource: StellarHandler) {
 
-    val walletRepository = WalletRepository(appDatabaseDao, stellarDataSource)
-    val userRepository = UserRepository(appDatabaseDao)
+    val walletRepository = WalletRepository.getInstance(appDatabaseDao, stellarDataSource)
+    val userRepository = UserRepository.getInstance(appDatabaseDao)
+    val balanceRepository = BalanceRepository.getInstance(appDatabaseDao, stellarDataSource)
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -25,7 +25,10 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
             amount:String,
             memo:String = "") {
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
-       stellarDataSource.sendTransaction(source, destinationId, "XLM",amount, memo)
+
+        stellarDataSource.sendTransaction(source, destinationId, "XLM",amount, memo)
+        balanceRepository.refreshBalances()
+        refreshDatabaseFromStellar()
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -58,7 +61,7 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend private fun refreshDatabaseFromStellar(){
+     public suspend  fun refreshDatabaseFromStellar(){
         val listTransactions = getAllTransactionsFromStellar()
         val listContacts = mutableListOf<Contact>()
         for (transaction in listTransactions){
@@ -66,12 +69,6 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
         }
         appDatabaseDao.insertContactIgnore(listContacts)
         appDatabaseDao.insertTransactions(listTransactions)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun loginWithSecretKey(secretKey: String) {
-        //TODO MAROS
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -106,6 +103,25 @@ class TransactionRepository(private val appDatabaseDao: AppDatabaseDao, private 
             }
         }
         return result
+    }
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: TransactionRepository? = null
+
+        fun getInstance(appDatabaseDao: AppDatabaseDao, stellarDataSource: StellarHandler): TransactionRepository {
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = TransactionRepository(appDatabaseDao, stellarDataSource)
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
     }
 
 

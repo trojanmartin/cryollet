@@ -2,7 +2,6 @@ package sk.fei.beskydky.cryollet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
 import android.view.WindowManager
 
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
+import sk.fei.beskydky.cryollet.database.repository.TransactionRepository
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GlobalScope.launch {
-            prefillDatabase()
+            refreshDatabase()
         }
         setContentView(R.layout.activity_main)
         val menu = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -31,9 +31,10 @@ class MainActivity : AppCompatActivity() {
         menu.setupWithNavController(navController)
     }
 
-    private suspend fun prefillDatabase(){
+    private suspend fun refreshDatabase(){
         val dataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
-        BalanceRepository(dataSource, stellarDataSource).fillWithData()
+        TransactionRepository.getInstance(dataSource, stellarDataSource).refreshDatabaseFromStellar()
+        BalanceRepository.getInstance(dataSource, stellarDataSource).fillWithData()
     }
 }

@@ -17,6 +17,7 @@ class HomeViewModel(private val database: AppDatabaseDao) : ViewModel() {
         get() = _eventInfoClicked
 
      val transactions = database.getAllTransactionsLiveData()
+     val balances = database.getAllBalancesLiveData()
 
 
     fun onRequestPayment() {

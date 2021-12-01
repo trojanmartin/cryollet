@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.data.model.Balance
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
@@ -44,6 +46,7 @@ class HomeFragment : Fragment() {
 
         val incomeCount = binding.sumIncome
         val sentCount = binding.sumExpanse
+        var pieChart = binding.transactionGraph
 
         viewModel.eventRequestPaymentClicked.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -61,7 +64,6 @@ class HomeFragment : Fragment() {
 
         viewModel.transactions.observe(viewLifecycleOwner,{ trans ->
             val received: Int = trans.count { it.isReceivedType }
-
             incomeCount.text = received.toString()
             sentCount.text = (trans.count() - received).toString()
         })
@@ -80,8 +82,11 @@ class HomeFragment : Fragment() {
             }
         })
 
-
-        setUpGraph(binding, viewModel)
+        viewModel.balances.observe(viewLifecycleOwner, Observer {
+            setUpGraph(pieChart, it)
+            pieChart.notifyDataSetChanged()
+            pieChart.invalidate()
+        })
         binding.viewModel = viewModel
         binding.root.setHideKeyboardOnClick(this)
         return binding.root
@@ -92,28 +97,28 @@ class HomeFragment : Fragment() {
         myContext = context as FragmentActivity
     }
 
-    fun setUpGraph(binding: HomeFragmentBinding, viewModel: HomeViewModel) {
-        var pieChart = binding.transactionGraph
+    private fun setUpGraph(pieChart: PieChart, data: List<Balance>) {
         val dataEntries = ArrayList<PieEntry>()
-        dataEntries.add(PieEntry(72f, "Android"))
-        dataEntries.add(PieEntry(26f, "Ios"))
-        dataEntries.add(PieEntry(20f, "Other"))
+        for (bal in data){
+            dataEntries.add(PieEntry(bal.amount.toFloat(), bal.assetName))
+        }
 
         val colors: ArrayList<Int> = ArrayList()
-        colors.add(Color.parseColor("#373A4D"))
         colors.add(Color.parseColor("#8F92A9"))
         colors.add(Color.parseColor("#F5F5FA"))
+        colors.add(Color.parseColor("#373A4D"))
+        colors.add(Color.parseColor("#9E1c9d"))
 
         val dataSet = PieDataSet(dataEntries, "")
-        val data = PieData(dataSet)
+        val graphData = PieData(dataSet)
 
 
         // In Percentage
-        data.setValueFormatter(PercentFormatter())
+        graphData.setValueFormatter(PercentFormatter())
         dataSet.sliceSpace = 3f
         dataSet.colors = colors
-        pieChart.data = data
-        data.setValueTextSize(15f)
+        pieChart.data = graphData
+        graphData.setValueTextSize(15f)
 
         pieChart.setDrawEntryLabels(false)
         pieChart.extraRightOffset = 30f;
@@ -126,6 +131,5 @@ class HomeFragment : Fragment() {
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT;
         legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER;
         legend.orientation = Legend.LegendOrientation.VERTICAL;
-        pieChart.invalidate()
     }
 }
