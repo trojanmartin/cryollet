@@ -73,7 +73,7 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
             var result = false
             val pin = userRepository.getPin()
             if (user != null && pin != null) {
-                result = walletRepository.createFromSecretAndInsert("",user.userId,pin )
+                result = walletRepository.createFromSecretAndInsert(key.value!!,user.userId,pin )
             }
 
             if(result){
