@@ -61,7 +61,7 @@ class StellarHandler(
     }
 
     suspend fun sendTransaction(source: KeyPair, destinationId: String,
-                                assetCode: String,
+                                assetCode: String = "XLM",
                                 value: String, memo: String = "testTransaction"):
                                 SubmitTransactionResponse? = withContext(Dispatchers.IO) {
 
