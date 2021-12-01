@@ -1,8 +1,6 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import androidx.annotation.WorkerThread
-import org.stellar.sdk.KeyPair
-import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
 import sk.fei.beskydky.cryollet.data.model.Wallet
