@@ -1,10 +1,9 @@
 package sk.fei.beskydky.cryollet.home.qrcode
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +11,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.budiyev.android.codescanner.*
+import com.google.firebase.crashlytics.internal.model.CrashlyticsReport
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.databinding.FragmentQrCodeScannerBinding
 
@@ -64,7 +60,8 @@ class QrCodeScannerFragment : Fragment() {
         }
 
         qrScannerCode.errorCallback = ErrorCallback {
-            Toast.makeText(requireContext(), "Camera error: ${it.message}", Toast.LENGTH_SHORT).show()
+            CrashlyticsReport.Session.Event.Log.builder()
+                    .setContent("QR Code Scanner failed!").build()
         }
 
         scannerView.setOnClickListener {
@@ -76,10 +73,10 @@ class QrCodeScannerFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 123) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Camera granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Camera permission granted", Toast.LENGTH_SHORT).show()
                 startScanning()
             } else {
-                Toast.makeText(requireContext(), "Camera denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -97,5 +94,4 @@ class QrCodeScannerFragment : Fragment() {
         }
         super.onPause()
     }
-
 }
