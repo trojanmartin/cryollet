@@ -4,19 +4,20 @@ import androidx.annotation.WorkerThread
 import sk.fei.beskydky.cryollet.data.model.Contact
 import sk.fei.beskydky.cryollet.data.model.User
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
+import java.lang.Exception
 
 class ContactsRepository (private val appDatabaseDao: AppDatabaseDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(contact: Contact) {
-        appDatabaseDao.insertContact(contact)
+    suspend fun insertIgnore(contact: Contact) {
+        appDatabaseDao.insertContactIgnore(contact)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(contacts: MutableList<Contact>) {
-        appDatabaseDao.insertContacts(contacts)
+    suspend fun insertReplace(contact: Contact) {
+        appDatabaseDao.insertContactReplace(contact)
     }
 
     @Suppress("RedundantSuspendModifier")
