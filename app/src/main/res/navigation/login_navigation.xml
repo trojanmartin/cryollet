@@ -2,14 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_navigation"
-    app:startDestination="@id/keyLoginFragment">
+    app:startDestination="@id/pinCodeFragment">
 
+    <fragment
+        android:id="@+id/pinCodeFragment"
+        android:name="sk.fei.beskydky.cryollet.ui.login.pin.PinCodeFragment"
+        android:label="PinCodeFragment" >
+        <action
+            android:id="@+id/action_pinCodeFragment_to_keyLoginFragment"
+            app:destination="@id/keyLoginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/keyLoginFragment"
         android:name="sk.fei.beskydky.cryollet.ui.login.key.KeyLoginFragment"
         android:label="KeyLoginFragment" />
-    <fragment
-        android:id="@+id/pinCodeFragment"
-        android:name="sk.fei.beskydky.cryollet.ui.login.pin.PinCodeFragment"
-        android:label="PinCodeFragment" />
 </navigation>

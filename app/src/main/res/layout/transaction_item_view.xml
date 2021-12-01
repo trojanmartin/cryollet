@@ -7,7 +7,7 @@
     <data>
         <variable
             name="transaction"
-            type="sk.fei.beskydky.cryollet.transactions.FakeTransaction" />
+            type="sk.fei.beskydky.cryollet.data.model.Transaction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

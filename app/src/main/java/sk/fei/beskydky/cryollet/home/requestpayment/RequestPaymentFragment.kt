@@ -8,8 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import sk.fei.beskydky.cryollet.R
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
+import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 import sk.fei.beskydky.cryollet.databinding.FragmentRequestPaymentBinding
+import sk.fei.beskydky.cryollet.stellar.StellarHandler
+import sk.fei.beskydky.cryollet.ui.login.pin.PinCodeViewModel
+import sk.fei.beskydky.cryollet.ui.login.pin.PinCodeViewModelFactory
 
 
 class RequestPaymentFragment : DialogFragment() {
@@ -24,7 +33,14 @@ class RequestPaymentFragment : DialogFragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_request_payment, container, false)
-        viewModel = ViewModelProvider(this)[RequestPaymentViewModel::class.java]
+
+        val application = requireNotNull(this.activity).application
+        val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
+        val stellarDataSource = StellarHandler.getInstance(application)
+        val viewModelFactory =
+            RequestPaymentViewModelFactory(WalletRepository(databaseDataSource, stellarDataSource))
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[RequestPaymentViewModel::class.java]
 
         viewModel.eventCancelledDialog.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -35,8 +51,12 @@ class RequestPaymentFragment : DialogFragment() {
 
         viewModel.eventApproveDialog.observe(viewLifecycleOwner, Observer {
             if (it) {
-                // TODO:  dorobit navigaciu
-                dismiss() // <- Potom treba vymazat
+                val dataToQRCode = viewModel.getDataToGenerateQRCode()
+                findNavController(this)
+                    .navigate(
+                        RequestPaymentFragmentDirections
+                            .actionRequestPaymentFragmentToQrCodeFragment(dataToQRCode)
+                    )
                 viewModel.onRequestPaymentApproveFinished()
             }
         })

@@ -3,10 +3,32 @@ package sk.fei.beskydky.cryollet
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.preference.PreferenceManager
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.security.KeyFactory
+import java.security.MessageDigest
 import java.text.SimpleDateFormat
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.PBEKeySpec
+import javax.crypto.spec.SecretKeySpec
+
+
 
 /**
  * Take the Long milliseconds returned by the system and stored in Room,
@@ -42,3 +64,44 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+fun String.aesEncrypt(key: String): String {
+    val ivParameterSpec = IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
+
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec)
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec)
+    return Base64.encodeToString(cipher.doFinal(this.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
+
+}
+
+fun String.aesDecrypt(key: String): String {
+    val ivParameterSpec =  IvParameterSpec(Base64.decode(BuildConfig.IV, Base64.DEFAULT))
+
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val spec =  PBEKeySpec(key.toCharArray(), Base64.decode(BuildConfig.SALT, Base64.DEFAULT), 10000, 256)
+    val tmp = factory.generateSecret(spec);
+    val secretKey =  SecretKeySpec(tmp.encoded, "AES")
+
+    val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+    return  String(cipher.doFinal(Base64.decode(this, Base64.DEFAULT)))
+}
+
+/**
+ * Extension function to simplify setting an afterTextChanged action to EditText components.
+ */
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    })
+}
