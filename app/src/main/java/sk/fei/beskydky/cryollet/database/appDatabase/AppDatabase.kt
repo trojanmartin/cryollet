@@ -4,13 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import sk.fei.beskydky.cryollet.data.model.Contact
-import sk.fei.beskydky.cryollet.data.model.Transaction
-import sk.fei.beskydky.cryollet.data.model.User
-import sk.fei.beskydky.cryollet.data.model.Wallet
+import sk.fei.beskydky.cryollet.data.model.*
 
 
-@Database(entities = [User::class, Wallet::class, Transaction::class, Contact::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Wallet::class, Transaction::class, Contact::class, Balance::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val appDatabaseDao: AppDatabaseDao
@@ -32,11 +29,14 @@ abstract class AppDatabase : RoomDatabase() {
                         "AppDatabase"
                     )
                         .fallbackToDestructiveMigration()
+
                         .build()
                     INSTANCE = instance
                 }
                 return instance
             }
         }
+
     }
+
 }

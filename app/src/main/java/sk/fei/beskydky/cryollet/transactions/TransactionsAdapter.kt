@@ -15,13 +15,13 @@ private val ITEM_VIEW__TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
 sealed class DataItem {
-    abstract val id: Long
+    abstract val id: String
     data class TransactionItem(val transaction: TransactionWithContact): DataItem()      {
         override val id = transaction.transaction.transactionId
     }
 
     object Header: DataItem() {
-        override val id = Long.MIN_VALUE
+        override val id = ""
     }
 }
 

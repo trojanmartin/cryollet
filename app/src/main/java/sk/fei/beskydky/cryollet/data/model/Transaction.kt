@@ -10,8 +10,8 @@ import java.util.*
                 onDelete = ForeignKey.CASCADE
         )))
 data class Transaction (
-    @PrimaryKey(autoGenerate = true)
-    var transactionId: Long = 0L,
+    @PrimaryKey()
+    var transactionId: String,
 
     @ColumnInfo(name = "external_walletId")
     var externalWalletId: String,
