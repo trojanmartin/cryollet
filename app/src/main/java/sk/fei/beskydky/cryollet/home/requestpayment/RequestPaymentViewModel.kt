@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 
-class RequestPaymentViewModel(private val walletRepository: WalletRepository) : ViewModel() {
+class RequestPaymentViewModel(private val walletRepository: WalletRepository,
+                              private val balanceRepository: BalanceRepository) : ViewModel() {
     private val _eventCancelledDialog = MutableLiveData<Boolean>()
     val eventCancelledDialog: LiveData<Boolean>
         get() = _eventCancelledDialog
@@ -21,11 +23,23 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository) : 
     val requestPaymentCurrency = MutableLiveData<String>()
     private val publicKey = MutableLiveData<String>()
 
+    private val _currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    val currencyList: LiveData<ArrayList<String>>
+        get() = _currencyList
+
     private val separator = ','
+    private val separatorDash = " - "
 
     init {
         viewModelScope.launch {
             publicKey.value = walletRepository.get()?.accountId.toString()
+
+            val balances = balanceRepository.get()
+            val resultList: ArrayList<String> = ArrayList()
+            for (balance in balances) {
+                resultList.add(balance.assetName)
+            }
+            _currencyList.value = resultList
         }
     }
 
@@ -47,9 +61,6 @@ class RequestPaymentViewModel(private val walletRepository: WalletRepository) : 
 
     fun getDataToGenerateQRCode(): String {
         val dataToQRCode = StringBuilder()
-        viewModelScope.launch {
-            publicKey.value = walletRepository.get()?.accountId.toString()
-        }
         dataToQRCode.append(requestPaymentAmount.value.toString())
             .append(separator)
             .append(requestPaymentCurrency.value)

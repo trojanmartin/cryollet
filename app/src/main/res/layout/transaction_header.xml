@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="refreshClickListener"
+            type="sk.fei.beskydky.cryollet.transactions.TransactionsRefreshListener" />
+    </data>
+    
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,16 +18,31 @@
 
         <TextView
             android:id="@+id/account"
-            android:text="Transactions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:text="Transactions"
             android:textColor="@color/default_text"
             android:textSize="@dimen/header_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.099"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="16dp"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/ic_icons8_refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:onClick="@{()-> refreshClickListener.onClick()}"
+            app:layout_constraintStart_toEndOf="@+id/account"
+            app:layout_constraintTop_toTopOf="@+id/account" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

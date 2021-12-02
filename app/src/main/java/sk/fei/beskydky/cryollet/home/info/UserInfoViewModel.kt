@@ -3,8 +3,12 @@ package sk.fei.beskydky.cryollet.home.info
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import sk.fei.beskydky.cryollet.database.repository.UserRepository
+import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 
-class UserInfoViewModel() : ViewModel() {
+class UserInfoViewModel(private val walletRepository: WalletRepository, private val userRepository: UserRepository) : ViewModel() {
 
     private val _eventCopyPublicClicked = MutableLiveData<Boolean>()
     val eventCopyPublicClicked: LiveData<Boolean>
@@ -16,12 +20,15 @@ class UserInfoViewModel() : ViewModel() {
         get() = _eventCopySecretClicked
 
 
-    val secretKey = MutableLiveData<String>()
-    val publicKey = MutableLiveData<String>()
+    var secretKey = MutableLiveData<String>()
+    var publicKey = MutableLiveData<String>()
+
 
     init {
-        secretKey.value = "asdddddddddddddd"
-        publicKey.value = "bbbbbbbbbbbbbbbbbbbbbbbbbb"
+        viewModelScope.launch {
+            publicKey.value = walletRepository.get()?.accountId ?: "Not availaible"
+            secretKey.value = walletRepository.getSecretKey(userRepository.getPin()!!)
+        }
     }
 
 

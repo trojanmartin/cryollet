@@ -23,10 +23,11 @@ class TransactionRepository private constructor(private val appDatabaseDao: AppD
     suspend fun makeTransaction(
             destinationId: String = "GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP",
             amount:String,
+            assetCode: String,
             memo:String = "") {
         val source: KeyPair = KeyPair.fromSecretSeed(walletRepository.getSecretKey(userRepository.getPin()!!))
 
-        stellarDataSource.sendTransaction(source, destinationId, "XLM",amount, memo)
+        stellarDataSource.sendTransaction(source, destinationId, assetCode,amount, memo)
         balanceRepository.refreshBalances()
         refreshDatabaseFromStellar()
     }

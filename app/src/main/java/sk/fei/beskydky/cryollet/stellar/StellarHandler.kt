@@ -46,7 +46,7 @@ class StellarHandler(
         val sourceAccount: AccountResponse = loadAccount(source.accountId)
         val destination = KeyPair.fromAccountId(destinationId)
 
-        val asset = if (assetCode!="XLM") getAsset(assetCode) else AssetTypeNative()
+        val asset = if (assetCode != "XLM") getAsset(assetCode) else AssetTypeNative()
 
         val transaction: Transaction = Transaction.Builder(sourceAccount, network)
             .addOperation(PaymentOperation.Builder(destination.accountId, asset, value).build())
