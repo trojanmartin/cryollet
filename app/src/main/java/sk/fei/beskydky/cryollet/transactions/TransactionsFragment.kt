@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
+import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
 import sk.fei.beskydky.cryollet.database.repository.TransactionRepository
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.databinding.TransactionListFragmentBinding
@@ -33,12 +34,17 @@ class TransactionsFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
-        val viewModelFactory = TransactionsViewModelFactory(databaseDataSource)
+        val stellarDataSource = StellarHandler.getInstance(application)
+        val viewModelFactory = TransactionsViewModelFactory(databaseDataSource,
+                TransactionRepository.getInstance(databaseDataSource, stellarDataSource),
+                BalanceRepository.getInstance(databaseDataSource, stellarDataSource))
 
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionsViewModel::class.java]
         binding.viewModel = viewModel
 
-        val adapter = TransactionsAdapter()
+        val adapter = TransactionsAdapter(TransactionsRefreshListener {
+            viewModel.refresh()
+        })
         binding.transactionList.adapter = adapter
         binding.transactionList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
