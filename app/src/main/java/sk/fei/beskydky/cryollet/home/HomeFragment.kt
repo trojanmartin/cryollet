@@ -18,6 +18,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.data.model.Balance
@@ -115,7 +116,7 @@ class HomeFragment : Fragment() {
 
 
         // In Percentage
-        graphData.setValueFormatter(PercentFormatter())
+        graphData.setValueFormatter(DefaultValueFormatter(2))
         dataSet.sliceSpace = 3f
         dataSet.colors = colors
         pieChart.data = graphData
