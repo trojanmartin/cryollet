@@ -25,7 +25,7 @@ sealed class DataItem {
     }
 }
 
-class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(TransactionsDiffCallback()) {
+class TransactionsAdapter(refreshListener: TransactionsRefreshListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(TransactionsDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
@@ -39,6 +39,9 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
             is ViewHolder -> {
                 val trans = getItem(position) as DataItem.TransactionItem
                 holder.bind(trans.transaction)
+            }
+            is HeaderViewHolder -> {
+
             }
         }
     }
@@ -83,7 +86,16 @@ class TransactionsAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(Trans
                 return HeaderViewHolder(view)
             }
         }
+
+        fun bind(listener: TransactionsRefreshListener){
+//            binding.transaction = item
+//            binding.executePendingBindings()
+        }
     }
+}
+
+class TransactionsRefreshListener(val clickListener: () -> Unit){
+    fun onClick() = clickListener()
 }
 
 class TransactionsDiffCallback : DiffUtil.ItemCallback<DataItem>(){
