@@ -2,16 +2,19 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/transactions_menu_item"
+        android:id="@+id/transactionsFragment"
         android:enabled="true"
+        android:icon="@drawable/ic_credit_card"
         android:title="@string/transactions_menu_item"/>
     <item
-        android:id="@+id/home_menu_item"
+        android:id="@+id/homeFragment"
         android:enabled="true"
+        android:icon="@drawable/ic_home"
         android:title="@string/home_menu_item"/>
 
     <item
-        android:id="@+id/contacts_menu_item"
+        android:id="@+id/contactsFragment"
         android:enabled="true"
+        android:icon="@drawable/ic_contact_book_svgrepo_com"
         android:title="@string/contacts_menu_item"/>
 </menu>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="sk.fei.beskydky.cryollet.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="sk.fei.beskydky.cryollet.contacts.ContactsFragment"
+        android:label="ContactsFragment" />
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="sk.fei.beskydky.cryollet.transactions.TransactionsFragment"
+        android:label="TransactionsFragment" />
+    <fragment
+        android:id="@+id/sendPaymentFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.SendPaymentFragment"
+        android:label="SendPaymentFragment" >
+        <action
+            android:id="@+id/action_sendPaymentFragment_to_paymentResultFragment"
+            app:destination="@id/paymentResultFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_sendPaymentFragment_to_qrCodeScannerFragment"
+            app:destination="@id/qrCodeScannerFragment" />
+        <argument
+            android:name="qrCodeResult"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeFragment"
+        android:label="QrCodeFragment" >
+        <argument
+            android:name="requestPaymentInfo"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentResultFragment"
+        android:name="sk.fei.beskydky.cryollet.home.sendpayment.PaymentResultFragment"
+        android:label="PaymentResultFragment" >
+        <action
+            android:id="@+id/action_paymentResultFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="sk.fei.beskydky.cryollet.home.qrcode.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" >
+        <action
+            android:id="@+id/action_qrCodeScannerFragment_to_sendPaymentFragment"
+            app:destination="@id/sendPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="sk.fei.beskydky.cryollet.home.info.UserInfoFragment"
+        android:label="UserInfoFragment" >
+        <action
+            android:id="@+id/action_userInfoFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+</navigation>

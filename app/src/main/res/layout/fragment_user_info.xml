@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="sk.fei.beskydky.cryollet.home.info.UserInfoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/info_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/app_name"
+            android:textColor="@color/default_text"
+            android:textSize="@dimen/header_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/account_balance_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Powered by Stellar."
+            android:textColor="@color/secondary_text"
+            app:layout_constraintStart_toStartOf="@+id/info_header"
+            app:layout_constraintTop_toBottomOf="@+id/info_header" />
+
+        <TextView
+            android:id="@+id/identifier"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp"
+            android:text="Public key"
+            android:textColor="@color/default_text"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_header" />
+
+        <TextView
+            android:id="@+id/identifier2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="GA3KRKTFY5XFKNA6TGDJYRLDIGVJ4XUDOB3E6ZWOHS46HTSQUNTF544D"
+            android:textColor="@color/secondary_text"
+            android:text="@={viewModel.publicKey}"
+            android:onClick="@{() -> viewModel.onCopyPublic()}"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/copy_public"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/identifier"
+            app:layout_constraintTop_toBottomOf="@+id/identifier" />
+
+
+        <ImageButton
+            android:id="@+id/copy_public"
+            android:layout_width="38dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> viewModel.onCopyPublic()}"
+            android:src="@drawable/ic_copy_file_icon_icons_com_56095"
+            app:layout_constraintBottom_toBottomOf="@+id/identifier2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/identifier2" />
+
+        <TextView
+            android:id="@+id/secret_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Secret seed"
+            android:textColor="@color/default_text"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="@+id/identifier"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/identifier"
+            app:layout_constraintTop_toBottomOf="@+id/identifier2" />
+
+        <TextView
+            android:id="@+id/secret"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@={viewModel.secretKey}"
+            android:textColor="@color/secondary_text"
+            android:onClick="@{() -> viewModel.onCopySecret()}"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/copy_secret"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/secret_header"
+            app:layout_constraintTop_toBottomOf="@+id/secret_header"
+            tools:text="GA3KRKTFY5XFKNA6TGDJYRLDIGVJ4XUDOB3E6ZWOHS46HTSQUNTF544D" />
+
+        <ImageButton
+            android:id="@+id/copy_secret"
+            android:layout_width="38dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_copy_file_icon_icons_com_56095"
+            android:onClick="@{() -> viewModel.onCopySecret()}"
+            app:layout_constraintBottom_toBottomOf="@+id/secret"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/secret" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/balance_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/secret" />
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/ramabhadra"
+            android:text="@string/great"
+            android:textColor="@color/filled_button_text"
+            android:textSize="@dimen/login_button_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/balance_list" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
