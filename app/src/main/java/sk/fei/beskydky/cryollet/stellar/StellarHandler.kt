@@ -1,7 +1,6 @@
 package sk.fei.beskydky.cryollet.stellar
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.*
 import org.stellar.sdk.*
 import org.stellar.sdk.requests.ErrorResponse
@@ -65,7 +64,7 @@ class StellarHandler(
             val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
             list = paymentsOperationResponse.records
         } catch (e: ErrorResponse) {
-            throw Exception("Loading payments failed.")
+            throw Exception("Loading payments failed. Try again.")
         }
 
         return@withContext list
@@ -92,9 +91,9 @@ class StellarHandler(
         try {
             transactionResponse = server.submitTransaction(transaction)
         } catch (e: ErrorResponse) {
-            Log.e("Stellar", e.message.toString())
-            throw Exception("Submitting transaction failed.")
+            throw Exception("Submitting transaction failed. Try again.")
         }
+        if (!transactionResponse.isSuccess) throw Exception("Transaction failed. Check balance and try again.")
         return@withContext transactionResponse
     }
 
@@ -106,7 +105,7 @@ class StellarHandler(
                 .assetIssuer(issuer.accountId)
                 .execute()
         } catch (e: ErrorResponse) {
-            throw Exception("Loading asset failed.")
+            throw Exception("Loading asset failed. Try again.")
         }
         return@withContext assetResponse.records[0].asset
     }
@@ -116,7 +115,7 @@ class StellarHandler(
         try {
             response = server.assets().assetIssuer(issuer.accountId).execute()
         } catch (e: ErrorResponse) {
-            throw Exception("Loading assets failed.")
+            throw Exception("Loading assets failed. Try again.")
         }
         return@withContext response
     }
@@ -136,9 +135,9 @@ class StellarHandler(
     private suspend fun fundAccount(accKeys: KeyPair, assets: ArrayList<AssetResponse>) = withContext(Dispatchers.IO) {
         val issuerAccount: AccountResponse = loadAccount(issuer.accountId)
         val fundNewAccountTransaction = Transaction.Builder(issuerAccount, network)
-            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[0].asset, "30").build())
-            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[1].asset, "15").build())
-            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[2].asset, "10").build())
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[0].asset, "10000").build())
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[1].asset, "10000").build())
+            .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[2].asset, "10000").build())
             .setTimeout(180L)
             .setBaseFee(Transaction.MIN_BASE_FEE)
             .build()
@@ -151,7 +150,7 @@ class StellarHandler(
             account = server.accounts().account(accountId)
         } catch (e: ErrorResponse) {
             if (e.code == 404) throw Exception("Account does not exist.")
-            throw Exception("Loading account failed.")
+            throw Exception("Loading account failed. Try again.")
         }
         return@withContext account
     }
@@ -164,7 +163,7 @@ class StellarHandler(
         try {
             URL(friendBotUrl).openStream()
         } catch (e: ErrorResponse) {
-            throw Exception("Funding with friend bot failed.")
+            throw Exception("Funding with friend bot failed. Try again.")
         }
     }
 

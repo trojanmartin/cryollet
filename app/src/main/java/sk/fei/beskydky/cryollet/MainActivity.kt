@@ -3,6 +3,7 @@ package sk.fei.beskydky.cryollet
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -34,7 +35,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun refreshDatabase(){
         val dataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
-        TransactionRepository.getInstance(dataSource, stellarDataSource).refreshDatabaseFromStellar()
-        BalanceRepository.getInstance(dataSource, stellarDataSource).fillWithData()
+        try {
+            TransactionRepository.getInstance(dataSource, stellarDataSource).refreshDatabaseFromStellar()
+            BalanceRepository.getInstance(dataSource, stellarDataSource).fillWithData()
+        } catch (e: Exception){
+            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
+        }
     }
 }

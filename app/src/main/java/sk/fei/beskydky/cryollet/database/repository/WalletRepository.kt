@@ -1,13 +1,13 @@
 package sk.fei.beskydky.cryollet.database.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.stellar.sdk.KeyPair
-import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
 import sk.fei.beskydky.cryollet.data.model.User

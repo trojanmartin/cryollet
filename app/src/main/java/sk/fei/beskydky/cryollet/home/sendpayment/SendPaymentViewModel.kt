@@ -19,6 +19,8 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
     val currency = MutableLiveData("")
     val contactName = MutableLiveData<String>("")
 
+    val errorMessage = MutableLiveData<String>()
+
     private val _currencyList: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val currencyList: LiveData<ArrayList<String>>
         get() = _currencyList
@@ -79,9 +81,14 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
             if((contactName.value?.length) ?: -1  > 0){
                 contactsRepository.insertReplace(Contact(walletId = walletKey.value!!, contactName.value!!))
             }
-
-            transactionRepository.makeTransaction(destinationId = walletKey.value!!, amount = amount.value!!, assetCode = currency.value!!)
-            _eventPaymentStarted.value = true
+            try {
+                transactionRepository.makeTransaction(destinationId = walletKey.value!!, amount = amount.value!!, assetCode = currency.value!!)
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+                _eventPaymentStarted.value = false
+                return@launch
+            }
+            _eventPaymentStarted.value = false
             _eventPaymentCompleted.value = true
         }
 
@@ -89,16 +96,6 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
 
     fun onPaymentCompletedFinished(){
         _eventPaymentCompleted.value = false
-    }
-
-    fun onClick() = viewModelScope.launch {
-        val stellarHandler = StellarHandler()
-
-        val source: KeyPair = KeyPair.fromSecretSeed("SCZWUQZX7AD7OENXXKNOHJXSOT2WAJOBRLVV7YNASLAMOECWTJPAC3WS")
-        val destinationId: String = "GAWB5RG6F4X3SUBXYI3O3M4ZED6KFHMORIM5URKZI5BYRCJHGOO5XSLP"
-
-        val response = stellarHandler.getPayments(source)
-        Log.i("Stellar", "Success")
     }
 
     fun formatContact(listOfContacts: MutableList<Contact>) : List<String> {

@@ -15,12 +15,17 @@ class TransactionsViewModel(private val database: AppDatabaseDao,
                             private val transactionRepository: TransactionRepository,
                             private val balanceRepository: BalanceRepository) : ViewModel() {
     val transactions =  database.getAllTransactionsWithContactLiveData()
-
+    val errorMessage = MutableLiveData<String>()
 
     fun refresh(){
         viewModelScope.launch {
-            transactionRepository.refreshDatabaseFromStellar()
-            balanceRepository.refreshBalances()
+            try {
+                transactionRepository.refreshDatabaseFromStellar()
+                balanceRepository.refreshBalances()
+
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+            }
         }
     }
 }
