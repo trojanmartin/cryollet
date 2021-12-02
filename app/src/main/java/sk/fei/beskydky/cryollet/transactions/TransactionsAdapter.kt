@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.data.model.Transaction
 import sk.fei.beskydky.cryollet.data.model.TransactionWithContact
+import sk.fei.beskydky.cryollet.databinding.TransactionHeaderBinding
 import sk.fei.beskydky.cryollet.databinding.TransactionItemViewBinding
 
 private val ITEM_VIEW__TYPE_HEADER = 0
@@ -25,7 +26,7 @@ sealed class DataItem {
     }
 }
 
-class TransactionsAdapter(refreshListener: TransactionsRefreshListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(TransactionsDiffCallback()) {
+class TransactionsAdapter(private val refreshListener: TransactionsRefreshListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(TransactionsDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
@@ -41,7 +42,7 @@ class TransactionsAdapter(refreshListener: TransactionsRefreshListener) : ListAd
                 holder.bind(trans.transaction)
             }
             is HeaderViewHolder -> {
-
+                holder.bind(refreshListener)
             }
         }
     }
@@ -78,18 +79,20 @@ class TransactionsAdapter(refreshListener: TransactionsRefreshListener) : ListAd
         }
     }
 
-    class HeaderViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
+    class HeaderViewHolder private constructor(private val binding: TransactionHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun from(parent: ViewGroup): HeaderViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.transaction_header, parent, false)
-                return HeaderViewHolder(view)
+                val layoutInflater =
+                        LayoutInflater.from(parent.context)
+
+                val binding = TransactionHeaderBinding.inflate(layoutInflater, parent, false)
+                return HeaderViewHolder(binding)
             }
         }
 
         fun bind(listener: TransactionsRefreshListener){
-//            binding.transaction = item
-//            binding.executePendingBindings()
+           binding.refreshClickListener = listener
+           binding.executePendingBindings()
         }
     }
 }
