@@ -12,16 +12,27 @@
 
         <TextView
             android:id="@+id/account"
-            android:text="Transactions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:text="Transactions"
             android:textColor="@color/default_text"
             android:textSize="@dimen/header_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.099"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/button"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/ic_refresh_svgrepo_com"-->
+<!--            tools:layout_editor_absoluteX="16dp"-->
+<!--            tools:layout_editor_absoluteY="-165dp" />-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

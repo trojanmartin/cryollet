@@ -81,10 +81,10 @@ interface AppDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContactReplace(contacts: MutableList<Contact>)
 
-    @Query("SELECT * from contacts ORDER BY name ASC")
+    @Query("SELECT * from contacts where name != wallet_id ORDER BY name ASC")
     suspend fun getAllContacts(): MutableList<Contact>
 
-    @Query("SELECT * FROM contacts ORDER BY name ASC")
+    @Query("SELECT * FROM contacts where name != wallet_id ORDER BY name ASC")
     fun getAllContactsLiveData(): LiveData<MutableList<Contact>>
 
     @Query("SELECT * from contacts WHERE name = :name")

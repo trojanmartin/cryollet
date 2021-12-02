@@ -20,6 +20,11 @@ fun TextView.setAmountString(item: TransactionWithContact) {
 
 }
 
+@BindingAdapter("transactionDate")
+fun TextView.setTransactionDate(item: TransactionWithContact) {
+    text = item.transaction.date.split("T")[0].replace("-",".")
+}
+
 
 @BindingAdapter("accountString")
 fun TextView.setAccountString(item: TransactionWithContact) {
