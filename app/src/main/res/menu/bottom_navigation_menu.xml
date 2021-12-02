@@ -15,6 +15,6 @@
     <item
         android:id="@+id/contactsFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_tick_inside_a_circle"
+        android:icon="@drawable/ic_contact_book_svgrepo_com"
         android:title="@string/contacts_menu_item"/>
 </menu>

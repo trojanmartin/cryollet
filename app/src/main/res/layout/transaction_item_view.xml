@@ -30,10 +30,11 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:text="25.2.2022"
+            app:transactionDate="@{transaction}"
             android:textColor="@color/secondary_text"
             app:layout_constraintStart_toStartOf="@+id/identifier"
-            app:layout_constraintTop_toBottomOf="@+id/identifier" />
+            app:layout_constraintTop_toBottomOf="@+id/identifier"
+            tools:text="22.2.2021"/>
 
 
         <TextView

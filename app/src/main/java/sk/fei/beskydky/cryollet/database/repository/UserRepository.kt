@@ -1,20 +1,12 @@
 package sk.fei.beskydky.cryollet.database.repository
 
-import android.content.Context
 import android.util.Log
-import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import sk.fei.beskydky.cryollet.BuildConfig
 import sk.fei.beskydky.cryollet.aesDecrypt
 import sk.fei.beskydky.cryollet.aesEncrypt
 import sk.fei.beskydky.cryollet.data.model.User
-import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
-import java.security.MessageDigest
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 
 class UserRepository private constructor (private val appDatabaseDao: AppDatabaseDao) {
 
@@ -77,7 +69,7 @@ class UserRepository private constructor (private val appDatabaseDao: AppDatabas
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getPin() :String?{
-        val user = appDatabaseDao.getUser()
+        val user = get()
         return user?.pin?.aesDecrypt(BuildConfig.SECRET_KEY)
     }
 

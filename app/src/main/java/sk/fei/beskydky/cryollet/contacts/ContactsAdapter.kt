@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.util.CollectionUtils.isEmpty
 import sk.fei.beskydky.cryollet.R
 import sk.fei.beskydky.cryollet.data.model.Contact
 import sk.fei.beskydky.cryollet.data.model.Transaction
@@ -55,10 +56,15 @@ class ContactsAdapter : ListAdapter<ContactDataItem, RecyclerView.ViewHolder>(Co
         }
     }
 
-    fun addHeaderAndSubmitList(list: MutableList<Contact>) {
-        val items = when (list) {
+    fun addHeaderAndSubmitList(list: MutableList<Contact>?) {
+        var data = list
+        if(data?.isEmpty() ?: true){
+            data = null
+        }
+
+        val items = when (data) {
             null -> listOf(ContactDataItem.Header)
-            else -> listOf(ContactDataItem.Header) + list.map { ContactDataItem.ContactItem(it) }
+            else -> listOf(ContactDataItem.Header) + data.map { ContactDataItem.ContactItem(it) }
         }
         submitList(items)
     }

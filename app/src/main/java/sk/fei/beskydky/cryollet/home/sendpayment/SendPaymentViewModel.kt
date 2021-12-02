@@ -7,10 +7,14 @@ import org.stellar.sdk.KeyPair
 import sk.fei.beskydky.cryollet.data.model.Contact
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
+import sk.fei.beskydky.cryollet.database.repository.ContactsRepository
+import sk.fei.beskydky.cryollet.database.repository.TransactionRepository
 import sk.fei.beskydky.cryollet.stellar.StellarHandler
 
 
 class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
+                           private val transactionRepository: TransactionRepository,
+                           private val contactsRepository: ContactsRepository,
                            private val database: AppDatabaseDao) : ViewModel() {
     val currency = MutableLiveData("")
     val contactName = MutableLiveData<String>("")
@@ -22,6 +26,11 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
     private val _eventPaymentCompleted = MutableLiveData<Boolean>()
     val eventPaymentCompleted: LiveData<Boolean>
         get() = _eventPaymentCompleted
+
+    private val _eventPaymentStarted = MutableLiveData<Boolean>()
+    val eventPaymentStarted: LiveData<Boolean>
+        get() = _eventPaymentStarted
+
 
     private val _eventScanQRCode = MutableLiveData<Boolean>()
     val eventScanQRCode: LiveData<Boolean>
@@ -43,7 +52,6 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
         formObserver.addSource(walletKey) { onFormChanged() }
         formObserver.addSource(amount) { onFormChanged() }
         formObserver.addSource(currency) { onFormChanged() }
-        formObserver.addSource(contactName) { onItemSelectedHandler() }
         onFormChanged()
 
         viewModelScope.launch {
@@ -65,7 +73,22 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
     }
 
     fun onSendPayment() {
-        _eventPaymentCompleted.value = true
+        viewModelScope.launch {
+            _eventPaymentStarted.value = true
+
+            if((contactName.value?.length) ?: -1  > 0){
+                contactsRepository.insertReplace(Contact(walletId = walletKey.value!!, contactName.value!!))
+            }
+
+            transactionRepository.makeTransaction(destinationId = walletKey.value!!, amount = amount.value!!, assetCode = currency.value!!)
+            _eventPaymentStarted.value = true
+            _eventPaymentCompleted.value = true
+        }
+
+    }
+
+    fun onPaymentCompletedFinished(){
+        _eventPaymentCompleted.value = false
     }
 
     fun onClick() = viewModelScope.launch {
@@ -87,7 +110,7 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
         return contacts
     }
 
-    private fun onItemSelectedHandler() {
+    fun onItemSelectedHandler() {
         if(contactName.value != "" && contactName.value != null) {
             viewModelScope.launch {
                 val contact = database.getContactByName(contactName.value ?: "")
@@ -106,7 +129,9 @@ class SendPaymentViewModel(private val balanceRepository: BalanceRepository,
     }
 
     private fun isKeyValid(): Boolean {
-        return !walletKey.value.isNullOrBlank()
+        val data = walletKey.value ?: return false
+        return data.startsWith("G")
+                && data.length >= 56
     }
 
     private fun isAmountValid(): Boolean {

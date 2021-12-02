@@ -22,6 +22,7 @@ import sk.fei.beskydky.cryollet.contacts.ContactsViewModelFactory
 import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabase
 import sk.fei.beskydky.cryollet.database.repository.BalanceRepository
 import sk.fei.beskydky.cryollet.database.repository.ContactsRepository
+import sk.fei.beskydky.cryollet.database.repository.TransactionRepository
 import sk.fei.beskydky.cryollet.databinding.ContactsFragmentBinding
 import sk.fei.beskydky.cryollet.databinding.FragmentSendPaymentBinding
 import sk.fei.beskydky.cryollet.home.qrcode.QrCodeFragmentArgs
@@ -44,12 +45,13 @@ class SendPaymentFragment : Fragment() {
                 R.layout.fragment_send_payment, container, false)
 
         val sendPaymentButton = binding.payButton
-
+        val indicator = binding.busyIndicator
 
         val application = requireNotNull(this.activity).application
         val databaseDataSource = AppDatabase.getInstance(application).appDatabaseDao
         val stellarDataSource = StellarHandler.getInstance(application)
-        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository.getInstance(databaseDataSource, stellarDataSource),databaseDataSource)
+        val viewModelFactory = SendPaymentViewModelFactory(BalanceRepository.getInstance(databaseDataSource, stellarDataSource),
+                TransactionRepository.getInstance(databaseDataSource, stellarDataSource), ContactsRepository.getInstance(databaseDataSource), databaseDataSource)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[SendPaymentViewModel::class.java]
 
@@ -57,6 +59,10 @@ class SendPaymentFragment : Fragment() {
         viewModel.currencyList.observe(viewLifecycleOwner, Observer {
             binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, it))
         })
+
+        binding.sendPaymentContact.setOnItemClickListener { _, _, i, _ ->
+            viewModel.onItemSelectedHandler()
+        }
 
         viewModel.contacts.observe(viewLifecycleOwner, Observer {
             val contacts = viewModel.formatContact(it)
@@ -88,7 +94,18 @@ class SendPaymentFragment : Fragment() {
         })
 
         viewModel.eventPaymentCompleted.observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(SendPaymentFragmentDirections.actionSendPaymentFragmentToPaymentResultFragment())
+            if(it){
+                findNavController().navigate(SendPaymentFragmentDirections.actionSendPaymentFragmentToPaymentResultFragment())
+                viewModel.onPaymentCompletedFinished()
+            }
+        })
+
+        viewModel.eventPaymentStarted.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                indicator.show()
+            } else {
+                indicator.hide()
+            }
         })
 
         viewModel.formState.observe(viewLifecycleOwner, Observer {

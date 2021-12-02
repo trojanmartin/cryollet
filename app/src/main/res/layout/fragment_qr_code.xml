@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageViewQRCode"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
+            android:layout_width="400dp"
+            android:layout_height="450dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
