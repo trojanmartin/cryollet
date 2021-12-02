@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/balance_item.xml" value="0.33" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/contacts_fragment.xml" value="0.1884498480243161" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/contacts_item.xml" value="0.25" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/fragment_user_info.xml" value="0.2328125" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/home_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/jakub/Desktop/skola/mobv/cryollet/app/src/main/res/layout/transaction_item_view.xml" value="0.25" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable/ic_icon_settings.xml" value="0.2671875" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/drawable/ic_refresh_svgrepo_com.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/marti/Documents/skola/cryollet/app/src/main/res/layout/fragment_info.xml" value="0.178125" />

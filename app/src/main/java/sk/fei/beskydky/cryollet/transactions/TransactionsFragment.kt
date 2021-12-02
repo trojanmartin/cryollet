@@ -42,6 +42,7 @@ class TransactionsFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionsViewModel::class.java]
         binding.viewModel = viewModel
 
+
         val adapter = TransactionsAdapter(TransactionsRefreshListener {
             viewModel.refresh()
         })

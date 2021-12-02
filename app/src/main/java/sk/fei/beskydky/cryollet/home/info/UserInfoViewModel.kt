@@ -5,10 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sk.fei.beskydky.cryollet.database.appDatabase.AppDatabaseDao
 import sk.fei.beskydky.cryollet.database.repository.UserRepository
 import sk.fei.beskydky.cryollet.database.repository.WalletRepository
 
-class UserInfoViewModel(private val walletRepository: WalletRepository, private val userRepository: UserRepository) : ViewModel() {
+class UserInfoViewModel(private val walletRepository: WalletRepository,
+                        private val userRepository: UserRepository,
+                        private val database: AppDatabaseDao) : ViewModel() {
 
     private val _eventCopyPublicClicked = MutableLiveData<Boolean>()
     val eventCopyPublicClicked: LiveData<Boolean>
@@ -19,7 +22,7 @@ class UserInfoViewModel(private val walletRepository: WalletRepository, private 
     val eventCopySecretClicked: LiveData<Boolean>
         get() = _eventCopySecretClicked
 
-
+    val balances = database.getAllBalancesLiveData()
     var secretKey = MutableLiveData<String>()
     var publicKey = MutableLiveData<String>()
 

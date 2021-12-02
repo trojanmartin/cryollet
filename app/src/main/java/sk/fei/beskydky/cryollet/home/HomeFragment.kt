@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
@@ -27,6 +28,7 @@ import sk.fei.beskydky.cryollet.databinding.HomeFragmentBinding
 import sk.fei.beskydky.cryollet.home.requestpayment.CustomDialogInterface
 import sk.fei.beskydky.cryollet.home.requestpayment.RequestPaymentFragment
 import sk.fei.beskydky.cryollet.setHideKeyboardOnClick
+import sk.fei.beskydky.cryollet.transactions.TransactionsAdapter
 
 class HomeFragment : Fragment() {
 
@@ -83,6 +85,10 @@ class HomeFragment : Fragment() {
                 viewModel.onInfoClickedFinished()
             }
         })
+
+        // Specify the current activity as the lifecycle owner of the binding.
+        // This is necessary so that the binding can observe LiveData updates.
+        binding.lifecycleOwner = this
 
         viewModel.balances.observe(viewLifecycleOwner, Observer {
             setUpGraph(pieChart, it)
