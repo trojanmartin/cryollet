@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -58,6 +59,12 @@ class SendPaymentFragment : Fragment() {
 
         viewModel.currencyList.observe(viewLifecycleOwner, Observer {
             binding.currencyAutocomplete.setAdapter(ArrayAdapter(requireContext(), R.layout.currency_dropdown_item, it))
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
         })
 
         binding.sendPaymentContact.setOnItemClickListener { _, _, i, _ ->

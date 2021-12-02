@@ -62,6 +62,13 @@ class KeyLoginFragment : Fragment() {
             }
 
         })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.eventOnBusy.observe(viewLifecycleOwner, Observer {
             var indicator = binding.busyIndicator
             if (it) {

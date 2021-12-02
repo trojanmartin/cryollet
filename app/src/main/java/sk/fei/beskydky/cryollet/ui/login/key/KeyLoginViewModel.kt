@@ -15,6 +15,7 @@ import sk.fei.beskydky.cryollet.ui.login.LoginFormState
 class KeyLoginViewModel(private val userRepository: UserRepository,
                         private val walletRepository: WalletRepository) : ViewModel() {
 
+    val errorMessage = MutableLiveData<String>()
 
     private val _walletExist = MutableLiveData<Boolean>()
     val walletExist: LiveData<Boolean>
@@ -49,7 +50,11 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
             val user = userRepository.get()
             val pin = userRepository.getPin()
             if (user != null && pin != null) {
-                walletRepository.createNewAndInsert(user.userId, pin)
+                try {
+                    walletRepository.createNewAndInsert(user.userId, pin)
+                } catch (e: Exception) {
+                    errorMessage.value = e.message
+                }
             }
             val wallet = walletRepository.get()
             if(wallet != null){
@@ -73,7 +78,13 @@ class KeyLoginViewModel(private val userRepository: UserRepository,
             var result = false
             val pin = userRepository.getPin()
             if (user != null && pin != null) {
-                result = walletRepository.createFromSecretAndInsert(key.value!!,user.userId,pin )
+                try {
+                    result =
+                        walletRepository.createFromSecretAndInsert(key.value!!, user.userId, pin)
+                } catch (e: Exception) {
+                    errorMessage.value = e.message
+                    result = false
+                }
             }
 
             if(result){
