@@ -38,7 +38,7 @@ class TransactionsFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionsViewModel::class.java]
         binding.viewModel = viewModel
 
-        val adapter = TransactionsAdapter()
+        val adapter = TransactionsAdapter(TransactionsRefreshListener {  })
         binding.transactionList.adapter = adapter
         binding.transactionList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
