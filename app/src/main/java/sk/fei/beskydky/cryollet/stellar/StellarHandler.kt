@@ -2,12 +2,12 @@ package sk.fei.beskydky.cryollet.stellar
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import kotlinx.coroutines.*
 import org.stellar.sdk.*
 import org.stellar.sdk.requests.ErrorResponse
 import org.stellar.sdk.responses.AccountResponse
 import org.stellar.sdk.responses.AssetResponse
+import org.stellar.sdk.responses.Page
 import org.stellar.sdk.responses.SubmitTransactionResponse
 import org.stellar.sdk.responses.operations.OperationResponse
 import java.net.URL
@@ -22,13 +22,9 @@ class StellarHandler(
 ) {
 
     suspend fun createAccount(newAccount: KeyPair = KeyPair.random()): KeyPair = withContext(Dispatchers.IO) {
-        val friendBotUrl = java.lang.String.format(
-            "https://friendbot.stellar.org/?addr=%s",
-            newAccount.getAccountId()
-        )
-        URL(friendBotUrl).openStream()
+        fundWithFriendBot(newAccount.getAccountId())
 
-        val assetResponse = server.assets().assetIssuer(issuer.accountId).execute()
+        val assetResponse = getAssetsByIssuer()
 
         // Create trust line with assets and fund new account
         createTrustLineWithAssets(newAccount, assetResponse.records)
@@ -38,7 +34,7 @@ class StellarHandler(
     }
 
     suspend fun getBalances(keyPair: KeyPair): Array<AccountResponse.Balance>? = withContext(Dispatchers.IO) {
-        val sourceAccount = server.accounts().account(keyPair.getAccountId())
+        val sourceAccount = loadAccount(keyPair.accountId)
         return@withContext sourceAccount?.balances
     }
 
@@ -47,10 +43,10 @@ class StellarHandler(
                                 value: String, memo: String = "testTransaction"):
                                 SubmitTransactionResponse? = withContext(Dispatchers.IO) {
 
-        val sourceAccount: AccountResponse = server.accounts().account(source.accountId)
+        val sourceAccount: AccountResponse = loadAccount(source.accountId)
         val destination = KeyPair.fromAccountId(destinationId)
 
-        val asset = if (assetCode!=="XLM") getAsset(assetCode) else AssetTypeNative()
+        val asset = if (assetCode!="XLM") getAsset(assetCode) else AssetTypeNative()
 
         val transaction: Transaction = Transaction.Builder(sourceAccount, network)
             .addOperation(PaymentOperation.Builder(destination.accountId, asset, value).build())
@@ -65,21 +61,22 @@ class StellarHandler(
 
     suspend fun getPayments(source: KeyPair) = withContext(Dispatchers.IO) {
         var list: ArrayList<OperationResponse>? = null
-        val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
+        try {
+            val paymentsOperationResponse = server.payments().forAccount(source.accountId).limit(100).execute()
+            list = paymentsOperationResponse.records
+        } catch (e: ErrorResponse) {
+            throw Exception("Loading payments failed.")
+        }
 
-        list = paymentsOperationResponse.records
         return@withContext list
     }
 
     suspend fun getAccount(secretSeed: String): KeyPair? = withContext(Dispatchers.IO) {
-        val accKeys = KeyPair.fromSecretSeed(secretSeed)
-        try {
-            server.accounts().account(accKeys.accountId)
-        } catch (e :ErrorResponse) {
-            Log.e("Stellar", e.message.toString())
-            if (e.code == 404) return@withContext null
-        }
-        val assetResponse = server.assets().assetIssuer(issuer.accountId).execute()
+        val accKeys = try { KeyPair.fromSecretSeed(secretSeed) } catch (e: Exception) { throw Exception("Wrong secret seed!") }
+
+        loadAccount(accKeys.accountId)
+
+        val assetResponse = getAssetsByIssuer()
 
         // Create trust line with assets and fund new account
         createTrustLineWithAssets(accKeys, assetResponse.records)
@@ -94,22 +91,38 @@ class StellarHandler(
         var transactionResponse: SubmitTransactionResponse? = null
         try {
             transactionResponse = server.submitTransaction(transaction)
-        } catch (e: Exception) {
+        } catch (e: ErrorResponse) {
             Log.e("Stellar", e.message.toString())
+            throw Exception("Submitting transaction failed.")
         }
         return@withContext transactionResponse
     }
 
     private suspend fun getAsset(code: String): Asset = withContext(Dispatchers.IO) {
-        val assetResponse = server.assets()
-            .assetCode(code)
-            .assetIssuer(issuer.accountId)
-            .execute()
+        val assetResponse: Page<AssetResponse>
+        try {
+            assetResponse = server.assets()
+                .assetCode(code)
+                .assetIssuer(issuer.accountId)
+                .execute()
+        } catch (e: ErrorResponse) {
+            throw Exception("Loading asset failed.")
+        }
         return@withContext assetResponse.records[0].asset
     }
 
+    private suspend fun getAssetsByIssuer() = withContext(Dispatchers.IO) {
+        val response: Page<AssetResponse>
+        try {
+            response = server.assets().assetIssuer(issuer.accountId).execute()
+        } catch (e: ErrorResponse) {
+            throw Exception("Loading assets failed.")
+        }
+        return@withContext response
+    }
+
     private suspend fun createTrustLineWithAssets(accKeys: KeyPair, assets: ArrayList<AssetResponse>) = withContext(Dispatchers.IO) {
-        val account: AccountResponse = server.accounts().account(accKeys.getAccountId())
+        val account: AccountResponse = loadAccount(accKeys.accountId)
         val changeTrustTransaction = Transaction.Builder(account, network)
             .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assets[0].asset), "2147483647").build())
             .addOperation(ChangeTrustOperation.Builder(ChangeTrustAsset.create(assets[1].asset), "2147483647").build())
@@ -121,7 +134,7 @@ class StellarHandler(
     }
 
     private suspend fun fundAccount(accKeys: KeyPair, assets: ArrayList<AssetResponse>) = withContext(Dispatchers.IO) {
-        val issuerAccount: AccountResponse = server.accounts().account(issuer.getAccountId())
+        val issuerAccount: AccountResponse = loadAccount(issuer.accountId)
         val fundNewAccountTransaction = Transaction.Builder(issuerAccount, network)
             .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[0].asset, "30").build())
             .addOperation(PaymentOperation.Builder(accKeys.accountId, assets[1].asset, "15").build())
@@ -130,6 +143,29 @@ class StellarHandler(
             .setBaseFee(Transaction.MIN_BASE_FEE)
             .build()
         submitTransaction(fundNewAccountTransaction, issuer)
+    }
+
+    private suspend fun loadAccount(accountId: String) = withContext(Dispatchers.IO) {
+        val account: AccountResponse
+        try {
+            account = server.accounts().account(accountId)
+        } catch (e: ErrorResponse) {
+            if (e.code == 404) throw Exception("Account does not exist.")
+            throw Exception("Loading account failed.")
+        }
+        return@withContext account
+    }
+
+    private suspend fun fundWithFriendBot(accountId: String) = withContext((Dispatchers.IO)) {
+        val friendBotUrl = java.lang.String.format(
+            "https://friendbot.stellar.org/?addr=%s",
+            accountId
+        )
+        try {
+            URL(friendBotUrl).openStream()
+        } catch (e: ErrorResponse) {
+            throw Exception("Funding with friend bot failed.")
+        }
     }
 
     companion object {
