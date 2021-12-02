@@ -6,7 +6,7 @@ import sk.fei.beskydky.cryollet.data.model.Balance
 
 @BindingAdapter("balance")
 fun TextView.setAccountName(item: Balance) {
-    text = item.amount
+    text =  String.format("%.2f", item.amount.toFloat())
 }
 
 @BindingAdapter("assetName")

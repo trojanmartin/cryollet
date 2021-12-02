@@ -89,6 +89,10 @@ class SendPaymentFragment : Fragment() {
             viewModel.amount.value = resolvedResult[0]
             viewModel.currency.value = resolvedResult[1]
             viewModel.walletKey.value = resolvedResult[2]
+            binding.sendPaymentWalletKey.isEnabled = false
+            binding.sendPaymentAmount.isEnabled = false
+            binding.currencyText.isEnabled = false
+            binding.currencyAutocomplete.isEnabled = false
         }
 
         viewModel.eventScanQRCode.observe(viewLifecycleOwner, Observer {
